@@ -17,11 +17,14 @@ namespace MomenMedmSys.Data
                 var ctx = scope.ServiceProvider.GetRequiredService<MedMsysDbContext>();
                 await ctx.Database.MigrateAsync();
 
-                if (await ctx.MedicalDevices.AnyAsync())
+                bool hasDevices = await ctx.MedicalDevices.AnyAsync();
+                bool hasAdmin = await ctx.StaffMembers.AnyAsync(s => s.Username == "admin");
+
+                if (hasDevices && hasAdmin)
                     return false;
 
                 // Seed in order with proper relationships
-                await SeedBasicDataAsync(ctx);
+                await SeedBasicDataAsync(ctx, hasDevices, hasAdmin);
                 return true;
             }
             catch (Exception ex)
@@ -31,11 +34,13 @@ namespace MomenMedmSys.Data
             }
         }
 
-        private static async Task SeedBasicDataAsync(MedMsysDbContext ctx)
+        private static async Task SeedBasicDataAsync(MedMsysDbContext ctx, bool skipDevices, bool skipAdmin)
         {
             var now = DateTime.Now;
 
-            // 1. Departments
+            // 1. Departments (only if no devices exist)
+            if (!skipDevices)
+            {
             ctx.Departments.AddRange(new[]
             {
                 new Department { Id = 1, DepartmentCode = "RAD", Name = "Radiology", Manager = "Dr. Ahmed Hassan", Building = "Main", Floor = "1", Budget = 500000, CreatedAt = now, IsActive = true },
@@ -45,8 +50,51 @@ namespace MomenMedmSys.Data
                 new Department { Id = 5, DepartmentCode = "OR", Name = "Operating Room", Manager = "Dr. Khalid Omar", Building = "Main", Floor = "3", Budget = 700000, CreatedAt = now, IsActive = true },
             });
             await ctx.SaveChangesAsync();
+            }
 
-            // 2. Suppliers
+            // 2. Staff Members (Admin user)
+            if (!skipAdmin)
+            {
+                var adminPasswordHash = Convert.ToBase64String(
+                    System.Security.Cryptography.SHA256.HashData(
+                        System.Text.Encoding.UTF8.GetBytes("Admin@123")));
+
+                ctx.StaffMembers.Add(new StaffMember
+                {
+                    Id = 1,
+                    EmployeeId = "EMP-ADMIN",
+                    FirstName = "System",
+                    LastName = "Administrator",
+                    Email = "admin@medmsys.local",
+                    Phone = "+1-555-0000",
+                    Role = StaffRole.Administrator,
+                    SubRole = "System Administrator",
+                    Department = "IT Department",
+                    JobTitle = "System Administrator",
+                    Username = "admin",
+                    PasswordHash = adminPasswordHash,
+                    IsActiveAccount = true,
+                    IsLocked = false,
+                    FailedLoginAttempts = 0,
+                    HireDate = now,
+                    // Full admin permissions
+                    CanManageDevices = true,
+                    CanManageMaintenance = true,
+                    CanManageCalibration = true,
+                    CanManageSpareParts = true,
+                    CanViewReports = true,
+                    CanManageNetworkDevices = true,
+                    CanManageStaff = true,
+                    CanAccessAdminPanel = true,
+                    CreatedAt = now,
+                    IsActive = true
+                });
+                await ctx.SaveChangesAsync();
+            }
+
+            // 3. Suppliers (only if no devices exist)
+            if (!skipDevices)
+            {
             ctx.Suppliers.AddRange(new[]
             {
                 new Supplier { Id = 1, SupplierCode = "SUP-001", CompanyName = "MedTech Industries", ContactPerson = "Robert Williams", Email = "r@medtech.com", Phone = "+1-555-1001", City = "Boston", Country = "USA", Rating = 5, IsApproved = true, LeadTimeDays = 30, CreatedAt = now, IsActive = true },
@@ -107,7 +155,8 @@ namespace MomenMedmSys.Data
             });
             await ctx.SaveChangesAsync();
 
-            System.Diagnostics.Debug.WriteLine("[Seeder] Seeded: 5 depts, 3 suppliers, 10 devices, 3 maintenance, 2 calibration, 5 parts, 2 contracts");
+            System.Diagnostics.Debug.WriteLine("[Seeder] Seeded: admin user, 5 depts, 3 suppliers, 10 devices, 3 maintenance, 2 calibration, 5 parts, 2 contracts");
+            }
         }
     }
 }
