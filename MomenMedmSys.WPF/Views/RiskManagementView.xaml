@@ -1,0 +1,41 @@
+<UserControl x:Class="MomenMedmSys.WPF.Views.RiskManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="Risk Management" FontSize="28" FontWeight="Bold" Foreground="#1E293B"/>
+            <TextBlock Text="Manage risk incidents and safety reports (ISO 14971)" FontSize="14" Foreground="#64748B"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,16">
+            <Border Background="#EF4444" CornerRadius="6" Padding="16,8" Margin="0,0,12,0">
+                <StackPanel Orientation="Horizontal"><TextBlock Text="Open: " Foreground="White" FontSize="12"/><TextBlock Text="{Binding OpenIncidentsCount}" Foreground="White" FontSize="14" FontWeight="Bold"/></StackPanel>
+            </Border>
+            <Border Background="#B91C1C" CornerRadius="6" Padding="16,8" Margin="0,0,12,0">
+                <StackPanel Orientation="Horizontal"><TextBlock Text="Critical: " Foreground="White" FontSize="12"/><TextBlock Text="{Binding CriticalIncidentsCount}" Foreground="White" FontSize="14" FontWeight="Bold"/></StackPanel>
+            </Border>
+            <Button Content="🔄 Refresh" Command="{Binding LoadIncidentsCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="100" Margin="16,0,8,0"/>
+            <Button Content="🗑️ Delete" Command="{Binding DeleteIncidentCommand}" Style="{StaticResource SecondaryButtonStyle}" Width="90"/>
+        </StackPanel>
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Incidents}" SelectedItem="{Binding SelectedIncident}"
+                  Style="{StaticResource DataGridStyle}" IsReadOnly="True" AutoGenerateColumns="False"
+                  SelectionMode="Single" CanUserSortColumns="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Code" Binding="{Binding IncidentCode}" Width="110"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="200"/>
+                <DataGridTextColumn Header="Device" Binding="{Binding Device.DeviceName}" Width="160"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding IncidentDate, StringFormat=yyyy-MM-dd}" Width="100"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding IncidentType}" Width="100"/>
+                <DataGridTextColumn Header="Severity" Binding="{Binding Severity}" Width="80"/>
+                <DataGridTextColumn Header="Probability" Binding="{Binding Probability}" Width="90"/>
+                <DataGridTextColumn Header="Risk Level" Binding="{Binding OverallRisk}" Width="90"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="120"/>
+                <DataGridTextColumn Header="Patient Injury" Binding="{Binding PatientInjury}" Width="100"/>
+                <DataGridTextColumn Header="Recall" Binding="{Binding IsRecall}" Width="70"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Grid.Row="3" Text="{Binding StatusMessage}" Foreground="#64748B" FontSize="12" Margin="0,8,0,0"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="MomenMedmSys.Core/MomenMedmSys.Core.csproj" />
+  <Project Path="MomenMedmSys.Data/MomenMedmSys.Data.csproj" />
+  <Project Path="MomenMedmSys.Services/MomenMedmSys.Services.csproj" />
+  <Project Path="MomenMedmSys.WPF/MomenMedmSys.WPF.csproj" />
+  <Project Path="MomenMedmSys.Installer/MomenMedmSys.Installer.csproj" />
+</Solution>

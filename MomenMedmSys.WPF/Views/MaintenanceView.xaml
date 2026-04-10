@@ -1,0 +1,137 @@
+<UserControl x:Class="MomenMedmSys.WPF.Views.MaintenanceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="🔧 Maintenance" FontSize="28" FontWeight="Bold" Foreground="{StaticResource TextPrimary}"/>
+            <TextBlock Text="Manage equipment maintenance schedules and records" FontSize="14" Foreground="{StaticResource TextSecondary}"/>
+        </StackPanel>
+
+        <!-- Stats Bar -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,16">
+            <Border Style="{StaticResource StatCardPrimary}" Margin="0,0,10,0" MinWidth="100">
+                <StackPanel Orientation="Horizontal"><TextBlock Text="📋 Scheduled: " Foreground="{StaticResource TextOnPrimary}" FontSize="12"/><TextBlock Text="{Binding Records.Count}" Foreground="{StaticResource TextOnPrimary}" FontSize="14" FontWeight="Bold"/></StackPanel>
+            </Border>
+            <Border Style="{StaticResource StatCardSuccess}" Margin="0,0,10,0" MinWidth="100">
+                <StackPanel Orientation="Horizontal"><TextBlock Text="✅ Completed: " Foreground="{StaticResource TextOnPrimary}" FontSize="12"/><TextBlock Text="{Binding CompletedCount}" Foreground="{StaticResource TextOnPrimary}" FontSize="14" FontWeight="Bold"/></StackPanel>
+            </Border>
+            <Border Style="{StaticResource StatCardDanger}" Margin="0,0,10,0" MinWidth="100">
+                <StackPanel Orientation="Horizontal"><TextBlock Text="⚠️ Overdue: " Foreground="{StaticResource TextOnPrimary}" FontSize="12"/><TextBlock Text="{Binding OverdueCount}" Foreground="{StaticResource TextOnPrimary}" FontSize="14" FontWeight="Bold"/></StackPanel>
+            </Border>
+            <Button Content="➕ Add" Command="{Binding AddRecordCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="80" Margin="16,0,8,0"/>
+            <Button Content="✏️ Edit" Command="{Binding EditRecordCommand}" Style="{StaticResource SecondaryButtonStyle}" Width="80" Margin="0,0,8,0"/>
+            <Button Content="🔄 Refresh" Command="{Binding LoadRecordsCommand}" Style="{StaticResource SecondaryButtonStyle}" Width="100"/>
+        </StackPanel>
+
+        <!-- DataGrid -->
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Records}" SelectedItem="{Binding SelectedRecord}"
+                  Style="{StaticResource DataGridStyle}" IsReadOnly="True" AutoGenerateColumns="False"
+                  SelectionMode="Single" CanUserSortColumns="True" CanUserResizeColumns="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="200"/>
+                <DataGridTemplateColumn Header="Type" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="4" Padding="6,2" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Type}" FontSize="11" FontWeight="SemiBold" HorizontalAlignment="Center">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Type}" Value="Preventive">
+                                                    <Setter Property="Foreground" Value="{StaticResource TextOnPrimary}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Type}" Value="Corrective">
+                                                    <Setter Property="Foreground" Value="{StaticResource TextOnWarning}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Type}" Value="Emergency">
+                                                    <Setter Property="Foreground" Value="{StaticResource TextOnDanger}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Type}" Value="Inspection">
+                                                    <Setter Property="Foreground" Value="{StaticResource TextOnSuccess}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Type}" Value="Preventive">
+                                                <Setter Property="Background" Value="{StaticResource PrimaryColor}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Type}" Value="Corrective">
+                                                <Setter Property="Background" Value="{StaticResource WarningColor}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Type}" Value="Emergency">
+                                                <Setter Property="Background" Value="{StaticResource DangerColor}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Type}" Value="Inspection">
+                                                <Setter Property="Background" Value="{StaticResource SuccessColor}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Device" Binding="{Binding Device.DeviceName}" Width="160"/>
+                <DataGridTextColumn Header="Scheduled" Binding="{Binding ScheduledDate, StringFormat=yyyy-MM-dd}" Width="100"/>
+                <DataGridTextColumn Header="Completed" Binding="{Binding CompletedDate, StringFormat=yyyy-MM-dd}" Width="100"/>
+                <DataGridTextColumn Header="Performed By" Binding="{Binding PerformedBy}" Width="120"/>
+                <DataGridTextColumn Header="Labor Cost" Binding="{Binding LaborCost, StringFormat=C2}" Width="90"/>
+                <DataGridTextColumn Header="Parts Cost" Binding="{Binding PartsCost, StringFormat=C2}" Width="90"/>
+                <DataGridTemplateColumn Header="Total" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TotalCost, StringFormat=C2}" FontWeight="Bold" Foreground="{StaticResource SuccessColor}" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Status" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="4" Padding="6,2" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Status}" FontSize="11" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Status}" Value="Completed">
+                                                <Setter Property="Background" Value="{StaticResource SuccessBgColor}"/>
+                                                <Setter Property="TextElement.Foreground" Value="{StaticResource TextOnSuccess}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="Scheduled">
+                                                <Setter Property="Background" Value="{StaticResource PrimaryBgColor}"/>
+                                                <Setter Property="TextElement.Foreground" Value="{StaticResource PrimaryColor}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="InProgress">
+                                                <Setter Property="Background" Value="{StaticResource WarningBgColor}"/>
+                                                <Setter Property="TextElement.Foreground" Value="{StaticResource TextOnWarning}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="Overdue">
+                                                <Setter Property="Background" Value="{StaticResource DangerBgColor}"/>
+                                                <Setter Property="TextElement.Foreground" Value="{StaticResource TextOnDanger}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Recurrence" Binding="{Binding Recurrence}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Status Bar -->
+        <TextBlock Grid.Row="3" Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondary}" FontSize="12" Margin="0,8,0,0"/>
+    </Grid>
+</UserControl>

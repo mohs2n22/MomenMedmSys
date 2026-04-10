@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\Distribution\MomenMedmSys.WPF.exe" Link="MomenMedmSys.WPF.exe" />
+    <EmbeddedResource Include="..\Distribution\medmsys.db" Link="medmsys.db" />
+    <EmbeddedResource Include="..\Distribution\README.md" Link="README.md" />
+    <EmbeddedResource Include="..\LICENSE.txt" Link="LICENSE.txt" />
+  </ItemGroup>
+
+</Project>

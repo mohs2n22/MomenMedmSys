@@ -1,0 +1,51 @@
+## .NET gitignore
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio cache/options
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+*.dll
+*.exe
+*.pdb
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# EF Core Migrations (keep migration files, ignore model snapshot if needed)
+# MomenMedmSys.Data/Migrations/*.cs
+
+# Installer output
+Output/
+Distribution/*.exe
+Distribution/*.dll
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~

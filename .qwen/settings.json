@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet *)",
+      "Bash(mysql *)",
+      "Bash(sc *)",
+      "Bash(findstr *)",
+      "Bash(taskkill *)",
+      "Bash(tasklist)",
+      "mcp__chrome-devtools__take_screenshot",
+      "Bash(dir *)",
+      "Bash(mkdir *)",
+      "Bash(xcopy *)",
+      "Bash(rmdir *)",
+      "Bash(sqlite3 *)",
+      "Bash(copy *)",
+      "Bash(del *)",
+      "Bash(install-medmsys.bat)",
+      "Bash(echo *)",
+      "Bash(move *)",
+      "Bash(start *)",
+      "Bash(powershell *)",
+      "Bash(timeout *)",
+      "Bash(get-eventlog *)",
+      "Bash(format-list)",
+      "Bash(select-string *)",
+      "Bash(medmsys.wpf.exe)",
+      "Bash(type *)",
+      "Bash(cd *)",
+      "Bash(set *)",
+      "Bash(echo.)",
+      "Bash(ren *)",
+      "Bash(momenmedmsys.wpf.exe)",
+      "Bash(wevtutil *)",
+      "Bash(@echo)",
+      "Bash(@echo *)",
+      "Bash(do *)",
+      "Bash(git init)",
+      "Bash(git add *)"
+    ]
+  },
+  "$version": 3
+}
