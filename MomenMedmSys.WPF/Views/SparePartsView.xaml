@@ -1,60 +1,124 @@
 <UserControl x:Class="MomenMedmSys.WPF.Views.SparePartsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Margin="0,0,0,16">
-            <TextBlock Text="📦 Spare Parts" FontSize="28" FontWeight="Bold" Foreground="{StaticResource TextPrimary}"/>
-            <TextBlock Text="Manage spare parts inventory" FontSize="14" Foreground="{StaticResource TextSecondary}"/>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,16">
-            <Border Style="{StaticResource StatCardTeal}" Margin="0,0,10,0" MinWidth="120">
-                <StackPanel Orientation="Horizontal"><TextBlock Text="💰 Value: " Foreground="{StaticResource TextOnPrimary}" FontSize="12"/><TextBlock Text="{Binding TotalInventoryValue, StringFormat=${0:N2}}" Foreground="{StaticResource TextOnPrimary}" FontSize="14" FontWeight="Bold"/></StackPanel>
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignHeight="900" d:DesignWidth="1400">
+    <Grid Background="#F1F5F9">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+
+        <!-- Top Header Bar -->
+        <Border Grid.Row="0" Background="White" BorderBrush="#E2E8F0" BorderThickness="0,0,0,1" Padding="20,14">
+            <Grid>
+                <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="#14B8A6" Width="40" Height="40" Margin="0,0,14,0"><TextBlock Text="📦" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Spare Parts" FontSize="22" FontWeight="Bold" Foreground="#0F172A"/>
+                        <TextBlock Text="Manage spare parts inventory and stock levels" FontSize="12" Foreground="#94A3B8" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="#F1F5F9" Padding="12,9" Width="240" Margin="0,0,12,0">
+                        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                            <TextBlock Text="🔍" FontSize="14" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" BorderThickness="0" FontSize="13" Padding="0" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                    <Button Content="🔄 Refresh" Command="{Binding LoadPartsCommand}" Style="{StaticResource PrimaryBtn}" Padding="14,9"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1" Margin="16,14">
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+
+            <!-- Stats Cards -->
+            <WrapPanel Grid.Row="0" Margin="0,0,0,12">
+                <Border Style="{StaticResource StatCardTeal}">
+                    <StackPanel><TextBlock Text="📦 Total Parts" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding Parts.Count}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/></StackPanel>
+                </Border>
+                <Border Style="{StaticResource StatCardGreen}">
+                    <StackPanel><TextBlock Text="💰 Inventory Value" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding TotalInventoryValue}" FontSize="22" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/></StackPanel>
+                </Border>
+                <Border Style="{StaticResource StatCardAmber}">
+                    <StackPanel><TextBlock Text="⚠️ Low Stock" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding LowStockCount}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/></StackPanel>
+                </Border>
+                <Border Style="{StaticResource StatCardRed}">
+                    <StackPanel><TextBlock Text="🔴 Critical" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding CriticalCount}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/></StackPanel>
+                </Border>
+            </WrapPanel>
+
+            <!-- Data Grid Card -->
+            <Border Grid.Row="1" Style="{StaticResource GlassCard}" Padding="0">
+                <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                    <!-- Toolbar -->
+                    <Border Grid.Row="0" Background="#F8FAFC" Padding="16,12" BorderBrush="#E2E8F0" BorderThickness="0,0,0,1">
+                        <WrapPanel>
+                            <TextBlock Text="⚡ Actions:" FontSize="12" FontWeight="SemiBold" Foreground="#475569" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                            <Button Content="➕ Add Part" Command="{Binding AddPartCommand}" Style="{StaticResource PrimaryBtn}" Padding="14,9" Margin="0,0,8,0"/>
+                            <Button Content="✏️ Edit" Command="{Binding EditPartCommand}" CommandParameter="{Binding SelectedPart}" Style="{StaticResource SecondaryBtn}" Padding="14,9" Margin="0,0,8,0"/>
+                            <ComboBox Text="{Binding FilterCategory, UpdateSourceTrigger=PropertyChanged}" Width="140" Style="{StaticResource ModernCombo}" Margin="12,0,0,0">
+                                <ComboBoxItem Content="All Categories"/><ComboBoxItem Content="Imaging Components"/><ComboBoxItem Content="Cables"/><ComboBoxItem Content="Motors"/><ComboBoxItem Content="Filters"/><ComboBoxItem Content="Batteries"/><ComboBoxItem Content="Seals"/><ComboBoxItem Content="Consumables"/>
+                            </ComboBox>
+                        </WrapPanel>
+                    </Border>
+
+                    <!-- DataGrid -->
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding FilteredParts}" SelectedItem="{Binding SelectedPart}" Style="{StaticResource ModernDataGrid}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="PART NUMBER" Binding="{Binding PartNumber}" Width="110">
+                                <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock"><Setter Property="FontFamily" Value="Consolas"/><Setter Property="FontSize" Value="11"/></Style></DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="PART NAME" Binding="{Binding PartName}" Width="*">
+                                <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock"><Setter Property="FontWeight" Value="SemiBold"/></Style></DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="CATEGORY" Binding="{Binding Category}" Width="120"/>
+                            <DataGridTextColumn Header="STOCK" Binding="{Binding CurrentStock}" Width="70">
+                                <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Center"/><Setter Property="FontWeight" Value="Bold"/><Setter Property="FontSize" Value="13"/></Style></DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="MIN" Binding="{Binding MinimumStock}" Width="60">
+                                <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Center"/></Style></DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="UNIT COST" Binding="{Binding UnitCost, StringFormat={}{0:C0}}" Width="90">
+                                <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Right"/><Setter Property="FontFamily" Value="Consolas"/></Style></DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="LOCATION" Binding="{Binding StorageLocation}" Width="130"/>
+                            <DataGridTemplateColumn Header="STOCK STATUS" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border CornerRadius="6" Padding="8,4" HorizontalAlignment="Center" Width="105">
+                                            <TextBlock FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Center">
+                                                <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsLowStock}" Value="True"><Setter Property="Text" Value="🔴 Low Stock"/><Setter Property="Foreground" Value="#DC2626"/></DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsCritical}" Value="True"><Setter Property="Text" Value="🟡 Critical"/><Setter Property="Foreground" Value="#D97706"/></DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsLowStock}" Value="False"><Setter Property="Text" Value="🟢 In Stock"/><Setter Property="Foreground" Value="#059669"/></DataTrigger>
+                                                </Style.Triggers></Style></TextBlock.Style>
+                                            </TextBlock>
+                                            <Border.Style><Style TargetType="Border"><Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsLowStock}" Value="True"><Setter Property="Background" Value="#FEE2E2"/></DataTrigger>
+                                                <DataTrigger Binding="{Binding IsCritical}" Value="True"><Setter Property="Background" Value="#FEF3C7"/></DataTrigger>
+                                                <DataTrigger Binding="{Binding IsLowStock}" Value="False"><Setter Property="Background" Value="#D1FAE5"/></DataTrigger>
+                                            </Style.Triggers></Style></Border.Style>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             </Border>
-            <Border Style="{StaticResource StatCardDanger}" Margin="0,0,10,0" MinWidth="100">
-                <StackPanel Orientation="Horizontal"><TextBlock Text="⚠️ Low Stock: " Foreground="{StaticResource TextOnPrimary}" FontSize="12"/><TextBlock Text="{Binding LowStockCount}" Foreground="{StaticResource TextOnPrimary}" FontSize="14" FontWeight="Bold"/></StackPanel>
+
+            <!-- Status Bar -->
+            <Border Grid.Row="2" Background="White" Padding="14,10" Margin="0,12,0,0" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="10">
+                <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding StatusMessage}" Foreground="#475569" FontSize="12"/>
+                    <TextBlock Grid.Column="1" Foreground="#64748B" FontSize="12">
+                        <TextBlock.Text><MultiBinding StringFormat="Showing {0} of {1} parts"><Binding Path="FilteredParts.Count"/><Binding Path="Parts.Count"/></MultiBinding></TextBlock.Text>
+                    </TextBlock>
+                </Grid>
             </Border>
-            <Button Content="➕ Add" Command="{Binding AddPartCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="80" Margin="8,0,8,0"/>
-            <Button Content="✏️ Edit" Command="{Binding EditPartCommand}" Style="{StaticResource SecondaryButtonStyle}" Width="80" Margin="0,0,8,0"/>
-            <Button Content="🗑️ Delete" Command="{Binding DeletePartCommand}" Style="{StaticResource SecondaryButtonStyle}" Width="80" Margin="0,0,8,0"/>
-            <Button Content="🔄 Refresh" Command="{Binding LoadPartsCommand}" Style="{StaticResource SecondaryButtonStyle}" Width="100"/>
-        </StackPanel>
-        <DataGrid Grid.Row="2" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}"
-                  Style="{StaticResource DataGridStyle}" IsReadOnly="True" AutoGenerateColumns="False"
-                  SelectionMode="Single" CanUserSortColumns="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Part No." Binding="{Binding PartNumber}" Width="90"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding PartName}" Width="180"/>
-                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="120"/>
-                <DataGridTextColumn Header="Device" Binding="{Binding Device.DeviceName}" Width="140"/>
-                <DataGridTemplateColumn Header="Stock" Width="70">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding CurrentStock}" FontWeight="Bold" HorizontalAlignment="Center">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsLowStock}" Value="True">
-                                                <Setter Property="Foreground" Value="{StaticResource DangerColor}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Min" Binding="{Binding MinimumStock}" Width="60"/>
-                <DataGridTextColumn Header="Max" Binding="{Binding MaximumStock}" Width="60"/>
-                <DataGridTextColumn Header="Unit Cost" Binding="{Binding UnitCost, StringFormat=C2}" Width="90"/>
-                <DataGridTextColumn Header="Supplier" Binding="{Binding SupplierName}" Width="120"/>
-                <DataGridTextColumn Header="Critical" Binding="{Binding IsCritical}" Width="70"/>
-                <DataGridTextColumn Header="Total Used" Binding="{Binding TotalUsageCount}" Width="80"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <TextBlock Grid.Row="3" Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondary}" FontSize="12" Margin="0,8,0,0"/>
+        </Grid>
     </Grid>
 </UserControl>

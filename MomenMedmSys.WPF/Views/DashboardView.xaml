@@ -10,33 +10,33 @@
             <!-- Device Inventory Stats -->
             <TextBlock Text="Device Inventory" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource TextPrimary}" Margin="0,0,0,12"/>
             <WrapPanel Margin="0,0,0,24">
-                <Border Style="{StaticResource StatCardPrimary}" Margin="0,0,12,12" MinWidth="180">
+                <Border Style="{StaticResource StatCardBlue}" Margin="0,0,10,10">
                     <StackPanel>
-                        <TextBlock Text="Total Devices" FontSize="12" Foreground="{StaticResource TextOnPrimary}"/>
+                        <TextBlock Text="Total Devices" FontSize="12" Foreground="White"/>
                         <TextBlock Text="{Binding TotalDevices}" FontSize="32" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardSuccess}" Margin="0,0,12,12" MinWidth="180">
+                <Border Style="{StaticResource StatCardGreen}" Margin="0,0,10,10">
                     <StackPanel>
-                        <TextBlock Text="Active" FontSize="12" Foreground="{StaticResource TextOnPrimary}"/>
+                        <TextBlock Text="Active" FontSize="12" Foreground="White"/>
                         <TextBlock Text="{Binding ActiveDevices}" FontSize="32" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardWarning}" Margin="0,0,12,12" MinWidth="180">
+                <Border Style="{StaticResource StatCardAmber}" Margin="0,0,10,10">
                     <StackPanel>
-                        <TextBlock Text="Under Maintenance" FontSize="12" Foreground="{StaticResource TextOnPrimary}"/>
+                        <TextBlock Text="Under Maintenance" FontSize="12" Foreground="White"/>
                         <TextBlock Text="{Binding UnderMaintenanceDevices}" FontSize="32" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardDanger}" Margin="0,0,12,12" MinWidth="180">
+                <Border Style="{StaticResource StatCardRed}" Margin="0,0,10,10">
                     <StackPanel>
-                        <TextBlock Text="Out of Service" FontSize="12" Foreground="{StaticResource TextOnPrimary}"/>
+                        <TextBlock Text="Out of Service" FontSize="12" Foreground="White"/>
                         <TextBlock Text="{Binding OutOfServiceDevices}" FontSize="32" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardPurple}" Margin="0,0,12,12" MinWidth="180">
+                <Border Style="{StaticResource StatCardPurple}" Margin="0,0,10,10">
                     <StackPanel>
-                        <TextBlock Text="Total Asset Value" FontSize="12" Foreground="{StaticResource TextOnPrimary}"/>
+                        <TextBlock Text="Total Asset Value" FontSize="12" Foreground="White"/>
                         <TextBlock Text="{Binding TotalAssetValue, StringFormat=${0:N0}}" FontSize="24" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
                 </Border>
@@ -45,39 +45,39 @@
             <!-- Alert Stats -->
             <TextBlock Text="Alerts &amp; Notifications" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource TextPrimary}" Margin="0,0,0,12"/>
             <WrapPanel Margin="0,0,0,24">
-                <Border Style="{StaticResource StatCardDanger}" Margin="0,0,12,12" MinWidth="180">
+                <Border Style="{StaticResource StatCardRed}" Margin="0,0,10,10">
                     <StackPanel>
-                        <TextBlock Text="Overdue Maintenance" FontSize="12" Foreground="{StaticResource TextOnPrimary}"/>
+                        <TextBlock Text="Overdue Maintenance" FontSize="12" Foreground="White"/>
                         <TextBlock Text="{Binding OverdueMaintenanceCount}" FontSize="32" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardWarning}" Margin="0,0,12,12" MinWidth="180">
+                <Border Style="{StaticResource StatCardAmber}" Margin="0,0,10,10">
                     <StackPanel>
-                        <TextBlock Text="Overdue Calibration" FontSize="12" Foreground="{StaticResource TextOnPrimary}"/>
+                        <TextBlock Text="Overdue Calibration" FontSize="12" Foreground="White"/>
                         <TextBlock Text="{Binding OverdueCalibrationCount}" FontSize="32" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardDanger}" Margin="0,0,12,12" MinWidth="180">
+                <Border Style="{StaticResource StatCardRed}" Margin="0,0,10,10">
                     <StackPanel>
-                        <TextBlock Text="Open Incidents" FontSize="12" Foreground="{StaticResource TextOnPrimary}"/>
+                        <TextBlock Text="Open Incidents" FontSize="12" Foreground="White"/>
                         <TextBlock Text="{Binding OpenIncidentsCount}" FontSize="32" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
                 </Border>
-                <Border Background="{StaticResource CriticalColor}" CornerRadius="8" Padding="16,12" Margin="0,0,12,12" MinWidth="180">
+                <Border Style="{StaticResource StatCardRed}" Margin="0,0,10,10">
                     <StackPanel>
-                        <TextBlock Text="Critical Incidents" FontSize="12" Foreground="{StaticResource TextOnPrimary}"/>
+                        <TextBlock Text="Critical Incidents" FontSize="12" Foreground="White"/>
                         <TextBlock Text="{Binding CriticalIncidentsCount}" FontSize="32" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardIndigo}" Margin="0,0,12,12" MinWidth="180">
+                <Border Style="{StaticResource StatCardPurple}" Margin="0,0,10,10">
                     <StackPanel>
-                        <TextBlock Text="Open Work Orders" FontSize="12" Foreground="{StaticResource TextOnPrimary}"/>
+                        <TextBlock Text="Open Work Orders" FontSize="12" Foreground="White"/>
                         <TextBlock Text="{Binding OpenWorkOrdersCount}" FontSize="32" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardTeal}" Margin="0,0,12,12" MinWidth="180">
+                <Border Style="{StaticResource StatCardTeal}" Margin="0,0,10,10">
                     <StackPanel>
-                        <TextBlock Text="Low Stock Parts" FontSize="12" Foreground="{StaticResource TextOnPrimary}"/>
+                        <TextBlock Text="Low Stock Parts" FontSize="12" Foreground="White"/>
                         <TextBlock Text="{Binding LowStockPartsCount}" FontSize="32" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
                 </Border>
