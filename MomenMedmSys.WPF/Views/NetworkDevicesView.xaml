@@ -33,13 +33,13 @@
                 <Border Background="#6366F1" CornerRadius="6" Padding="14,8" Margin="0,0,10,0">
                     <StackPanel Orientation="Horizontal"><TextBlock Text="📊 Total: " Foreground="White" FontSize="12"/><TextBlock Text="{Binding TotalCount}" Foreground="White" FontSize="14" FontWeight="Bold"/></StackPanel>
                 </Border>
-                <Button Content="🔄 Refresh Status" Command="{Binding RefreshStatusCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="130" Margin="8,0,8,0"/>
-                <Button Content="🗑️ Delete" Command="{Binding DeleteDeviceCommand}" Style="{StaticResource SecondaryButtonStyle}" Width="80"/>
+                <Button Content="🔄 Refresh Status" Command="{Binding RefreshStatusCommand}" Style="{StaticResource PrimaryBtn}" Width="130" Margin="8,0,8,0"/>
+                <Button Content="🗑️ Delete" Command="{Binding DeleteDeviceCommand}" Style="{StaticResource SecondaryBtn}" Width="80"/>
             </StackPanel>
 
             <!-- Device List -->
             <DataGrid Grid.Row="2" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
-                      Style="{StaticResource DataGridStyle}" IsReadOnly="True" AutoGenerateColumns="False"
+                      Style="{StaticResource ModernDataGrid}" IsReadOnly="True" AutoGenerateColumns="False"
                       SelectionMode="Single" CanUserSortColumns="True">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Status" Width="70">
@@ -226,7 +226,7 @@
                                         <CheckBox Content="Reboot" IsChecked="{Binding SelectedDevice.SupportsRemoteReboot}" IsEnabled="False"/>
                                     </StackPanel>
 
-                                    <Button Content="▶ Execute Action" Command="{Binding ExecuteActionCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="160" HorizontalAlignment="Left"/>
+                                    <Button Content="▶ Execute Action" Command="{Binding ExecuteActionCommand}" Style="{StaticResource PrimaryBtn}" Width="160" HorizontalAlignment="Left"/>
 
                                     <!-- Result -->
                                     <TextBlock Text="{Binding ActionResultMessage}" Foreground="#64748B" FontSize="12" Margin="0,12,0,0" TextWrapping="Wrap"/>
@@ -236,7 +236,7 @@
                             <!-- Action Logs Tab -->
                             <TabItem Header="📝 Action Logs">
                                 <StackPanel Margin="0,8">
-                                    <Button Content="🔄 Refresh Logs" Command="{Binding LoadActionLogsCommand}" Style="{StaticResource SecondaryButtonStyle}" Width="120" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+                                    <Button Content="🔄 Refresh Logs" Command="{Binding LoadActionLogsCommand}" Style="{StaticResource SecondaryBtn}" Width="120" HorizontalAlignment="Left" Margin="0,0,0,12"/>
                                     <ItemsControl ItemsSource="{Binding ActionLogs}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
@@ -310,7 +310,7 @@
                         <TextBox Text="{Binding SubnetInput, UpdateSourceTrigger=PropertyChanged}" Width="150" Padding="8,6" FontSize="13"
                                  BorderBrush="#E2E8F0" BorderThickness="1" VerticalContentAlignment="Center"/>
                         <TextBlock Text="(subnet, e.g. 192.168.1.1)" VerticalAlignment="Center" Foreground="#94A3B8" FontSize="12" Margin="8,0,0,0"/>
-                        <Button Content="📡 Scan" Command="{Binding ScanNetworkCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="80" Margin="8,0,0,0"/>
+                        <Button Content="📡 Scan" Command="{Binding ScanNetworkCommand}" Style="{StaticResource PrimaryBtn}" Width="80" Margin="8,0,0,0"/>
                     </StackPanel>
 
                     <!-- Discovered Devices -->
@@ -325,7 +325,7 @@
                                             <TextBlock Text="{Binding ResponseTimeMs, StringFormat={}{0}ms response}" FontSize="11" Foreground="#64748B"/>
                                         </StackPanel>
                                         <Button Grid.Column="1" Content="➕ Add" Padding="8,4" FontSize="11"
-                                                Style="{StaticResource PrimaryButtonStyle}" Command="{Binding DataContext.ImportSelectedDeviceCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                                Style="{StaticResource PrimaryBtn}" Command="{Binding DataContext.ImportSelectedDeviceCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -336,3 +336,4 @@
         </Border>
     </Grid>
 </UserControl>
+

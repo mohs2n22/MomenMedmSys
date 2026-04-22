@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using MomenMedmSys.WPF.ViewModels;
@@ -13,9 +14,12 @@ namespace MomenMedmSys.WPF.Services
 
     public class ViewFactory : IViewFactory
     {
+        private static void Log(string msg) => File.AppendAllText("app_error.log", $"[{DateTime.Now:HH:mm:ss}] {msg}\n");
+
         public UIElement CreateViewFor(ViewModelBase viewModel)
         {
             var vmType = viewModel.GetType();
+            Log($"ViewFactory: Creating view for {vmType.Name}");
 
             if (vmType == typeof(DashboardViewModel))
                 return new Views.DashboardView { DataContext = viewModel };
@@ -64,6 +68,12 @@ namespace MomenMedmSys.WPF.Services
 
             if (vmType == typeof(AdminControlPanelViewModel))
                 return new Views.AdminControlPanelView { DataContext = viewModel };
+
+            if (vmType == typeof(AboutUsViewModel))
+                return new Views.AboutUsView { DataContext = viewModel };
+
+            if (vmType == typeof(ServicesDocViewModel))
+                return new Views.ServicesDocView { DataContext = viewModel };
 
             return new TextBlock {
                 Text = $"No view registered for {vmType.Name}",

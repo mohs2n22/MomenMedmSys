@@ -10,6 +10,9 @@ namespace MomenMedmSys.Core.Entities
         public int DeviceId { get; set; }
         public MedicalDevice Device { get; set; } = null!;
 
+        // Computed property for convenient display
+        public string DeviceName => Device?.DeviceName ?? string.Empty;
+
         public string CalibrationType { get; set; } = string.Empty; // e.g., Full Calibration, Verification, Spot Check
         public string StandardUsed { get; set; } = string.Empty; // Reference standard/equipment used
         public string StandardCertificate { get; set; } = string.Empty;

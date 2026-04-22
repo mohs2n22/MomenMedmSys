@@ -15,26 +15,26 @@
             <TextBlock Text="Manage service contracts and agreements" FontSize="14" Foreground="{StaticResource TextSecondary}"/>
         </StackPanel>
 
-        <!-- Stats Bar -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,12">
-            <Border Style="{StaticResource StatCardPrimary}" Margin="0,0,8,0" MinWidth="90">
-                <StackPanel Orientation="Horizontal"><TextBlock Text="📋 Total: " Foreground="{StaticResource TextOnPrimary}" FontSize="12"/><TextBlock Text="{Binding TotalCount}" Foreground="{StaticResource TextOnPrimary}" FontSize="14" FontWeight="Bold"/></StackPanel>
+        <!-- Stats Row -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,16">
+            <Border Style="{StaticResource StatCard.Primary}" Margin="0,0,8,0" MinWidth="90">
+                <StackPanel><TextBlock Text="📋 Total Contracts" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding TotalCount}" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,2,0,0"/></StackPanel>
             </Border>
-            <Border Style="{StaticResource StatCardSuccess}" Margin="0,0,8,0" MinWidth="90">
-                <StackPanel Orientation="Horizontal"><TextBlock Text="✅ Active: " Foreground="{StaticResource TextOnPrimary}" FontSize="12"/><TextBlock Text="{Binding ActiveCount}" Foreground="{StaticResource TextOnPrimary}" FontSize="14" FontWeight="Bold"/></StackPanel>
+            <Border Style="{StaticResource StatCard.Success}" Margin="0,0,8,0" MinWidth="90">
+                <StackPanel><TextBlock Text="✅ Active Status" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding ActiveCount}" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,2,0,0"/></StackPanel>
             </Border>
-            <Border Style="{StaticResource StatCardWarning}" Margin="0,0,8,0" MinWidth="90">
-                <StackPanel Orientation="Horizontal"><TextBlock Text="⚠️ Expiring: " Foreground="{StaticResource TextOnPrimary}" FontSize="12"/><TextBlock Text="{Binding ExpiringCount}" Foreground="{StaticResource TextOnPrimary}" FontSize="14" FontWeight="Bold"/></StackPanel>
+            <Border Style="{StaticResource StatCard.Warning}" Margin="0,0,8,0" MinWidth="90">
+                <StackPanel><TextBlock Text="⚠️ Expiring Soon" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding ExpiringCount}" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,2,0,0"/></StackPanel>
             </Border>
-            <Button Content="➕ Add" Command="{Binding AddContractCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="80" Margin="16,0,8,0"/>
-            <Button Content="✏️ Edit" Command="{Binding EditContractCommand}" CommandParameter="{Binding SelectedItem, ElementName=ContractsGrid}" Style="{StaticResource SecondaryButtonStyle}" Width="80" Margin="0,0,8,0"/>
-            <Button Content="🗑️ Delete" Command="{Binding DeleteContractCommand}" CommandParameter="{Binding SelectedItem, ElementName=ContractsGrid}" Style="{StaticResource SecondaryButtonStyle}" Width="100" Margin="0,0,8,0"/>
-            <Button Content="🔄 Refresh" Command="{Binding RefreshCommand}" Style="{StaticResource SecondaryButtonStyle}" Width="100"/>
+            <Button Content="➕ Add" Command="{Binding AddContractCommand}" Style="{StaticResource PrimaryBtn}" Width="80" Margin="16,0,8,0"/>
+            <Button Content="✏️ Edit" Command="{Binding EditContractCommand}" CommandParameter="{Binding SelectedItem, ElementName=ContractsGrid}" Style="{StaticResource SecondaryBtn}" Width="80" Margin="0,0,8,0"/>
+            <Button Content="🗑️ Delete" Command="{Binding DeleteContractCommand}" CommandParameter="{Binding SelectedItem, ElementName=ContractsGrid}" Style="{StaticResource SecondaryBtn}" Width="100" Margin="0,0,8,0"/>
+            <Button Content="🔄 Refresh" Command="{Binding RefreshCommand}" Style="{StaticResource SecondaryBtn}" Width="100"/>
         </StackPanel>
 
         <!-- DataGrid -->
         <DataGrid x:Name="ContractsGrid" Grid.Row="2" ItemsSource="{Binding Contracts}" SelectedItem="{Binding SelectedContract}"
-                  Style="{StaticResource DataGridStyle}" IsReadOnly="True" AutoGenerateColumns="False"
+                  Style="{StaticResource ModernDataGrid}" IsReadOnly="True" AutoGenerateColumns="False"
                   SelectionMode="Single" CanUserSortColumns="True" CanUserResizeColumns="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Contract Number" Binding="{Binding ContractNumber}" Width="140"/>
@@ -85,3 +85,4 @@
         <TextBlock Grid.Row="3" Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondary}" FontSize="12" Margin="0,8,0,0"/>
     </Grid>
 </UserControl>
+

@@ -7,6 +7,11 @@ using MomenMedmSys.Data;
 
 namespace MomenMedmSys.Services
 {
+    /// <summary>
+    /// Service for managing medical device lifecycle — CRUD operations, department/risk/status queries,
+    /// warranty expiry alerts, asset valuation, and device cost aggregation.
+    /// This is the core service for the Device Register module.
+    /// </summary>
     public interface IDeviceService
     {
         Task<IEnumerable<MedicalDevice>> GetAllDevicesAsync();
@@ -48,6 +53,7 @@ namespace MomenMedmSys.Services
         public async Task<MedicalDevice> CreateDeviceAsync(MedicalDevice device)
         {
             await _unitOfWork.MedicalDevices.AddAsync(device);
+            await _unitOfWork.SaveChangesAsync();
             return device;
         }
 

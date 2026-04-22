@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,12 +41,35 @@ namespace MomenMedmSys.WPF
         {
             if (sender is ListBoxItem item && DataContext is MainViewModel vm)
             {
-                var index = SidebarList.Items.IndexOf(item.Content);
+                var index = SidebarList.Items.IndexOf(item.DataContext);
+                if (index == -1) // Fallback just in case it's a Content or DataContext mismatch
+                {
+                    index = SidebarList.Items.IndexOf(item.Content);
+                }
+                
                 if (index >= 0)
                 {
                     vm.NavigateCommand.Execute(index);
                 }
             }
+        }
+
+        private void BtnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void BtnMaximize_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            else
+                WindowState = WindowState.Maximized;
+        }
+
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

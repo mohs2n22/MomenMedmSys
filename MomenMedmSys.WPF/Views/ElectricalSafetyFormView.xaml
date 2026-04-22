@@ -1,0 +1,163 @@
+<UserControl x:Class="MomenMedmSys.WPF.Views.ElectricalSafetyFormView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Border Background="White" CornerRadius="12" BorderBrush="#E2E8F0" BorderThickness="1" Padding="32" MaxWidth="900">
+            <StackPanel>
+                <!-- Header -->
+                <StackPanel Margin="0,0,0,24">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock FontSize="22" FontWeight="Bold" Foreground="#1E293B">
+                                <Run Text="{Binding Mode, Mode=OneWay}"/><Run Text=" Electrical Safety Test"/>
+                            </TextBlock>
+                            <TextBlock Text="{Binding StatusMessage}" FontSize="13" Foreground="#64748B" Margin="0,4,0,0"/>
+                        </StackPanel>
+                        <Border Grid.Column="1" CornerRadius="6" Padding="12,6">
+                            <TextBlock FontSize="13" FontWeight="SemiBold">
+                                <Run Text="{Binding Mode, Mode=OneWay}"/>
+                            </TextBlock>
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Mode}" Value="Add">
+                                            <Setter Property="Background" Value="#DBEAFE"/>
+                                            <Setter Property="TextElement.Foreground" Value="#1E40AF"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Mode}" Value="Edit">
+                                            <Setter Property="Background" Value="#FEF3C7"/>
+                                            <Setter Property="TextElement.Foreground" Value="#92400E"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Section: Test Details -->
+                <TextBlock Text="Test Details" FontSize="16" FontWeight="SemiBold" Foreground="#1E293B" Margin="0,0,0,12"/>
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="16"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/><RowDefinition Height="12"/>
+                        <RowDefinition Height="Auto"/><RowDefinition Height="12"/>
+                        <RowDefinition Height="Auto"/><RowDefinition Height="12"/>
+                        <RowDefinition Height="Auto"/><RowDefinition Height="12"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0">
+                        <TextBlock Text="Test Date" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,0,0,4"/>
+                        <DatePicker SelectedDate="{Binding TestDate}" Padding="10,8" FontSize="14" BorderBrush="#E2E8F0" BorderThickness="1"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="2">
+                        <TextBlock Text="Next Due Date" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,0,0,4"/>
+                        <DatePicker SelectedDate="{Binding NextDueDate}" Padding="10,8" FontSize="14" BorderBrush="#E2E8F0" BorderThickness="1"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="0">
+                        <TextBlock Text="Test Type" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,0,0,4"/>
+                        <ComboBox ItemsSource="{Binding TestTypeOptions}" SelectedItem="{Binding TestType, UpdateSourceTrigger=PropertyChanged}" Padding="10,8" FontSize="14" BorderBrush="#E2E8F0" BorderThickness="1"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="2">
+                        <TextBlock Text="Test Standard" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,0,0,4"/>
+                        <TextBox Text="{Binding TestStandard, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Padding="10,8"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="4" Grid.Column="0">
+                        <TextBlock Text="Certificate Number" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,0,0,4"/>
+                        <TextBox Text="{Binding CertificateNumber, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Padding="10,8"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="4" Grid.Column="2">
+                        <TextBlock Text="Overall Result" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,0,0,4"/>
+                        <ComboBox ItemsSource="{Binding ResultOptions}" SelectedItem="{Binding OverallResult, UpdateSourceTrigger=PropertyChanged}" Padding="10,8" FontSize="14" BorderBrush="#E2E8F0" BorderThickness="1"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="6" Grid.Column="0">
+                        <TextBlock Text="Performed By" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,0,0,4"/>
+                        <TextBox Text="{Binding PerformedBy, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Padding="10,8"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="6" Grid.Column="2">
+                        <CheckBox Content="External Tester" IsChecked="{Binding IsExternalTester}" VerticalAlignment="Center" Margin="0,8,0,0" FontSize="14"/>
+                        <TextBlock Text="Testing Company" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,8,0,4"/>
+                        <TextBox Text="{Binding TestingCompany, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Padding="10,8"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Section: Test Equipment -->
+                <TextBlock Text="Test Equipment" FontSize="16" FontWeight="SemiBold" Foreground="#1E293B" Margin="0,0,0,12"/>
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="16"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/><RowDefinition Height="12"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0">
+                        <TextBlock Text="Equipment Used" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,0,0,4"/>
+                        <TextBox Text="{Binding TestEquipmentUsed, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Padding="10,8"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="2">
+                        <TextBlock Text="Calibration Status" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,0,0,4"/>
+                        <TextBox Text="{Binding TestEquipmentCalibration, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Padding="10,8"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Section: Measurements -->
+                <TextBlock Text="Measurements" FontSize="16" FontWeight="SemiBold" Foreground="#1E293B" Margin="0,0,0,12"/>
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="16"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/><RowDefinition Height="12"/>
+                        <RowDefinition Height="Auto"/><RowDefinition Height="12"/>
+                        <RowDefinition Height="Auto"/><RowDefinition Height="12"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0">
+                        <TextBlock Text="Earth Resistance (Ω)" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,0,0,4"/>
+                        <TextBox Text="{Binding EarthResistanceMeasured, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Padding="10,8"/>
+                        <TextBlock Text="{Binding EarthResistanceLimit, StringFormat='Limit: {0} Ω'}" FontSize="11" Foreground="#64748B" Margin="0,4,0,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="2">
+                        <TextBlock Text="Leakage Current (mA)" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,0,0,4"/>
+                        <TextBox Text="{Binding LeakageCurrentMeasured, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Padding="10,8"/>
+                        <TextBlock Text="{Binding LeakageCurrentLimit, StringFormat='Limit: {0} mA'}" FontSize="11" Foreground="#64748B" Margin="0,4,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="0">
+                        <TextBlock Text="Insulation Resistance (MΩ)" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,0,0,4"/>
+                        <TextBox Text="{Binding InsulationResistanceMeasured, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Padding="10,8"/>
+                        <TextBlock Text="{Binding InsulationResistanceLimit, StringFormat='Limit: {0} MΩ'}" FontSize="11" Foreground="#64748B" Margin="0,4,0,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="2">
+                        <TextBlock Text="Touch Current (mA)" FontSize="12" FontWeight="Medium" Foreground="#64748B" Margin="0,0,0,4"/>
+                        <TextBox Text="{Binding TouchCurrentMeasured, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Padding="10,8"/>
+                        <TextBlock Text="{Binding TouchCurrentLimit, StringFormat='Limit: {0} mA'}" FontSize="11" Foreground="#64748B" Margin="0,4,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="4" Grid.Column="0">
+                        <CheckBox Content="Visual Inspection Pass" IsChecked="{Binding VisualInspectionPass}" VerticalAlignment="Center" Margin="0,8,0,0" FontSize="14"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Remarks -->
+                <TextBlock Text="Remarks" FontSize="16" FontWeight="SemiBold" Foreground="#1E293B" Margin="0,0,0,12"/>
+                <TextBox Text="{Binding Remarks, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Padding="10,8" Height="60" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="0,0,0,20"/>
+
+                <!-- Action Buttons -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                    <Button Content="Cancel" Command="{Binding CancelCommand}" Style="{StaticResource SecondaryBtn}" Margin="0,0,12,0" Width="100" Padding="12,8"/>
+                    <Button Command="{Binding SaveCommand}" Style="{StaticResource PrimaryBtn}" Width="150" Padding="12,8">
+                        <TextBlock>
+                            <Run Text="{Binding Mode, Mode=OneWay}"/><Run Text=" Safety Test"/>
+                        </TextBlock>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </ScrollViewer>
+</UserControl>
+

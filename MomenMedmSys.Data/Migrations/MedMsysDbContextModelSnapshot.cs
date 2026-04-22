@@ -58,6 +58,81 @@ namespace MomenMedmSys.Data.Migrations
                     b.ToTable("AssignedDevices");
                 });
 
+            modelBuilder.Entity("MomenMedmSys.Core.Entities.AuditLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AffectedRecords")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EntityId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EntityType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("NewValues")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OldValues")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Action");
+
+                    b.HasIndex("EntityId");
+
+                    b.HasIndex("EntityType");
+
+                    b.HasIndex("Timestamp");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserName");
+
+                    b.ToTable("AuditLogs");
+                });
+
             modelBuilder.Entity("MomenMedmSys.Core.Entities.CalibrationRecord", b =>
                 {
                     b.Property<int>("Id")
@@ -502,6 +577,129 @@ namespace MomenMedmSys.Data.Migrations
                     b.HasIndex("TestDate");
 
                     b.ToTable("ElectricalSafetyTests");
+                });
+
+            modelBuilder.Entity("MomenMedmSys.Core.Entities.LicenseDevice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HardwareFingerprint")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LicenseInfoId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MacAddress")
+                        .IsRequired()
+                        .HasMaxLength(17)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MachineName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("RegisteredAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HardwareFingerprint");
+
+                    b.HasIndex("LicenseInfoId");
+
+                    b.HasIndex("MacAddress");
+
+                    b.ToTable("LicensedDevices");
+                });
+
+            modelBuilder.Entity("MomenMedmSys.Core.Entities.LicenseInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ActivationDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AdministratorName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ExpiryDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HardwareFingerprint")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HospitalName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActivated")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LicenseKey")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LicenseNumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LicenseType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MaxDevices")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PrimaryMacAddress")
+                        .IsRequired()
+                        .HasMaxLength(17)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RegisteredDeviceCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LicenseKey")
+                        .IsUnique();
+
+                    b.ToTable("Licenses");
                 });
 
             modelBuilder.Entity("MomenMedmSys.Core.Entities.MaintenanceRecord", b =>
@@ -1075,6 +1273,81 @@ namespace MomenMedmSys.Data.Migrations
                     b.HasIndex("MedicalDeviceId");
 
                     b.ToTable("NetworkDevices");
+                });
+
+            modelBuilder.Entity("MomenMedmSys.Core.Entities.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ActionUrl")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("EntityId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EntityType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ReadAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DueDate");
+
+                    b.HasIndex("IsRead");
+
+                    b.HasIndex("Priority");
+
+                    b.HasIndex("Type");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("MomenMedmSys.Core.Entities.ProcurementRequest", b =>
@@ -2041,6 +2314,99 @@ namespace MomenMedmSys.Data.Migrations
                     b.ToTable("TrainingRecords");
                 });
 
+            modelBuilder.Entity("MomenMedmSys.Core.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FailedLoginAttempts")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsLocked")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("LastLoginDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("PasswordExpiryDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MomenMedmSys.Core.Entities.UserSession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("LoginTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("LogoutTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsActive");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserSessions");
+                });
+
             modelBuilder.Entity("MomenMedmSys.Core.Entities.WorkOrder", b =>
                 {
                     b.Property<int>("Id")
@@ -2240,6 +2606,17 @@ namespace MomenMedmSys.Data.Migrations
                     b.Navigation("Device");
                 });
 
+            modelBuilder.Entity("MomenMedmSys.Core.Entities.LicenseDevice", b =>
+                {
+                    b.HasOne("MomenMedmSys.Core.Entities.LicenseInfo", "License")
+                        .WithMany("LicensedDevices")
+                        .HasForeignKey("LicenseInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("License");
+                });
+
             modelBuilder.Entity("MomenMedmSys.Core.Entities.MaintenanceRecord", b =>
                 {
                     b.HasOne("MomenMedmSys.Core.Entities.MedicalDevice", "Device")
@@ -2285,6 +2662,16 @@ namespace MomenMedmSys.Data.Migrations
                         .HasForeignKey("MedicalDeviceId");
 
                     b.Navigation("MedicalDevice");
+                });
+
+            modelBuilder.Entity("MomenMedmSys.Core.Entities.Notification", b =>
+                {
+                    b.HasOne("MomenMedmSys.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MomenMedmSys.Core.Entities.ProcurementRequest", b =>
@@ -2401,6 +2788,17 @@ namespace MomenMedmSys.Data.Migrations
                     b.Navigation("StaffMember");
                 });
 
+            modelBuilder.Entity("MomenMedmSys.Core.Entities.UserSession", b =>
+                {
+                    b.HasOne("MomenMedmSys.Core.Entities.User", "User")
+                        .WithMany("Sessions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MomenMedmSys.Core.Entities.WorkOrder", b =>
                 {
                     b.HasOne("MomenMedmSys.Core.Entities.MedicalDevice", "Device")
@@ -2424,6 +2822,11 @@ namespace MomenMedmSys.Data.Migrations
                     b.Navigation("Devices");
 
                     b.Navigation("StaffMembers");
+                });
+
+            modelBuilder.Entity("MomenMedmSys.Core.Entities.LicenseInfo", b =>
+                {
+                    b.Navigation("LicensedDevices");
                 });
 
             modelBuilder.Entity("MomenMedmSys.Core.Entities.MaintenanceRecord", b =>
@@ -2485,6 +2888,11 @@ namespace MomenMedmSys.Data.Migrations
                     b.Navigation("SuppliedDevices");
 
                     b.Navigation("SuppliedParts");
+                });
+
+            modelBuilder.Entity("MomenMedmSys.Core.Entities.User", b =>
+                {
+                    b.Navigation("Sessions");
                 });
 #pragma warning restore 612, 618
         }

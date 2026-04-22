@@ -4,6 +4,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignHeight="900" d:DesignWidth="1400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Themes/ModernStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid Background="#F1F5F9">
         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
 
@@ -25,6 +32,15 @@
                             <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" BorderThickness="0" FontSize="13" Padding="0" VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
+                    <Button Content="🖨️ Export " Style="{StaticResource SecondaryBtn}" Padding="14,9" Margin="0,0,8,0" Click="ExportDropdown_Click">
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="📊 Export to Excel" Command="{Binding ExportToExcelCommand}"/>
+                                <MenuItem Header="📄 Export to CSV" Command="{Binding ExportToCsvCommand}"/>
+                                <MenuItem Header="📑 Export to PDF" Command="{Binding ExportToPdfCommand}"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
                     <Button Content="🔄 Refresh" Command="{Binding LoadIncidentsCommand}" Style="{StaticResource PrimaryBtn}" Padding="14,9"/>
                 </StackPanel>
             </Grid>
@@ -36,16 +52,16 @@
 
             <!-- Stats Cards -->
             <WrapPanel Grid.Row="0" Margin="0,0,0,12">
-                <Border Style="{StaticResource StatCardRed}">
+                <Border Style="{StaticResource StatCard.Danger}">
                     <StackPanel><TextBlock Text="⚠️ Open Incidents" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding OpenIncidentsCount}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/></StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardPurple}">
+                <Border Style="{StaticResource StatCard.Purple}">
                     <StackPanel><TextBlock Text="🔴 Critical" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding CriticalIncidentsCount}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/></StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardAmber}">
+                <Border Style="{StaticResource StatCard.Warning}">
                     <StackPanel><TextBlock Text="🟡 High Risk" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding HighRiskCount}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/></StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardGreen}">
+                <Border Style="{StaticResource StatCard.Success}">
                     <StackPanel><TextBlock Text="✅ Closed" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding ClosedCount}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/></StackPanel>
                 </Border>
             </WrapPanel>

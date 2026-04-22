@@ -141,10 +141,14 @@ namespace MomenMedmSys.WPF.ViewModels
                 }
                 else
                 {
-                    // Create new
+                    // Create new - generate unique code if default is used
+                    var deviceCode = (DeviceCode == "DEV-NEW" || string.IsNullOrWhiteSpace(DeviceCode))
+                        ? $"DEV-{DateTime.Now:yyyyMMddHHmmss}"
+                        : DeviceCode;
+
                     var device = new MedicalDevice
                     {
-                        DeviceCode = string.IsNullOrWhiteSpace(DeviceCode) ? $"DEV-{DateTime.Now:yyyyMMdd}" : DeviceCode,
+                        DeviceCode = deviceCode,
                         DeviceName = DeviceName,
                         Description = Description,
                         Manufacturer = Manufacturer,
@@ -164,7 +168,7 @@ namespace MomenMedmSys.WPF.ViewModels
                     };
 
                     await _deviceService.CreateDeviceAsync(device);
-                    StatusMessage = $"Created: {DeviceName}";
+                    StatusMessage = $"Created: {DeviceName} ({device.DeviceCode})";
                 }
 
                 // Navigate back

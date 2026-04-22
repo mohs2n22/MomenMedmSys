@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -20,20 +20,20 @@ namespace MomenMedmSys.Installer
 
     public class InstallerForm : Form
     {
-        private TextBox txtLicense;
-        private RadioButton rbAccept;
-        private RadioButton rbDecline;
-        private TextBox txtPath;
-        private Button btnBrowse;
-        private CheckBox chkDesktop;
-        private CheckBox chkStartMenu;
-        private Button btnInstall;
-        private Button btnCancel;
-        private ProgressBar progressBar;
-        private Label lblStatus;
-        private Panel pnlLicense;
-        private Panel pnlOptions;
-        private Panel pnlProgress;
+        private TextBox txtLicense = null!;
+        private RadioButton rbAccept = null!;
+        private RadioButton rbDecline = null!;
+        private TextBox txtPath = null!;
+        private Button btnBrowse = null!;
+        private CheckBox chkDesktop = null!;
+        private CheckBox chkStartMenu = null!;
+        private Button btnInstall = null!;
+        private Button btnCancel = null!;
+        private ProgressBar progressBar = null!;
+        private Label lblStatus = null!;
+        private Panel pnlLicense = null!;
+        private Panel pnlOptions = null!;
+        private Panel pnlProgress = null!;
 
         public InstallerForm()
         {
@@ -50,7 +50,18 @@ namespace MomenMedmSys.Installer
             MinimizeBox = false;
             StartPosition = FormStartPosition.CenterScreen;
             BackColor = Color.FromArgb(240, 240, 240);
-            Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+            
+            // Load application icon
+            string iconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppIcon.ico");
+            if (File.Exists(iconPath))
+            {
+                Icon = new Icon(iconPath);
+            }
+            else
+            {
+                // Fallback: try embedded resource
+                try { Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath); } catch { }
+            }
 
             // License Panel
             pnlLicense = new Panel { Dock = DockStyle.Fill, BackColor = Color.White, Padding = new Padding(20) };
@@ -261,7 +272,7 @@ namespace MomenMedmSys.Installer
             var resources = new[]
             {
                 ("MomenMedmSys.Installer.MomenMedmSys.WPF.exe", "MomenMedmSys.WPF.exe"),
-                ("MomenMedmSys.Installer.MomenMedmSys.db", "MomenMedmSys.db"),
+                ("MomenMedmSys.Installer.medmsys.db", "medmsys.db"),
                 ("MomenMedmSys.Installer.README.md", "README.md")
             };
 
@@ -312,7 +323,7 @@ namespace MomenMedmSys.Installer
 echo Uninstalling MomenMedmSys...
 set /p KEEP_DB=Keep database file? (Y/N): 
 if /I not ""%KEEP_DB%""==""Y"" (
-  del /f /q ""{installPath}\MomenMedmSys.db*"" 2>nul
+  del /f /q ""{installPath}\medmsys.db*"" 2>nul
 )
 del /f /q ""{installPath}\MomenMedmSys.WPF.exe""
 del /f /q ""{installPath}\README.md""

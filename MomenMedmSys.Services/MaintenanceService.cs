@@ -7,6 +7,11 @@ using MomenMedmSys.Data;
 
 namespace MomenMedmSys.Services
 {
+    /// <summary>
+    /// Service for preventive and corrective maintenance scheduling — record management, overdue/upcoming queries,
+    /// cost tracking per device, and maintenance type/status filtering.
+    /// Supports the Maintenance module with both preventive and corrective workflows.
+    /// </summary>
     public interface IMaintenanceService
     {
         Task<IEnumerable<MaintenanceRecord>> GetAllRecordsAsync();

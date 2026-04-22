@@ -119,10 +119,15 @@ namespace MomenMedmSys.WPF.ViewModels
         [ObservableProperty] private int _adminCount;
         [ObservableProperty] private int _technicianCount;
         [ObservableProperty] private int _reportWriterCount;
+        [ObservableProperty] private int _physicianCount;
+        [ObservableProperty] private int _nurseCount;
 
         // Selected items
         [ObservableProperty] private StaffMember? _selectedStaff;
         [ObservableProperty] private int _activeTabIndex;
+
+        // Tab switching commands
+        [RelayCommand] private void SwitchToTab(int tabIndex) => ActiveTabIndex = tabIndex;
 
         // Form fields
         [ObservableProperty] private string _firstName = string.Empty;
@@ -140,6 +145,9 @@ namespace MomenMedmSys.WPF.ViewModels
         [ObservableProperty] private bool _canManageCalibration;
         [ObservableProperty] private bool _canViewReports;
         [ObservableProperty] private bool _canAccessAdminPanel;
+        [ObservableProperty] private bool _canManageSpareParts;
+        [ObservableProperty] private bool _canManageNetworkDevices;
+        [ObservableProperty] private bool _canManageStaff;
         
         // Form display
         [ObservableProperty] private string _formTitleText = "Add New Staff";
@@ -246,6 +254,8 @@ namespace MomenMedmSys.WPF.ViewModels
                 AdminCount = Administrators.Count;
                 TechnicianCount = HardwareTechnicians.Count;
                 ReportWriterCount = ReportWriters.Count;
+                PhysicianCount = Physicians.Count;
+                NurseCount = Nurses.Count;
 
                 // Load license status & hospital info
                 try
@@ -337,6 +347,9 @@ namespace MomenMedmSys.WPF.ViewModels
             CanManageCalibration = false;
             CanViewReports = false;
             CanAccessAdminPanel = false;
+            CanManageSpareParts = false;
+            CanManageNetworkDevices = false;
+            CanManageStaff = false;
             FormTitleText = "Add New Staff";
             FormSubtitle = "Create a new staff account";
             FormIcon = "➕";
@@ -368,6 +381,9 @@ namespace MomenMedmSys.WPF.ViewModels
             CanManageCalibration = staff.CanManageCalibration;
             CanViewReports = staff.CanViewReports;
             CanAccessAdminPanel = staff.CanAccessAdminPanel;
+            CanManageSpareParts = staff.CanManageSpareParts;
+            CanManageNetworkDevices = staff.CanManageNetworkDevices;
+            CanManageStaff = staff.CanManageStaff;
             FormTitleText = "Edit Staff Member";
             FormSubtitle = $"Editing: {staff.FullName} ({staff.EmployeeId})";
             FormIcon = "✏️";
@@ -414,6 +430,9 @@ namespace MomenMedmSys.WPF.ViewModels
                     SelectedStaff.CanManageCalibration = CanManageCalibration;
                     SelectedStaff.CanViewReports = CanViewReports;
                     SelectedStaff.CanAccessAdminPanel = CanAccessAdminPanel;
+                    SelectedStaff.CanManageSpareParts = CanManageSpareParts;
+                    SelectedStaff.CanManageNetworkDevices = CanManageNetworkDevices;
+                    SelectedStaff.CanManageStaff = CanManageStaff;
                     SelectedStaff.UpdatedAt = DateTime.Now;
 
                     if (!string.IsNullOrWhiteSpace(Password))
@@ -445,6 +464,9 @@ namespace MomenMedmSys.WPF.ViewModels
                         CanManageCalibration = CanManageCalibration,
                         CanViewReports = CanViewReports,
                         CanAccessAdminPanel = CanAccessAdminPanel,
+                        CanManageSpareParts = CanManageSpareParts,
+                        CanManageNetworkDevices = CanManageNetworkDevices,
+                        CanManageStaff = CanManageStaff,
                         HireDate = DateTime.Now,
                         IsActive = true,
                         CreatedAt = DateTime.Now
@@ -529,17 +551,25 @@ namespace MomenMedmSys.WPF.ViewModels
         }
 
         [RelayCommand]
-        private void GenerateLicense()
+        private async Task GenerateLicense()
         {
-            var licenseType = SelectedLicenseTypeIndex switch
+            try
             {
-                0 => LicenseType.ThreeMonths,
-                1 => LicenseType.OneYear,
-                _ => LicenseType.Lifetime
-            };
+                var licenseType = SelectedLicenseTypeIndex switch
+                {
+                    0 => LicenseType.ThreeMonths,
+                    1 => LicenseType.OneYear,
+                    _ => LicenseType.Lifetime
+                };
 
-            GeneratedLicenseKey = _licenseService.GenerateLicenseKey(licenseType);
-            StatusMessage = $"🔑 Generated {licenseType} license key";
+                GeneratedLicenseKey = _licenseService.GenerateLicenseKey(licenseType);
+                StatusMessage = $"Generated {licenseType} license key";
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Error: {ex.Message}";
+                await _dialogService.ShowMessageAsync($"Error generating license: {ex.Message}", "Error");
+            }
         }
 
         [RelayCommand]
@@ -861,7 +891,33 @@ namespace MomenMedmSys.WPF.ViewModels
                 // Create a batch file to launch the application
                 var exeName = "MomenMedmSys.WPF.exe";
                 var exePath = Path.Combine(appDir, exeName);
-
+                var sourceExePath = Path.Combine(appRoot, exeName);
+                
+                // If exe doesn't exist in app root, try to find it
+                if (!File.Exists(sourceExePath))
+                {
+                    var possiblePaths = new[] {
+                        Path.Combine(appRoot, "bin", "Release", "net8.0-windows", exeName),
+                        Path.Combine(appRoot, "bin", "Debug", "net8.0-windows", exeName),
+                        Path.Combine(Directory.GetParent(appRoot)?.FullName ?? "", exeName),
+                        Path.Combine(Directory.GetParent(Directory.GetParent(appRoot)?.FullName ?? "")?.FullName ?? "", "bin", "Release", "net8.0-windows", exeName)
+                    };
+                    foreach (var p in possiblePaths)
+                    {
+                        if (File.Exists(p))
+                        {
+                            sourceExePath = p;
+                            break;
+                        }
+                    }
+                }
+                
+                // Copy exe explicitly
+                if (File.Exists(sourceExePath) && !File.Exists(exePath))
+                {
+                    File.Copy(sourceExePath, exePath, true);
+                }
+                
                 if (File.Exists(exePath))
                 {
                     var launchBat = Path.Combine(packagePath, "START.bat");
@@ -869,7 +925,7 @@ namespace MomenMedmSys.WPF.ViewModels
 echo Starting MomenMedmSys - {HospitalName}
 echo.
 cd Application
-start """" ""{exeName}""
+start """""""" ""{exeName}""
 ";
                     await File.WriteAllTextAsync(launchBat, batContent);
                 }
@@ -908,20 +964,28 @@ Support: MOHS2N@YAHOO.COM | Tel: +249 124 349 024
                 StatusMessage = $"🎉 Distribution package created successfully!";
                 GeneratedLicenseKey = licenseResult.License?.LicenseKey ?? string.Empty;
 
+                // Create zip file
+                var zipPath = $"{packagePath}.zip";
+                if (File.Exists(zipPath)) File.Delete(zipPath);
+                
+                DistributionStatus = "Creating ZIP archive...";
+                System.IO.Compression.ZipFile.CreateFromDirectory(packagePath, zipPath);
+                
+                // Clean up folder, keep only zip
+                Directory.Delete(packagePath, true);
+                
+                var zipFileName = System.IO.Path.GetFileName(zipPath);
+                var zipSizeMB = new System.IO.FileInfo(zipPath).Length / (1024.0 * 1024.0);
+
                 // Reload license info
                 await LoadAllCommand.ExecuteAsync(null);
 
                 await _dialogService.ShowMessageAsync(
-                    $"Distribution package generated successfully!\n\n" +
-                    $"📁 Package Location: {packagePath}\n" +
-                    $"📦 Total Files: {copiedFiles} application files copied\n" +
+                    $"Distribution package created successfully!\n\n" +
+                    $"📦 ZIP: {zipFileName}\n" +
+                    $"📏 Size: {zipSizeMB:F1} MB\n" +
                     $"🔑 License Key: {GeneratedLicenseKey}\n\n" +
-                    $"Package Contents:\n" +
-                    $"  • Application/ - Complete application\n" +
-                    $"  • License/ - License file for activation\n" +
-                    $"  • Documentation/ - README and Installation Guide\n" +
-                    $"  • START.bat - Quick launch script\n\n" +
-                    $"Zip this folder and send to the hospital.",
+                    $"Send the ZIP file to the hospital.",
                     "Distribution Package Complete");
             }
             catch (Exception ex)
@@ -1694,6 +1758,9 @@ Phone: +249 124 349 024
             CanManageCalibration = false;
             CanViewReports = false;
             CanAccessAdminPanel = false;
+            CanManageSpareParts = false;
+            CanManageNetworkDevices = false;
+            CanManageStaff = false;
             FormTitleText = "Add New Staff";
             FormSubtitle = "Create a new staff account";
             FormIcon = "➕";

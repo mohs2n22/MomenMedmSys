@@ -18,11 +18,11 @@
                         <RowDefinition Height="Auto"/><RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
-                        <Button Content="🔄 Refresh" Command="{Binding LoadStaffCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="100"/>
+                        <Button Content="🔄 Refresh" Command="{Binding LoadStaffCommand}" Style="{StaticResource PrimaryBtn}" Width="100"/>
                         <TextBlock Text="{Binding ActiveStaffCount, StringFormat='Active: {0}'}" VerticalAlignment="Center" Margin="16,0,0,0" Foreground="#64748B"/>
                     </StackPanel>
                     <DataGrid Grid.Row="1" ItemsSource="{Binding StaffMembers}" SelectedItem="{Binding SelectedStaff}"
-                              Style="{StaticResource DataGridStyle}" IsReadOnly="True" AutoGenerateColumns="False"
+                              Style="{StaticResource ModernDataGrid}" IsReadOnly="True" AutoGenerateColumns="False"
                               SelectionMode="Single" CanUserSortColumns="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeId}" Width="100"/>
@@ -47,11 +47,11 @@
                         <RowDefinition Height="Auto"/><RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
-                        <Button Content="🔄 Refresh" Command="{Binding LoadTrainingCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="100"/>
+                        <Button Content="🔄 Refresh" Command="{Binding LoadTrainingCommand}" Style="{StaticResource PrimaryBtn}" Width="100"/>
                         <TextBlock Text="{Binding ExpiredTrainingCount, StringFormat='Expired: {0}'}" VerticalAlignment="Center" Margin="16,0,0,0" Foreground="#EF4444"/>
                     </StackPanel>
                     <DataGrid Grid.Row="1" ItemsSource="{Binding TrainingRecords}" SelectedItem="{Binding SelectedTraining}"
-                              Style="{StaticResource DataGridStyle}" IsReadOnly="True" AutoGenerateColumns="False"
+                              Style="{StaticResource ModernDataGrid}" IsReadOnly="True" AutoGenerateColumns="False"
                               SelectionMode="Single" CanUserSortColumns="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Title" Binding="{Binding TrainingTitle}" Width="200"/>
@@ -71,3 +71,4 @@
         </TabControl>
     </Grid>
 </UserControl>
+

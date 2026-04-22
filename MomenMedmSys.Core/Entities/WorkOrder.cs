@@ -12,6 +12,9 @@ namespace MomenMedmSys.Core.Entities
         public int DeviceId { get; set; }
         public MedicalDevice Device { get; set; } = null!;
 
+        // Computed property for convenient display
+        public string DeviceName => Device?.DeviceName ?? string.Empty;
+
         // Request Details
         public string ReportedBy { get; set; } = string.Empty;
         public DateTime ReportDate { get; set; } = DateTime.Now;

@@ -1,156 +1,251 @@
-﻿<Window x:Class="MomenMedmSys.WPF.MainWindow"
+<Window x:Class="MomenMedmSys.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:converters="clr-namespace:MomenMedmSys.WPF.Converters"
-        Title="MomenMedmSys" Height="800" Width="1400"
+        Title="Momen Systems Co." Height="800" Width="1400"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
-        Background="{StaticResource BackgroundLight}">
-
+        Icon="Assets/AppIcon.ico">
+    
     <Window.Resources>
-        <converters:IndexToVisibilityConverter x:Key="IndexToVisibility"/>
-        <converters:NullToVisibilityCollapsed x:Key="NullToVisibilityCollapsed"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Themes/ModernStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="64" ResizeBorderThickness="6" GlassFrameThickness="0" CornerRadius="0"/>
+    </WindowChrome.WindowChrome>
 
-    <DockPanel>
-        <!-- Header -->
-        <Border DockPanel.Dock="Top" Background="{StaticResource BackgroundDark}" BorderBrush="#334155" BorderThickness="0,0,0,1" Height="64">
-            <Grid Margin="24,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+    <!-- Custom Window Border / Drop Shadow -->
+    <Border Background="{DynamicResource BackgroundLight}">
+        <DockPanel>
+            
+            <!-- ========== TOP HEADER (Titlebar) ========== -->
+            <Border DockPanel.Dock="Top" Background="{StaticResource Bg.Surface}" BorderBrush="{StaticResource Border.Default}" BorderThickness="0,0,0,1" Height="64">
+                <Grid Margin="16,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <!-- System Logo -->
-                    <Border Background="{StaticResource PrimaryColor}" Width="40" Height="40" CornerRadius="10" Margin="0,0,12,0">
-                        <Grid>
-                            <Path Data="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" 
-                                  Stroke="White" StrokeThickness="1.5" Fill="None" 
-                                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                                  Width="24" Height="24"/>
-                            <Ellipse Fill="White" Width="6" Height="6" Margin="0,-6,0,0" Opacity="0.8"/>
-                        </Grid>
-                    </Border>
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="MomenMedmSys" FontSize="18" FontWeight="Bold" Foreground="White"/>
-                        <TextBlock Text="Medical Equipment Management System" FontSize="11" Foreground="{StaticResource TextMuted}"/>
+                    <!-- Left: Brand -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,0,0">
+                        <Border Width="40" Height="40" Margin="0,0,12,0" CornerRadius="{StaticResource Radius.Md}">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#C084FC" Offset="0"/>
+                                    <GradientStop Color="#9333EA" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Image Source="Assets/AppIcon.ico" Width="30" Height="30"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Momen Systems Co." FontSize="18" FontWeight="Bold" Foreground="{StaticResource Text.Primary}"/>
+                            <TextBlock Text="Medical Equipment Management System" FontSize="11" Foreground="{StaticResource Text.Secondary}"/>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
 
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Border Background="{StaticResource SidebarHoverColor}" Width="36" Height="36" CornerRadius="18" Margin="0,0,12,0">
-                        <TextBlock Text="👤" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="Administrator" FontSize="13" FontWeight="SemiBold" Foreground="White"/>
-                        <TextBlock Text="Super Admin" FontSize="11" Foreground="{StaticResource TextMuted}"/>
-                    </StackPanel>
-                </StackPanel>
-            </Grid>
-        </Border>
+                    <!-- Right: Profile & Windows Controls -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        
+                        <!-- Search Box (mock) -->
+                        <Border Background="{StaticResource Bg.SurfaceAlt}" Padding="12,9" Width="200" Margin="0,0,16,0" CornerRadius="{StaticResource Radius.Md}" WindowChrome.IsHitTestVisibleInChrome="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="🔍" FontSize="13" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="{StaticResource Text.Secondary}"/>
+                                <TextBlock Grid.Column="1" Text="Quick search..." FontSize="13" Foreground="{StaticResource Text.Muted}" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
 
-        <!-- Sidebar -->
-        <Border DockPanel.Dock="Left" Background="{StaticResource SidebarColor}" BorderBrush="#334155" BorderThickness="0,0,1,0" Width="240">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <ListBox Grid.Row="0" x:Name="SidebarList" ItemsSource="{Binding NavigationItems}"
-                         SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
-                         Background="Transparent" BorderThickness="0" Margin="0,8,0,0">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="Padding" Value="16,10"/>
-                            <Setter Property="Margin" Value="8,2"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListBoxItem">
-                                        <Border x:Name="border" Background="Transparent"
-                                                Padding="{TemplateBinding Padding}" CornerRadius="6">
-                                            <ContentPresenter />
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter TargetName="border" Property="Background" Value="{StaticResource PrimaryColor}"/>
-                                            </Trigger>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="border" Property="Background" Value="{StaticResource SidebarHoverColor}"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <EventSetter Event="MouseLeftButtonUp" Handler="NavItemClick"/>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
+                        <!-- Profile -->
+                        <Border Background="{StaticResource Bg.SurfaceAlt}" Padding="8,4" CornerRadius="{StaticResource Radius.Xl}" Margin="0,0,24,0" BorderBrush="{StaticResource Border.Default}" BorderThickness="1" WindowChrome.IsHitTestVisibleInChrome="True">
                             <StackPanel Orientation="Horizontal">
-                                <Border Background="#475569" Width="32" Height="32" CornerRadius="6" Margin="0,0,12,0">
-                                    <TextBlock Text="{Binding Icon}" FontSize="16"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Background="{StaticResource Bg.Sidebar}" Width="32" Height="32" CornerRadius="16" Margin="0,0,10,0">
+                                    <TextBlock Text="U" FontSize="14" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Medium"
-                                           VerticalAlignment="Center" Foreground="{StaticResource TextOnDark}"/>
+                                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                                    <TextBlock Text="Administrator" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource Text.Primary}"/>
+                                    <TextBlock Text="Super Admin" FontSize="11" Foreground="{StaticResource Text.Secondary}"/>
+                                </StackPanel>
                             </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                        </Border>
 
-                <Border Grid.Row="1" Background="#0F172A" Padding="16" CornerRadius="0">
-                    <StackPanel>
-                        <TextBlock Text="Version 1.0.0" FontSize="11" Foreground="{StaticResource TextMuted}"/>
-                        <TextBlock Text="© 2026 MomenMedmSys" FontSize="11" Foreground="{StaticResource TextMuted}" Margin="0,4,0,0"/>
-                    </StackPanel>
-                </Border>
-            </Grid>
-        </Border>
-
-        <!-- Content Area -->
-        <Border Background="{StaticResource BackgroundLight}">
-            <DockPanel>
-                <!-- Status Bar -->
-                <Border DockPanel.Dock="Bottom" Background="{StaticResource BackgroundDark}" Padding="16,6">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" Orientation="Horizontal">
-                            <Button Content="← Back" Command="{Binding GoBackCommand}" Padding="8,3" FontSize="12"
-                                    Background="Transparent" Foreground="{StaticResource TextMuted}" BorderThickness="0" Cursor="Hand">
+                        <!-- Window Controls -->
+                        <StackPanel Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True">
+                            <Button Click="BtnMinimize_Click" Width="40" Height="32" Background="Transparent" BorderThickness="0" Content="—" Foreground="{StaticResource Text.Secondary}" FontSize="14" FontWeight="Bold" Cursor="Hand">
                                 <Button.Style>
                                     <Style TargetType="Button">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding CanGoBack}" Value="False">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="border" Background="Transparent"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="border" Property="Background" Value="{StaticResource Bg.SurfaceAlt}"/></Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <Button Click="BtnMaximize_Click" Width="40" Height="32" Background="Transparent" BorderThickness="0" Content="☐" Foreground="{StaticResource Text.Secondary}" FontSize="16" Cursor="Hand">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="border" Background="Transparent"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="border" Property="Background" Value="{StaticResource Bg.SurfaceAlt}"/></Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <Button Click="BtnClose_Click" Width="40" Height="32" Background="Transparent" BorderThickness="0" Content="✕" Foreground="{StaticResource Text.Secondary}" FontSize="14" Cursor="Hand">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="border" Background="Transparent"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="border" Property="Background" Value="{StaticResource Color.Danger.500}"/>
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
                                     </Style>
                                 </Button.Style>
                             </Button>
                         </StackPanel>
-                        <TextBlock Grid.Column="1" Text="{Binding StatusMessage}" Foreground="{StaticResource TextMuted}" FontSize="12"
-                                   VerticalAlignment="Center" Margin="12,0,0,0"/>
-                        <TextBlock Grid.Column="2" Text="© 2026 MomenMedmSys v1.0.0" Foreground="{StaticResource TextMuted}" FontSize="11"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-                </Border>
-                <!-- Content -->
-                <Border Padding="32">
-                    <ContentControl Content="{Binding CurrentView}"/>
-                </Border>
-            </DockPanel>
-        </Border>
-    </DockPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ========== SIDEBAR NAVIGATION ========== -->
+            <Border DockPanel.Dock="Left" Width="260">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#0F172A" Offset="0"/>
+                        <GradientStop Color="#1E293B" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Margin="24,20,24,10" Text="MAIN NAVIGATION" FontSize="11" FontWeight="Bold" Foreground="{StaticResource Color.Slate.600}" />
+
+                    <ListBox Grid.Row="1" x:Name="SidebarList" ItemsSource="{Binding NavigationItems}"
+                             SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+                             Background="Transparent" BorderThickness="0" Margin="12,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Padding" Value="16,12"/>
+                                <Setter Property="Margin" Value="0,4"/>
+                                <Setter Property="Foreground" Value="{StaticResource Color.Slate.400}"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border x:Name="border" Background="Transparent" Padding="{TemplateBinding Padding}" CornerRadius="{StaticResource Radius.Md}">
+                                                <ContentPresenter />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="{StaticResource Color.Primary.600}"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="{StaticResource Color.Slate.700}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <EventSetter Event="MouseLeftButtonUp" Handler="NavItemClick"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="36"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Icon}" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <Border Grid.Row="2" Background="{StaticResource Color.Slate.950}" Padding="20" Opacity="0.9">
+                        <StackPanel>
+                            <TextBlock Text="System Status: Online" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource Color.Success.500}" Margin="0,0,0,4"/>
+                            <TextBlock Text="Version 2.0" FontSize="11" Foreground="{StaticResource Color.Slate.600}"/>
+                            <TextBlock Text="© 2026 Momen Systems Co." FontSize="11" Foreground="{StaticResource Color.Slate.600}"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- ========== MAIN CONTENT AREA ========== -->
+            <Border Background="{StaticResource Bg.App}">
+                <DockPanel>
+                    <Border DockPanel.Dock="Bottom" Background="{StaticResource Bg.Surface}" Padding="16,6" BorderThickness="0,1,0,0" BorderBrush="{StaticResource Border.Default}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <Button Content="← Back" Command="{Binding GoBackCommand}" Padding="12,6" FontSize="13" FontWeight="SemiBold" Background="{StaticResource Bg.SurfaceAlt}" Foreground="{StaticResource Text.Secondary}" BorderThickness="0" Cursor="Hand">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CanGoBack}" Value="False">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </StackPanel>
+                            <TextBlock Grid.Column="1" Text="{Binding StatusMessage}" Foreground="{StaticResource Text.Secondary}" FontSize="12" VerticalAlignment="Center" Margin="16,0"/>
+                            <TextBlock Grid.Column="2" Text="Synchronized at 10:42 AM" Foreground="{StaticResource Text.Muted}" FontSize="11" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                    
+                    <Border>
+                        <ContentControl Content="{Binding CurrentView}"/>
+                    </Border>
+                </DockPanel>
+            </Border>
+            
+        </DockPanel>
+    </Border>
+
 </Window>

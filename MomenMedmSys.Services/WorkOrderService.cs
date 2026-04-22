@@ -7,6 +7,10 @@ using MomenMedmSys.Data;
 
 namespace MomenMedmSys.Services
 {
+    /// <summary>
+    /// Service for work order lifecycle management — creation, assignment, tracking, priority/status filtering,
+    /// overdue detection, and auto-generated work order numbering.
+    /// </summary>
     public interface IWorkOrderService
     {
         Task<IEnumerable<WorkOrder>> GetAllWorkOrdersAsync();

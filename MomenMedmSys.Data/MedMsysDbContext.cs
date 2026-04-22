@@ -50,6 +50,20 @@ namespace MomenMedmSys.Data
         // Staff Assignments
         public DbSet<AssignedDevice> AssignedDevices { get; set; }
 
+        // Authentication & User Management
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserSession> UserSessions { get; set; }
+
+        // Audit Logging
+        public DbSet<AuditLog> AuditLogs { get; set; }
+
+        // Notifications & Alerts
+        public DbSet<Notification> Notifications { get; set; }
+
+        // Licensing
+        public DbSet<LicenseInfo> Licenses { get; set; }
+        public DbSet<LicenseDevice> LicensedDevices { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -258,16 +272,79 @@ namespace MomenMedmSys.Data
             modelBuilder.Entity<AssignedDevice>(entity =>
             {
                 entity.HasIndex(ad => new { ad.StaffMemberId, ad.DeviceId });
+                entity.HasOne(ad => ad.StaffMember).WithMany(s => s.AssignedDevices).HasForeignKey(ad => ad.StaffMemberId).OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(ad => ad.Device).WithMany(d => d.AssignedDevices).HasForeignKey(ad => ad.DeviceId).OnDelete(DeleteBehavior.Restrict);
+            });
 
-                entity.HasOne(ad => ad.StaffMember)
-                      .WithMany(s => s.AssignedDevices)
-                      .HasForeignKey(ad => ad.StaffMemberId)
-                      .OnDelete(DeleteBehavior.Cascade);
+            // User configuration
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasIndex(u => u.Username).IsUnique();
+                entity.Property(u => u.Username).IsRequired().HasMaxLength(100);
+                entity.Property(u => u.FullName).IsRequired().HasMaxLength(200);
+                entity.Property(u => u.PasswordHash).IsRequired();
+                entity.Property(u => u.Email).HasMaxLength(200);
+            });
 
-                entity.HasOne(ad => ad.Device)
-                      .WithMany(d => d.AssignedDevices)
-                      .HasForeignKey(ad => ad.DeviceId)
-                      .OnDelete(DeleteBehavior.Restrict);
+            // UserSession configuration
+            modelBuilder.Entity<UserSession>(entity =>
+            {
+                entity.HasIndex(s => s.UserId);
+                entity.HasIndex(s => s.IsActive);
+                entity.Property(s => s.IpAddress).HasMaxLength(45);
+                entity.HasOne(s => s.User).WithMany(u => u.Sessions).HasForeignKey(s => s.UserId).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // AuditLog configuration
+            modelBuilder.Entity<AuditLog>(entity =>
+            {
+                entity.HasIndex(a => a.EntityType);
+                entity.HasIndex(a => a.EntityId);
+                entity.HasIndex(a => a.Action);
+                entity.HasIndex(a => a.UserId);
+                entity.HasIndex(a => a.Timestamp);
+                entity.HasIndex(a => a.UserName);
+                entity.Property(a => a.EntityType).IsRequired().HasMaxLength(100);
+                entity.Property(a => a.Action).IsRequired().HasMaxLength(20);
+                entity.Property(a => a.UserName).IsRequired().HasMaxLength(200);
+                entity.Property(a => a.IpAddress).HasMaxLength(45);
+                entity.Property(a => a.AffectedRecords).HasMaxLength(500);
+            });
+
+            // Notification configuration
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.HasIndex(n => n.UserId);
+                entity.HasIndex(n => n.IsRead);
+                entity.HasIndex(n => n.Type);
+                entity.HasIndex(n => n.Priority);
+                entity.HasIndex(n => n.DueDate);
+                entity.Property(n => n.Title).IsRequired().HasMaxLength(200);
+                entity.Property(n => n.Message).IsRequired().HasMaxLength(1000);
+                entity.Property(n => n.EntityType).HasMaxLength(100);
+                entity.Property(n => n.ActionUrl).HasMaxLength(500);
+                entity.HasOne(n => n.User).WithMany().HasForeignKey(n => n.UserId).OnDelete(DeleteBehavior.SetNull);
+            });
+
+            // LicenseInfo configuration
+            modelBuilder.Entity<LicenseInfo>(entity =>
+            {
+                entity.HasIndex(l => l.LicenseKey).IsUnique();
+                entity.Property(l => l.LicenseKey).IsRequired().HasMaxLength(50);
+                entity.Property(l => l.PrimaryMacAddress).HasMaxLength(17);
+                entity.Property(l => l.HardwareFingerprint).HasMaxLength(64);
+                entity.HasMany(l => l.LicensedDevices).WithOne(d => d.License).HasForeignKey(d => d.LicenseInfoId).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // LicenseDevice configuration
+            modelBuilder.Entity<LicenseDevice>(entity =>
+            {
+                entity.HasIndex(d => d.MacAddress);
+                entity.HasIndex(d => d.HardwareFingerprint);
+                entity.HasIndex(d => d.LicenseInfoId);
+                entity.Property(d => d.MacAddress).HasMaxLength(17);
+                entity.Property(d => d.HardwareFingerprint).HasMaxLength(64);
+                entity.Property(d => d.MachineName).HasMaxLength(100);
             });
         }
     }

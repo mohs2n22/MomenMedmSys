@@ -7,6 +7,10 @@ using MomenMedmSys.Data;
 
 namespace MomenMedmSys.Services
 {
+    /// <summary>
+    /// Service for risk incident management per ISO 14971 — incident CRUD, severity/probability scoring,
+    /// risk level classification, open/critical incident tracking.
+    /// </summary>
     public interface IRiskService
     {
         Task<IEnumerable<RiskIncident>> GetAllIncidentsAsync();
@@ -80,7 +84,8 @@ namespace MomenMedmSys.Services
 
         public async Task<IEnumerable<RiskIncident>> GetIncidentsByRiskLevelAsync(RiskLevel riskLevel)
         {
-            return await _unitOfWork.RiskIncidents.FindAsync(i => i.OverallRisk == riskLevel);
+            var all = await _unitOfWork.RiskIncidents.GetAllAsync();
+            return all.Where(i => i.OverallRisk == riskLevel);
         }
 
         public async Task<int> GetOpenIncidentCountAsync()
@@ -91,8 +96,8 @@ namespace MomenMedmSys.Services
 
         public async Task<int> GetCriticalIncidentCountAsync()
         {
-            var incidents = await _unitOfWork.RiskIncidents.FindAsync(i => i.OverallRisk == RiskLevel.Critical);
-            return incidents.Count();
+            var all = await _unitOfWork.RiskIncidents.GetAllAsync();
+            return all.Count(i => i.OverallRisk == RiskLevel.Critical);
         }
     }
 }

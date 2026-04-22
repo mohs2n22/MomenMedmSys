@@ -11,6 +11,9 @@ namespace MomenMedmSys.Core.Entities
         public int DeviceId { get; set; }
         public MedicalDevice Device { get; set; } = null!;
 
+        // Computed property for convenient display
+        public string DeviceName => Device?.DeviceName ?? string.Empty;
+
         public MaintenanceType Type { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;

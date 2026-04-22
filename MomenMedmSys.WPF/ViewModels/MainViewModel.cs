@@ -64,6 +64,7 @@ namespace MomenMedmSys.WPF.ViewModels
             NavigationItems.Add(new NavigationItem { Name = "Staff & Training", Icon = "👥", ViewModelType = typeof(StaffViewModel) });
             NavigationItems.Add(new NavigationItem { Name = "Safety Tests", Icon = "⚡", ViewModelType = typeof(ElectricalSafetyViewModel) });
             NavigationItems.Add(new NavigationItem { Name = "Reports", Icon = "📈", ViewModelType = typeof(ReportsViewModel) });
+            NavigationItems.Add(new NavigationItem { Name = "About Us", Icon = "ℹ️", ViewModelType = typeof(AboutUsViewModel) });
         }
 
         [RelayCommand]

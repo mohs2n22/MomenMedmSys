@@ -31,6 +31,18 @@ namespace MomenMedmSys.Data
         IRepository<DeviceActionLog> DeviceActionLogs { get; }
         IRepository<AssignedDevice> AssignedDevices { get; }
 
+        // Auth & User Management
+        IRepository<User> Users { get; }
+        IRepository<UserSession> UserSessions { get; }
+
+        // Audit & Notifications
+        IRepository<AuditLog> AuditLogs { get; }
+        IRepository<Notification> Notifications { get; }
+
+        // Licensing
+        IRepository<LicenseInfo> Licenses { get; }
+        IRepository<LicenseDevice> LicensedDevices { get; }
+
         Task<int> SaveChangesAsync();
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();
@@ -66,6 +78,13 @@ namespace MomenMedmSys.Data
         public IRepository<DeviceActionLog> DeviceActionLogs { get; private set; }
         public IRepository<AssignedDevice> AssignedDevices { get; private set; }
 
+        public IRepository<User> Users { get; private set; }
+        public IRepository<UserSession> UserSessions { get; private set; }
+        public IRepository<AuditLog> AuditLogs { get; private set; }
+        public IRepository<Notification> Notifications { get; private set; }
+        public IRepository<LicenseInfo> Licenses { get; private set; }
+        public IRepository<LicenseDevice> LicensedDevices { get; private set; }
+
         public UnitOfWork(MedMsysDbContext context)
         {
             _context = context;
@@ -88,6 +107,12 @@ namespace MomenMedmSys.Data
             NetworkDevices = new Repository<NetworkDevice>(_context);
             DeviceActionLogs = new Repository<DeviceActionLog>(_context);
             AssignedDevices = new Repository<AssignedDevice>(_context);
+            Users = new Repository<User>(_context);
+            UserSessions = new Repository<UserSession>(_context);
+            AuditLogs = new Repository<AuditLog>(_context);
+            Notifications = new Repository<Notification>(_context);
+            Licenses = new Repository<LicenseInfo>(_context);
+            LicensedDevices = new Repository<LicenseDevice>(_context);
         }
 
         public async Task<int> SaveChangesAsync()

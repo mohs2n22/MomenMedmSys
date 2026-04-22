@@ -10,17 +10,17 @@
     <!-- 1. COLOR TOKENS - Tailwind-Inspired Palette -->
     <!-- ========================================== -->
     
-    <!-- Primary Brand (Medical Blue) -->
-    <SolidColorBrush x:Key="Color.Primary.50" Color="#EFF6FF"/>
-    <SolidColorBrush x:Key="Color.Primary.100" Color="#DBEAFE"/>
-    <SolidColorBrush x:Key="Color.Primary.200" Color="#BFDBFE"/>
-    <SolidColorBrush x:Key="Color.Primary.300" Color="#93C5FD"/>
-    <SolidColorBrush x:Key="Color.Primary.400" Color="#60A5FA"/>
-    <SolidColorBrush x:Key="Color.Primary.500" Color="#3B82F6"/>
-    <SolidColorBrush x:Key="Color.Primary.600" Color="#2563EB"/>
-    <SolidColorBrush x:Key="Color.Primary.700" Color="#1D4ED8"/>
-    <SolidColorBrush x:Key="Color.Primary.800" Color="#1E40AF"/>
-    <SolidColorBrush x:Key="Color.Primary.900" Color="#1E3A8A"/>
+    <!-- Primary Brand (Purple) -->
+    <SolidColorBrush x:Key="Color.Primary.50" Color="#FAF5FF"/>
+    <SolidColorBrush x:Key="Color.Primary.100" Color="#F3E8FF"/>
+    <SolidColorBrush x:Key="Color.Primary.200" Color="#E9D5FF"/>
+    <SolidColorBrush x:Key="Color.Primary.300" Color="#D8B4FE"/>
+    <SolidColorBrush x:Key="Color.Primary.400" Color="#C084FC"/>
+    <SolidColorBrush x:Key="Color.Primary.500" Color="#A855F7"/>
+    <SolidColorBrush x:Key="Color.Primary.600" Color="#9333EA"/>
+    <SolidColorBrush x:Key="Color.Primary.700" Color="#7C3AED"/>
+    <SolidColorBrush x:Key="Color.Primary.800" Color="#6B21A8"/>
+    <SolidColorBrush x:Key="Color.Primary.900" Color="#581C87"/>
 
     <!-- Success (Green) -->
     <SolidColorBrush x:Key="Color.Success.50" Color="#F0FDF4"/>
@@ -58,17 +58,17 @@
     <SolidColorBrush x:Key="Color.Danger.800" Color="#991B1B"/>
     <SolidColorBrush x:Key="Color.Danger.900" Color="#7F1D1D"/>
 
-    <!-- Info (Blue - same as primary) -->
-    <SolidColorBrush x:Key="Color.Info.50" Color="#EFF6FF"/>
-    <SolidColorBrush x:Key="Color.Info.100" Color="#DBEAFE"/>
-    <SolidColorBrush x:Key="Color.Info.200" Color="#BFDBFE"/>
-    <SolidColorBrush x:Key="Color.Info.300" Color="#93C5FD"/>
-    <SolidColorBrush x:Key="Color.Info.400" Color="#60A5FA"/>
-    <SolidColorBrush x:Key="Color.Info.500" Color="#3B82F6"/>
-    <SolidColorBrush x:Key="Color.Info.600" Color="#2563EB"/>
-    <SolidColorBrush x:Key="Color.Info.700" Color="#1D4ED8"/>
-    <SolidColorBrush x:Key="Color.Info.800" Color="#1E40AF"/>
-    <SolidColorBrush x:Key="Color.Info.900" Color="#1E3A8A"/>
+    <!-- Info (Purple - same as primary) -->
+    <SolidColorBrush x:Key="Color.Info.50" Color="#FAF5FF"/>
+    <SolidColorBrush x:Key="Color.Info.100" Color="#F3E8FF"/>
+    <SolidColorBrush x:Key="Color.Info.200" Color="#E9D5FF"/>
+    <SolidColorBrush x:Key="Color.Info.300" Color="#D8B4FE"/>
+    <SolidColorBrush x:Key="Color.Info.400" Color="#C084FC"/>
+    <SolidColorBrush x:Key="Color.Info.500" Color="#A855F7"/>
+    <SolidColorBrush x:Key="Color.Info.600" Color="#9333EA"/>
+    <SolidColorBrush x:Key="Color.Info.700" Color="#7C3AED"/>
+    <SolidColorBrush x:Key="Color.Info.800" Color="#6B21A8"/>
+    <SolidColorBrush x:Key="Color.Info.900" Color="#581C87"/>
 
     <!-- Purple -->
     <SolidColorBrush x:Key="Color.Purple.50" Color="#FAF5FF"/>
@@ -129,6 +129,19 @@
     <SolidColorBrush x:Key="Color.Slate.700" Color="#334155"/>
     <SolidColorBrush x:Key="Color.Slate.800" Color="#1E293B"/>
     <SolidColorBrush x:Key="Color.Slate.900" Color="#0F172A"/>
+    <SolidColorBrush x:Key="Color.Slate.950" Color="#020617"/>
+    
+    <!-- Blue (Medical Blue - for Device-related elements) -->
+    <SolidColorBrush x:Key="Color.Blue.50" Color="#EFF6FF"/>
+    <SolidColorBrush x:Key="Color.Blue.100" Color="#DBEAFE"/>
+    <SolidColorBrush x:Key="Color.Blue.200" Color="#BFDBFE"/>
+    <SolidColorBrush x:Key="Color.Blue.300" Color="#93C5FD"/>
+    <SolidColorBrush x:Key="Color.Blue.400" Color="#60A5FA"/>
+    <SolidColorBrush x:Key="Color.Blue.500" Color="#3B82F6"/>
+    <SolidColorBrush x:Key="Color.Blue.600" Color="#2563EB"/>
+    <SolidColorBrush x:Key="Color.Blue.700" Color="#1D4ED8"/>
+    <SolidColorBrush x:Key="Color.Blue.800" Color="#1E40AF"/>
+    <SolidColorBrush x:Key="Color.Blue.900" Color="#1E3A8A"/>
 
     <!-- ========================================== -->
     <!-- 2. SEMANTIC COLOR ROLES -->
@@ -155,7 +168,7 @@
     <!-- Border Colors -->
     <SolidColorBrush x:Key="Border.Default" Color="#E2E8F0"/>
     <SolidColorBrush x:Key="Border.Light" Color="#F1F5F9"/>
-    <SolidColorBrush x:Key="Border.Focus" Color="#3B82F6"/>
+    <SolidColorBrush x:Key="Border.Focus" Color="#A855F7"/>
 
     <!-- ========================================== -->
     <!-- 2.1 BACKWARD COMPATIBILITY ALIASES -->
@@ -163,11 +176,11 @@
     <!-- ========================================== -->
     
     <!-- Primary Brand -->
-    <SolidColorBrush x:Key="PrimaryColor" Color="#2563EB"/>
-    <SolidColorBrush x:Key="PrimaryDarkColor" Color="#1D4ED8"/>
-    <SolidColorBrush x:Key="PrimaryLightColor" Color="#60A5FA"/>
-    <SolidColorBrush x:Key="PrimaryLighterColor" Color="#93C5FD"/>
-    <SolidColorBrush x:Key="PrimaryBgColor" Color="#DBEAFE"/>
+    <SolidColorBrush x:Key="PrimaryColor" Color="#9333EA"/>
+    <SolidColorBrush x:Key="PrimaryDarkColor" Color="#7C3AED"/>
+    <SolidColorBrush x:Key="PrimaryLightColor" Color="#C084FC"/>
+    <SolidColorBrush x:Key="PrimaryLighterColor" Color="#D8B4FE"/>
+    <SolidColorBrush x:Key="PrimaryBgColor" Color="#F3E8FF"/>
 
     <!-- Status Colors -->
     <SolidColorBrush x:Key="SuccessColor" Color="#15803D"/>
@@ -177,8 +190,8 @@
     <SolidColorBrush x:Key="DangerColor" Color="#DC2626"/>
     <SolidColorBrush x:Key="DangerBgColor" Color="#FEE2E2"/>
     <SolidColorBrush x:Key="DangerLightColor" Color="#FECACA"/>
-    <SolidColorBrush x:Key="InfoColor" Color="#2563EB"/>
-    <SolidColorBrush x:Key="InfoBgColor" Color="#DBEAFE"/>
+    <SolidColorBrush x:Key="InfoColor" Color="#9333EA"/>
+    <SolidColorBrush x:Key="InfoBgColor" Color="#F3E8FF"/>
     <SolidColorBrush x:Key="CriticalColor" Color="#991B1B"/>
     <SolidColorBrush x:Key="CriticalBgColor" Color="#FECACA"/>
 
@@ -198,7 +211,7 @@
     <SolidColorBrush x:Key="BackgroundWhite" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="SidebarColor" Color="#1E293B"/>
     <SolidColorBrush x:Key="SidebarHoverColor" Color="#334155"/>
-    <SolidColorBrush x:Key="SidebarActiveColor" Color="#2563EB"/>
+    <SolidColorBrush x:Key="SidebarActiveColor" Color="#9333EA"/>
 
     <!-- Text Colors -->
     <SolidColorBrush x:Key="TextPrimary" Color="#212121"/>
@@ -214,7 +227,7 @@
     <!-- Border Colors -->
     <SolidColorBrush x:Key="BorderColor" Color="#E2E8F0"/>
     <SolidColorBrush x:Key="BorderLightColor" Color="#F1F5F9"/>
-    <SolidColorBrush x:Key="BorderFocusColor" Color="#3B82F6"/>
+    <SolidColorBrush x:Key="BorderFocusColor" Color="#A855F7"/>
 
     <!-- Typography -->
     <FontFamily x:Key="DefaultFont">Segoe UI</FontFamily>
@@ -240,30 +253,59 @@
     <!-- ========================================== -->
     
     <!-- Subtle shadow for cards -->
-    <DropShadowEffect x:Key="Shadow.Sm" Color="#000000" BlurRadius="4" ShadowDepth="1" Opacity="0.05" Direction="270"/>
-    <DropShadowEffect x:Key="Shadow.Md" Color="#000000" BlurRadius="8" ShadowDepth="2" Opacity="0.08" Direction="270"/>
-    <DropShadowEffect x:Key="Shadow.Lg" Color="#000000" BlurRadius="16" ShadowDepth="2" Opacity="0.10" Direction="270"/>
+    <DropShadowEffect x:Key="Shadow.Sm" Color="Black" BlurRadius="4" ShadowDepth="1" Opacity="0.05" Direction="270"/>
+    <DropShadowEffect x:Key="Shadow.Md" Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.08" Direction="270"/>
+    <DropShadowEffect x:Key="Shadow.Lg" Color="Black" BlurRadius="16" ShadowDepth="2" Opacity="0.10" Direction="270"/>
     
     <!-- Colored shadows for stat cards (matching gradient color) -->
-    <DropShadowEffect x:Key="Shadow.Primary" Color="#3B82F6" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
-    <DropShadowEffect x:Key="Shadow.Success" Color="#10B981" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
-    <DropShadowEffect x:Key="Shadow.Warning" Color="#F59E0B" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
-    <DropShadowEffect x:Key="Shadow.Danger" Color="#EF4444" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
-    <DropShadowEffect x:Key="Shadow.Purple" Color="#8B5CF6" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
-    <DropShadowEffect x:Key="Shadow.Teal" Color="#14B8A6" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
-    <DropShadowEffect x:Key="Shadow.Indigo" Color="#6366F1" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
-    <DropShadowEffect x:Key="Shadow.Rose" Color="#F43F5E" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
-    <DropShadowEffect x:Key="Shadow.Slate" Color="#475569" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
+    <DropShadowEffect x:Key="Shadow.Primary" Color="#FFA855F7" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
+    <DropShadowEffect x:Key="Shadow.Success" Color="#FF10B981" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
+    <DropShadowEffect x:Key="Shadow.Warning" Color="#FFF59E0B" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
+    <DropShadowEffect x:Key="Shadow.Danger" Color="#FFEF4444" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
+    <DropShadowEffect x:Key="Shadow.Purple" Color="#FF8B5CF6" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
+    <DropShadowEffect x:Key="Shadow.Teal" Color="#FF14B8A6" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
+    <DropShadowEffect x:Key="Shadow.Indigo" Color="#FF6366F1" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
+    <DropShadowEffect x:Key="Shadow.Rose" Color="#FFF43F5E" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
+    <DropShadowEffect x:Key="Shadow.Slate" Color="#FF475569" BlurRadius="10" ShadowDepth="2" Opacity="0.20" Direction="270"/>
 
     <!-- ========================================== -->
     <!-- 5. CORNER RADIUS SCALE -->
     <!-- ========================================== -->
     
-    <CornerRadius x:Key="Radius.Sm">4</CornerRadius>
-    <CornerRadius x:Key="Radius.Md">8</CornerRadius>
-    <CornerRadius x:Key="Radius.Lg">12</CornerRadius>
-    <CornerRadius x:Key="Radius.Xl">16</CornerRadius>
-    <CornerRadius x:Key="Radius.2xl">24</CornerRadius>
+    <CornerRadius x:Key="Radius.Sm">6</CornerRadius>
+    <CornerRadius x:Key="Radius.Md">12</CornerRadius>
+    <CornerRadius x:Key="Radius.Lg">16</CornerRadius>
+    <CornerRadius x:Key="Radius.Xl">24</CornerRadius>
+    <CornerRadius x:Key="Radius.2xl">32</CornerRadius>
+
+    <!-- ========================================== -->
+    <!-- 5.1 ANIMATIONS & TRANSITIONS -->
+    <!-- ========================================== -->
+
+    <!-- Entrance Animation (Fade In & Slide Up) -->
+    <Storyboard x:Key="Animation.Entrance">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.6">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" From="20" To="0" Duration="0:0:0.6">
+            <DoubleAnimation.EasingFunction>
+                <PowerEase Power="3" EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+
+    <!-- Hover Scale Animation -->
+    <Storyboard x:Key="Animation.HoverScale">
+        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.02" Duration="0:0:0.2"/>
+        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.02" Duration="0:0:0.2"/>
+    </Storyboard>
+
+    <Storyboard x:Key="Animation.HoverNormal">
+        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.0" Duration="0:0:0.2"/>
+        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.0" Duration="0:0:0.2"/>
+    </Storyboard>
 
     <!-- ========================================== -->
     <!-- 6. TYPOGRAPHY SCALE -->
@@ -288,8 +330,8 @@
     <!-- This ensures uniform appearance across all card types -->
     
     <LinearGradientBrush x:Key="Gradient.Stat.Primary" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="#60A5FA" Offset="0"/>
-        <GradientStop Color="#1D4ED8" Offset="1"/>
+        <GradientStop Color="#C084FC" Offset="0"/>
+        <GradientStop Color="#7C3AED" Offset="1"/>
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="Gradient.Stat.Success" StartPoint="0,0" EndPoint="1,1">
@@ -340,18 +382,31 @@
     <Style x:Key="GlassCard" TargetType="Border">
         <Setter Property="Background">
             <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="#FFFFFF" Offset="0"/>
                     <GradientStop Color="#F8FAFC" Offset="1"/>
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
-        <Setter Property="CornerRadius" Value="{StaticResource Radius.Xl}"/>
+        <Setter Property="CornerRadius" Value="{StaticResource Radius.Lg}"/>
         <Setter Property="BorderBrush" Value="{StaticResource Border.Default}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="{StaticResource Space.6}"/>
         <Setter Property="Margin" Value="0,0,0,16"/>
-        <Setter Property="Effect" Value="{StaticResource Shadow.Lg}"/>
+        <Setter Property="Effect" Value="{StaticResource Shadow.Md}"/>
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Effect" Value="{StaticResource Shadow.Lg}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!-- Section Title -->
@@ -597,11 +652,23 @@
     <!-- Base Stat Card Style - all stat cards inherit from this -->
     <Style x:Key="StatCard.Base" TargetType="Border">
         <Setter Property="CornerRadius" Value="{StaticResource Radius.Md}"/>
-        <Setter Property="Padding" Value="12,10"/>
-        <Setter Property="Margin" Value="0,0,8,0"/>
-        <Setter Property="MinWidth" Value="120"/>
-        <Setter Property="MaxWidth" Value="170"/>
+        <Setter Property="Padding" Value="16,14"/>
+        <Setter Property="Margin" Value="0,0,12,12"/>
+        <Setter Property="MinWidth" Value="160"/>
         <Setter Property="Effect" Value="{StaticResource Shadow.Md}"/>
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Effect" Value="{StaticResource Shadow.Lg}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!-- Stat Cards - Each uses consistent gradient pattern with colored shadow -->
@@ -658,6 +725,8 @@
     <Style x:Key="StatCardPurple" TargetType="Border" BasedOn="{StaticResource StatCard.Purple}"/>
     <Style x:Key="StatCardTeal" TargetType="Border" BasedOn="{StaticResource StatCard.Teal}"/>
     <Style x:Key="StatCardIndigo" TargetType="Border" BasedOn="{StaticResource StatCard.Indigo}"/>
+    <Style x:Key="StatCardRose" TargetType="Border" BasedOn="{StaticResource StatCard.Rose}"/>
+    <Style x:Key="StatCardSlate" TargetType="Border" BasedOn="{StaticResource StatCard.Slate}"/>
 
     <!-- AdminControlPanelView legacy names (StatBlue, StatGreen, etc.) -->
     <Style x:Key="StatBlue" TargetType="Border" BasedOn="{StaticResource StatCard.Primary}"/>
@@ -668,6 +737,7 @@
     <Style x:Key="StatTeal" TargetType="Border" BasedOn="{StaticResource StatCard.Teal}"/>
     <Style x:Key="StatRose" TargetType="Border" BasedOn="{StaticResource StatCard.Rose}"/>
     <Style x:Key="StatSlate" TargetType="Border" BasedOn="{StaticResource StatCard.Slate}"/>
+    <Style x:Key="StatIndigo" TargetType="Border" BasedOn="{StaticResource StatCard.Indigo}"/>
 
     <!-- ========================================== -->
     <!-- 10. BADGE STYLES -->
@@ -705,9 +775,45 @@
     <Style x:Key="BadgeBlue" TargetType="Border" BasedOn="{StaticResource Badge.Info}"/>
 
     <!-- ========================================== -->
-    <!-- 11. INPUT STYLE (Legacy Support) -->
+    <!-- 12. MISSING ALIASES (Mass-Replace Support) -->
+    <!-- ========================================== -->
+
+    <!-- ModernTextBox alias → ModernInput -->
+    <Style x:Key="ModernTextBox" TargetType="TextBox" BasedOn="{StaticResource ModernInput}"/>
+
+    <!-- ModernComboBox alias → ModernCombo -->
+    <Style x:Key="ModernComboBox" TargetType="ComboBox" BasedOn="{StaticResource ModernCombo}"/>
+
+    <!-- PrimaryGradient brush for brand elements (MainWindow badge) -->
+    <LinearGradientBrush x:Key="PrimaryGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#C084FC" Offset="0"/>
+        <GradientStop Color="#7C3AED" Offset="1"/>
+    </LinearGradientBrush>
+
+    <!-- StatCard.Primary (StatCardPrimary) already defined, this covers any missed ones -->
+    <Style x:Key="StatCardWarning" TargetType="Border" BasedOn="{StaticResource StatCard.Warning}"/>
+
+    <!-- ========================================== -->
+    <!-- 13. METRIC STYLES FOR STAT CARDS -->
     <!-- ========================================== -->
     
-    <Style x:Key="InputStyle" TargetType="TextBox" BasedOn="{StaticResource ModernInput}"/>
+    <!-- Metric Label - for stat card labels -->
+    <Style x:Key="MetricLabel" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Sm}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Opacity" Value="0.9"/>
+    </Style>
+
+    <!-- Metric Value - for stat card values -->
+    <Style x:Key="MetricValue" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="28"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <!-- Metric SubText - for subtitle text -->
+    <Style x:Key="MetricSubText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Opacity" Value="0.8"/>
+    </Style>
 
 </ResourceDictionary>

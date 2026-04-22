@@ -1,62 +1,20 @@
-# MomenMedmSys v1.0.0 - Medical Equipment Management System
+# MomenMedmSys - Installation Guide
 
-## 🚀 How to Run
+## System Requirements
+- Windows 10/11
+- .NET 8.0 Runtime
+- SQL Server (local or remote)
 
-**No MySQL needed!** Just double-click:
+## Installation Steps
+1. Run the installer executable
+2. Accept the license agreement
+3. Choose installation directory
+4. Select shortcuts (Desktop/Start Menu)
+5. Click Install and wait for completion
 
-```
-MomenMedmSys.WPF.exe
-```
+## First Launch
+- Default admin credentials: `admin` / `Admin@123`
+- Change the default password immediately after first login
 
-The app uses SQLite - a single file database included in this folder.
-
----
-
-## 📦 Contents
-
-| File | Size | Description |
-|------|------|-------------|
-| `MomenMedmSys.WPF.exe` | ~85 MB | Main application (standalone) |
-| `medmsys.db` | - | SQLite database with demo data |
-| `README.md` | - | This file |
-
----
-
-## 📊 Demo Data Included
-
-The database comes pre-loaded with:
-- **10 Medical Devices** (X-Ray, Ventilators, Monitors, etc.)
-- **7 Maintenance Records**
-- **6 Calibration Records**
-- **3 Risk Incidents**
-- **3 Service Contracts**
-- **10 Spare Parts**
-
----
-
-## 🔧 Reset Demo Data
-
-To reset the database to default demo data:
-
-```bash
-sqlite3 medmsys.db < seed-data-sqlite.sql
-```
-
----
-
-## 🔍 Troubleshooting
-
-**"Application won't start"**
-- Check Windows Defender isn't blocking the EXE
-- Right-click → Properties → Check "Unblock" if present
-
-**"Database error"**
-- Make sure `medmsys.db` is in the same folder as the EXE
-- Delete `medmsys.db` and re-copy from backup to reset
-
----
-
-**Version**: 1.0.0  
-**Build**: April 2026  
-**Platform**: Windows 10/11 (x64)  
-**Database**: SQLite (embedded, no server needed)
+## Support
+Contact: Momen Systems Administration

@@ -7,6 +7,10 @@ using MomenMedmSys.Data;
 
 namespace MomenMedmSys.Services
 {
+    /// <summary>
+    /// Service for spare parts inventory management — CRUD operations, low-stock/critical part detection,
+    /// usage history tracking, inventory valuation, and part consumption recording.
+    /// </summary>
     public interface ISparePartService
     {
         Task<IEnumerable<SparePart>> GetAllPartsAsync();

@@ -4,6 +4,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignHeight="900" d:DesignWidth="1400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Themes/ModernStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid Background="#F1F5F9">
         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
 
@@ -25,28 +32,37 @@
                             <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" BorderThickness="0" FontSize="13" Padding="0" VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
+                    <Button Content="🖨️ Export " Style="{StaticResource SecondaryBtn}" Padding="14,9" Margin="0,0,8,0" Click="ExportDropdown_Click">
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="📊 Export to Excel" Command="{Binding ExportToExcelCommand}"/>
+                                <MenuItem Header="📄 Export to CSV" Command="{Binding ExportToCsvCommand}"/>
+                                <MenuItem Header="📑 Export to PDF" Command="{Binding ExportToPdfCommand}"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
                     <Button Content="🔄 Refresh" Command="{Binding LoadRecordsCommand}" Style="{StaticResource PrimaryBtn}" Padding="14,9"/>
                 </StackPanel>
             </Grid>
         </Border>
 
         <!-- Main Content -->
-        <Grid Grid.Row="1" Margin="16,14">
+        <Grid Grid.Row="1" Margin="{StaticResource Space.4}">
             <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
 
             <!-- Stats Cards -->
             <WrapPanel Grid.Row="0" Margin="0,0,0,12">
-                <Border Style="{StaticResource StatCardBlue}">
-                    <StackPanel><TextBlock Text="📋 Total Records" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding Records.Count}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/></StackPanel>
+                <Border Style="{StaticResource StatCard.Primary}">
+                    <StackPanel><TextBlock Text="📋 Total Records" Foreground="White" Opacity="0.9" Style="{StaticResource MetricLabel}"/><TextBlock Text="{Binding Records.Count}" Foreground="White" Style="{StaticResource MetricValue}"/></StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardGreen}">
-                    <StackPanel><TextBlock Text="✅ Completed" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding CompletedCount}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/></StackPanel>
+                <Border Style="{StaticResource StatCard.Success}">
+                    <StackPanel><TextBlock Text="✅ Completed" Foreground="White" Opacity="0.9" Style="{StaticResource MetricLabel}"/><TextBlock Text="{Binding CompletedCount}" Foreground="White" Style="{StaticResource MetricValue}"/></StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardRed}">
-                    <StackPanel><TextBlock Text="⚠️ Overdue" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding OverdueCount}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/></StackPanel>
+                <Border Style="{StaticResource StatCard.Danger}">
+                    <StackPanel><TextBlock Text="⚠️ Overdue" Foreground="White" Opacity="0.9" Style="{StaticResource MetricLabel}"/><TextBlock Text="{Binding OverdueCount}" Foreground="White" Style="{StaticResource MetricValue}"/></StackPanel>
                 </Border>
-                <Border Style="{StaticResource StatCardAmber}">
-                    <StackPanel><TextBlock Text="📅 Scheduled" FontSize="10" Foreground="White" Opacity="0.9"/><TextBlock Text="{Binding ScheduledCount}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/></StackPanel>
+                <Border Style="{StaticResource StatCard.Warning}">
+                    <StackPanel><TextBlock Text="📅 Scheduled" Foreground="White" Opacity="0.9" Style="{StaticResource MetricLabel}"/><TextBlock Text="{Binding ScheduledCount}" Foreground="White" Style="{StaticResource MetricValue}"/></StackPanel>
                 </Border>
             </WrapPanel>
 
@@ -54,12 +70,12 @@
             <Border Grid.Row="1" Style="{StaticResource GlassCard}" Padding="0">
                 <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
                     <!-- Toolbar -->
-                    <Border Grid.Row="0" Background="#F8FAFC" Padding="16,12" BorderBrush="#E2E8F0" BorderThickness="0,0,0,1">
+                    <Border Grid.Row="0" Background="{StaticResource Bg.SurfaceAlt}" Padding="16,12" BorderBrush="{StaticResource Border.Default}" BorderThickness="0,0,0,1">
                         <WrapPanel>
-                            <TextBlock Text="⚡ Actions:" FontSize="12" FontWeight="SemiBold" Foreground="#475569" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                            <TextBlock Text="⚡ Actions:" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource Text.Secondary}" VerticalAlignment="Center" Margin="0,0,12,0"/>
                             <Button Content="➕ Add Record" Command="{Binding AddRecordCommand}" Style="{StaticResource PrimaryBtn}" Padding="14,9" Margin="0,0,8,0"/>
                             <Button Content="✏️ Edit" Command="{Binding EditRecordCommand}" CommandParameter="{Binding SelectedRecord}" Style="{StaticResource SecondaryBtn}" Padding="14,9" Margin="0,0,8,0"/>
-                            <TextBlock Text="Type:" FontSize="12" FontWeight="SemiBold" Foreground="#475569" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="Type:" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource Text.Secondary}" VerticalAlignment="Center" Margin="0,0,8,0"/>
                             <ComboBox Text="{Binding FilterType, UpdateSourceTrigger=PropertyChanged}" Width="130" Style="{StaticResource ModernCombo}">
                                 <ComboBoxItem Content="All Types"/><ComboBoxItem Content="Preventive"/><ComboBoxItem Content="Corrective"/><ComboBoxItem Content="Emergency"/><ComboBoxItem Content="Inspection"/>
                             </ComboBox>
@@ -81,17 +97,17 @@
                                         <Border CornerRadius="6" Padding="8,4" HorizontalAlignment="Center" Width="105">
                                             <TextBlock FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Center">
                                                 <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Type}" Value="Preventive"><Setter Property="Text" Value="🔵 Preventive"/><Setter Property="Foreground" Value="#2563EB"/></DataTrigger>
-                                                    <DataTrigger Binding="{Binding Type}" Value="Corrective"><Setter Property="Text" Value="🟡 Corrective"/><Setter Property="Foreground" Value="#D97706"/></DataTrigger>
-                                                    <DataTrigger Binding="{Binding Type}" Value="Emergency"><Setter Property="Text" Value="🔴 Emergency"/><Setter Property="Foreground" Value="#DC2626"/></DataTrigger>
-                                                    <DataTrigger Binding="{Binding Type}" Value="Inspection"><Setter Property="Text" Value="🟢 Inspection"/><Setter Property="Foreground" Value="#059669"/></DataTrigger>
+                                                    <DataTrigger Binding="{Binding Type}" Value="Preventive"><Setter Property="Text" Value="🔵 Preventive"/><Setter Property="Foreground" Value="{StaticResource Color.Blue.600}"/></DataTrigger>
+                                                    <DataTrigger Binding="{Binding Type}" Value="Corrective"><Setter Property="Text" Value="🟡 Corrective"/><Setter Property="Foreground" Value="{StaticResource Color.Warning.600}"/></DataTrigger>
+                                                    <DataTrigger Binding="{Binding Type}" Value="Emergency"><Setter Property="Text" Value="🔴 Emergency"/><Setter Property="Foreground" Value="{StaticResource Color.Danger.600}"/></DataTrigger>
+                                                    <DataTrigger Binding="{Binding Type}" Value="Inspection"><Setter Property="Text" Value="🟢 Inspection"/><Setter Property="Foreground" Value="{StaticResource Color.Success.600}"/></DataTrigger>
                                                 </Style.Triggers></Style></TextBlock.Style>
                                             </TextBlock>
                                             <Border.Style><Style TargetType="Border"><Style.Triggers>
-                                                <DataTrigger Binding="{Binding Type}" Value="Preventive"><Setter Property="Background" Value="#DBEAFE"/></DataTrigger>
-                                                <DataTrigger Binding="{Binding Type}" Value="Corrective"><Setter Property="Background" Value="#FEF3C7"/></DataTrigger>
-                                                <DataTrigger Binding="{Binding Type}" Value="Emergency"><Setter Property="Background" Value="#FEE2E2"/></DataTrigger>
-                                                <DataTrigger Binding="{Binding Type}" Value="Inspection"><Setter Property="Background" Value="#D1FAE5"/></DataTrigger>
+                                                <DataTrigger Binding="{Binding Type}" Value="Preventive"><Setter Property="Background" Value="{StaticResource Color.Blue.100}"/></DataTrigger>
+                                                <DataTrigger Binding="{Binding Type}" Value="Corrective"><Setter Property="Background" Value="{StaticResource Color.Warning.100}"/></DataTrigger>
+                                                <DataTrigger Binding="{Binding Type}" Value="Emergency"><Setter Property="Background" Value="{StaticResource Color.Danger.100}"/></DataTrigger>
+                                                <DataTrigger Binding="{Binding Type}" Value="Inspection"><Setter Property="Background" Value="{StaticResource Color.Success.100}"/></DataTrigger>
                                             </Style.Triggers></Style></Border.Style>
                                         </Border>
                                     </DataTemplate>
@@ -107,17 +123,17 @@
                                         <Border CornerRadius="6" Padding="8,4" HorizontalAlignment="Center" Width="105">
                                             <TextBlock FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Center">
                                                 <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Status}" Value="Completed"><Setter Property="Text" Value="✅ Completed"/><Setter Property="Foreground" Value="#059669"/></DataTrigger>
-                                                    <DataTrigger Binding="{Binding Status}" Value="Scheduled"><Setter Property="Text" Value="📅 Scheduled"/><Setter Property="Foreground" Value="#2563EB"/></DataTrigger>
-                                                    <DataTrigger Binding="{Binding Status}" Value="InProgress"><Setter Property="Text" Value="🔧 In Progress"/><Setter Property="Foreground" Value="#D97706"/></DataTrigger>
-                                                    <DataTrigger Binding="{Binding Status}" Value="Overdue"><Setter Property="Text" Value="⚠️ Overdue"/><Setter Property="Foreground" Value="#DC2626"/></DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}" Value="Completed"><Setter Property="Text" Value="✅ Completed"/><Setter Property="Foreground" Value="{StaticResource Color.Success.600}"/></DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}" Value="Scheduled"><Setter Property="Text" Value="📅 Scheduled"/><Setter Property="Foreground" Value="{StaticResource Color.Blue.600}"/></DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}" Value="InProgress"><Setter Property="Text" Value="🔧 In Progress"/><Setter Property="Foreground" Value="{StaticResource Color.Warning.600}"/></DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}" Value="Overdue"><Setter Property="Text" Value="⚠️ Overdue"/><Setter Property="Foreground" Value="{StaticResource Color.Danger.600}"/></DataTrigger>
                                                 </Style.Triggers></Style></TextBlock.Style>
                                             </TextBlock>
                                             <Border.Style><Style TargetType="Border"><Style.Triggers>
-                                                <DataTrigger Binding="{Binding Status}" Value="Completed"><Setter Property="Background" Value="#D1FAE5"/></DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="Scheduled"><Setter Property="Background" Value="#DBEAFE"/></DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="InProgress"><Setter Property="Background" Value="#FEF3C7"/></DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="Overdue"><Setter Property="Background" Value="#FEE2E2"/></DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Completed"><Setter Property="Background" Value="{StaticResource Color.Success.100}"/></DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Scheduled"><Setter Property="Background" Value="{StaticResource Color.Blue.100}"/></DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="InProgress"><Setter Property="Background" Value="{StaticResource Color.Warning.100}"/></DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Overdue"><Setter Property="Background" Value="{StaticResource Color.Danger.100}"/></DataTrigger>
                                             </Style.Triggers></Style></Border.Style>
                                         </Border>
                                     </DataTemplate>
@@ -130,7 +146,7 @@
                                 <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Right"/><Setter Property="FontFamily" Value="Consolas"/></Style></DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
                             <DataGridTextColumn Header="TOTAL" Binding="{Binding TotalCost, StringFormat={}{0:C0}}" Width="90">
-                                <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Right"/><Setter Property="FontFamily" Value="Consolas"/><Setter Property="FontWeight" Value="Bold"/><Setter Property="Foreground" Value="#059669"/></Style></DataGridTextColumn.ElementStyle>
+                                <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Right"/><Setter Property="FontFamily" Value="Consolas"/><Setter Property="FontWeight" Value="Bold"/><Setter Property="Foreground" Value="{StaticResource Color.Success.600}"/></Style></DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -138,9 +154,9 @@
             </Border>
 
             <!-- Status Bar -->
-            <Border Grid.Row="2" Background="White" Padding="14,10" Margin="0,12,0,0" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="10">
+            <Border Grid.Row="2" Background="{StaticResource Bg.Surface}" Padding="14,10" Margin="0,12,0,0" BorderBrush="{StaticResource Border.Default}" BorderThickness="1" CornerRadius="10">
                 <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{Binding StatusMessage}" Foreground="#475569" FontSize="12"/>
+                    <TextBlock Grid.Column="0" Text="{Binding StatusMessage}" Foreground="{StaticResource Text.Secondary}" FontSize="12"/>
                     <TextBlock Grid.Column="1" Foreground="#64748B" FontSize="12">
                         <TextBlock.Text><MultiBinding StringFormat="Showing {0} of {1} records"><Binding Path="FilteredRecords.Count"/><Binding Path="Records.Count"/></MultiBinding></TextBlock.Text>
                     </TextBlock>
@@ -148,4 +164,5 @@
             </Border>
         </Grid>
     </Grid>
+
 </UserControl>

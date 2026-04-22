@@ -8,6 +8,10 @@ using MomenMedmSys.Data;
 
 namespace MomenMedmSys.Services
 {
+    /// <summary>
+    /// Service for ICMP ping-based network device discovery and remote monitoring — device CRUD,
+    /// network scanning, response time measurement, status checking, remote action execution, and action logging.
+    /// </summary>
     public interface INetworkDiscoveryService
     {
         Task<IEnumerable<NetworkDevice>> GetAllNetworkDevicesAsync();

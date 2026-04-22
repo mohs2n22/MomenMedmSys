@@ -7,32 +7,21 @@
              d:DesignHeight="900" d:DesignWidth="1400">
 
     <UserControl.Resources>
-        <!-- DeviceListView uses global styles from ModernStyles.xaml -->
-        <!-- StatCard: Base style with custom gradient overrides per instance -->
-        <!-- Other styles (GlassCard, Buttons, Inputs, DataGrid) use global versions -->
-        
-        <!-- Base Stat Card Style - gradients overridden per instance -->
-        <Style x:Key="StatCard" TargetType="Border">
-            <Setter Property="CornerRadius" Value="8"/>
-            <Setter Property="Padding" Value="12,10"/>
-            <Setter Property="Margin" Value="0,0,8,0"/>
-            <Setter Property="MinWidth" Value="120"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="#000000" BlurRadius="8" ShadowDepth="2" Opacity="0.10"/>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Themes/ModernStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="#F1F5F9">
+    <Grid Background="{StaticResource Bg.App}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Top Header Bar -->
-        <Border Grid.Row="0" Background="White" BorderBrush="#E2E8F0" BorderThickness="0,0,0,1" Padding="20,14">
+        <Border Grid.Row="0" Background="{StaticResource Bg.Surface}" BorderBrush="{StaticResource Border.Default}" BorderThickness="0,0,0,1" Padding="20,14">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -42,18 +31,24 @@
 
                 <!-- Logo + Title -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Background="#3B82F6" Width="40" Height="40" Margin="0,0,14,0">
+                    <Border Width="40" Height="40" Margin="0,0,14,0" CornerRadius="{StaticResource Radius.Md}">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#C084FC" Offset="0"/>
+                                <GradientStop Color="#9333EA" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
                         <TextBlock Text="🏥" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="Device Register" FontSize="22" FontWeight="Bold" Foreground="#0F172A"/>
-                        <TextBlock Text="Manage medical equipment inventory" FontSize="12" Foreground="#94A3B8" Margin="0,2,0,0"/>
+                        <TextBlock Text="Device Register" FontSize="22" FontWeight="Bold" Foreground="{StaticResource Text.Primary}"/>
+                        <TextBlock Text="Manage medical equipment inventory" FontSize="12" Foreground="{StaticResource Text.Secondary}" Margin="0,2,0,0"/>
                     </StackPanel>
                 </StackPanel>
 
                 <!-- Search + Refresh -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Background="#F1F5F9" Padding="12,9" Width="260" Margin="0,0,12,0">
+                    <Border Background="{StaticResource Bg.SurfaceAlt}" Padding="12,9" Width="260" Margin="0,0,12,0" CornerRadius="{StaticResource Radius.Md}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -64,85 +59,17 @@
                                      Background="Transparent" BorderThickness="0" FontSize="13" Padding="0" VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
+                    <Button Content="🖨️ Print" Command="{Binding PrintReportCommand}" Style="{StaticResource SecondaryBtn}" Padding="14,9" Margin="0,0,8,0"/>
                     <Button Content="🔄 Refresh" Command="{Binding LoadDevicesCommand}" Style="{StaticResource PrimaryBtn}" Padding="14,9"/>
                 </StackPanel>
             </Grid>
         </Border>
 
         <!-- Main Content -->
-        <Grid Grid.Row="1" Margin="16,14">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <!-- Stats Cards Row -->
-            <WrapPanel Grid.Row="0" Margin="0,0,0,12">
-                <Border Style="{StaticResource StatCard}">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#3B82F6" Offset="0"/>
-                            <GradientStop Color="#1D4ED8" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <StackPanel>
-                        <TextBlock Text="🏥 Total Devices" FontSize="10" Foreground="White" Opacity="0.9"/>
-                        <TextBlock Text="{Binding Devices.Count}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/>
-                    </StackPanel>
-                </Border>
-                <Border Style="{StaticResource StatCard}">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#10B981" Offset="0"/>
-                            <GradientStop Color="#059669" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <StackPanel>
-                        <TextBlock Text="✅ Active" FontSize="10" Foreground="White" Opacity="0.9"/>
-                        <TextBlock Text="{Binding ActiveCount}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/>
-                    </StackPanel>
-                </Border>
-                <Border Style="{StaticResource StatCard}">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#F59E0B" Offset="0"/>
-                            <GradientStop Color="#D97706" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <StackPanel>
-                        <TextBlock Text="🔧 Under Maintenance" FontSize="10" Foreground="White" Opacity="0.9"/>
-                        <TextBlock Text="{Binding MaintenanceCount}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/>
-                    </StackPanel>
-                </Border>
-                <Border Style="{StaticResource StatCard}">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#EF4444" Offset="0"/>
-                            <GradientStop Color="#DC2626" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <StackPanel>
-                        <TextBlock Text="⚠️ Critical Risk" FontSize="10" Foreground="White" Opacity="0.9"/>
-                        <TextBlock Text="{Binding CriticalCount}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/>
-                    </StackPanel>
-                </Border>
-                <Border Style="{StaticResource StatCard}">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#8B5CF6" Offset="0"/>
-                            <GradientStop Color="#7C3AED" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <StackPanel>
-                        <TextBlock Text="💰 Total Asset Value" FontSize="10" Foreground="White" Opacity="0.9"/>
-                        <TextBlock Text="{Binding TotalAssetValue}" FontSize="22" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/>
-                    </StackPanel>
-                </Border>
-            </WrapPanel>
+        <StackPanel Grid.Row="1" Margin="16,14">
 
             <!-- Data Grid Card -->
-            <Border Grid.Row="1" Style="{StaticResource GlassCard}" Padding="0">
+            <Border Style="{StaticResource GlassCard}" Padding="0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -150,13 +77,13 @@
                     </Grid.RowDefinitions>
 
                     <!-- Toolbar -->
-                    <Border Grid.Row="0" Background="#F8FAFC" Padding="16,12" BorderBrush="#E2E8F0" BorderThickness="0,0,0,1">
+                    <Border Grid.Row="0" Background="{StaticResource Bg.SurfaceAlt}" Padding="16,12" BorderBrush="{StaticResource Border.Default}" BorderThickness="0,0,0,1">
                         <WrapPanel>
-                            <TextBlock Text="⚡ Quick Actions:" FontSize="12" FontWeight="SemiBold" Foreground="#475569" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                            <TextBlock Text="⚡ Quick Actions:" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource Text.Secondary}" VerticalAlignment="Center" Margin="0,0,12,0"/>
                             <Button Content="➕ Add Device" Command="{Binding AddDeviceCommand}" Style="{StaticResource PrimaryBtn}" Padding="14,9" Margin="0,0,8,0"/>
                             <Button Content="✏️ Edit" Command="{Binding EditDeviceCommand}" CommandParameter="{Binding SelectedDevice}" Style="{StaticResource SecondaryBtn}" Padding="14,9" Margin="0,0,8,0"/>
                             <Button Content="🗑️ Delete" Command="{Binding DeleteDeviceCommand}" CommandParameter="{Binding SelectedDevice}" Style="{StaticResource DangerBtn}" Padding="14,9" Margin="0,0,16,0"/>
-                            <TextBlock Text="Filters:" FontSize="12" FontWeight="SemiBold" Foreground="#475569" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="Filters:" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource Text.Secondary}" VerticalAlignment="Center" Margin="0,0,8,0"/>
                             <ComboBox Text="{Binding FilterStatus, UpdateSourceTrigger=PropertyChanged}" Width="160" Style="{StaticResource ModernCombo}" Margin="0,0,12,0">
                                 <ComboBoxItem Content="All Statuses"/>
                                 <ComboBoxItem Content="Active"/>
@@ -181,7 +108,6 @@
                                 <ComboBoxItem Content="Outpatient Department"/>
                                 <ComboBoxItem Content="Biomedical Engineering"/>
                             </ComboBox>
-                            <Button Content="📋 Export CSV" Command="{Binding ExportCsvCommand}" Style="{StaticResource SecondaryBtn}" Padding="14,9"/>
                         </WrapPanel>
                     </Border>
 
@@ -232,16 +158,16 @@
                                         <Setter Property="FontSize" Value="11"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding RiskClassification}" Value="Critical">
-                                                <Setter Property="Foreground" Value="#DC2626"/>
+                                                <Setter Property="Foreground" Value="{StaticResource Color.Danger.600}"/>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding RiskClassification}" Value="High">
-                                                <Setter Property="Foreground" Value="#F59E0B"/>
+                                                <Setter Property="Foreground" Value="{StaticResource Color.Warning.600}"/>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding RiskClassification}" Value="Medium">
-                                                <Setter Property="Foreground" Value="#3B82F6"/>
+                                                <Setter Property="Foreground" Value="{StaticResource Color.Primary.500}"/>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding RiskClassification}" Value="Low">
-                                                <Setter Property="Foreground" Value="#10B981"/>
+                                                <Setter Property="Foreground" Value="{StaticResource Color.Success.600}"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -257,19 +183,19 @@
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding Status}" Value="Active">
                                                                 <Setter Property="Text" Value="✅ Active"/>
-                                                                <Setter Property="Foreground" Value="#059669"/>
+                                                                <Setter Property="Foreground" Value="{StaticResource Color.Success.700}"/>
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding Status}" Value="UnderMaintenance">
                                                                 <Setter Property="Text" Value="🔧 In Maintenance"/>
-                                                                <Setter Property="Foreground" Value="#92400E"/>
+                                                                <Setter Property="Foreground" Value="{StaticResource Color.Warning.800}"/>
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding Status}" Value="OutOfService">
                                                                 <Setter Property="Text" Value="❌ Out of Service"/>
-                                                                <Setter Property="Foreground" Value="#991B1B"/>
+                                                                <Setter Property="Foreground" Value="{StaticResource Color.Danger.700}"/>
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding Status}" Value="PendingCalibration">
                                                                 <Setter Property="Text" Value="📏 Pending Calibration"/>
-                                                                <Setter Property="Foreground" Value="#1E40AF"/>
+                                                                <Setter Property="Foreground" Value="{StaticResource Color.Primary.700}"/>
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -279,16 +205,16 @@
                                                 <Style TargetType="Border">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Status}" Value="Active">
-                                                            <Setter Property="Background" Value="#D1FAE5"/>
+                                                            <Setter Property="Background" Value="{StaticResource Color.Success.100}"/>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding Status}" Value="UnderMaintenance">
-                                                            <Setter Property="Background" Value="#FEF3C7"/>
+                                                            <Setter Property="Background" Value="{StaticResource Color.Warning.100}"/>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding Status}" Value="OutOfService">
-                                                            <Setter Property="Background" Value="#FEE2E2"/>
+                                                            <Setter Property="Background" Value="{StaticResource Color.Danger.100}"/>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding Status}" Value="PendingCalibration">
-                                                            <Setter Property="Background" Value="#DBEAFE"/>
+                                                            <Setter Property="Background" Value="{StaticResource Color.Primary.100}"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -303,14 +229,14 @@
             </Border>
 
             <!-- Status Bar -->
-            <Border Grid.Row="2" Background="White" Padding="14,10" Margin="0,12,0,0" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="10">
+            <Border Background="{StaticResource Bg.Surface}" Padding="14,10" Margin="0,12,0,0" BorderBrush="{StaticResource Border.Default}" BorderThickness="1" CornerRadius="10">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{Binding StatusMessage}" Foreground="#475569" FontSize="12"/>
-                    <TextBlock Grid.Column="1" Foreground="#64748B" FontSize="12">
+                    <TextBlock Grid.Column="0" Text="{Binding StatusMessage}" Foreground="{StaticResource Text.Secondary}" FontSize="12"/>
+                    <TextBlock Grid.Column="1" Foreground="{StaticResource Text.Muted}" FontSize="12">
                         <TextBlock.Text>
                             <MultiBinding StringFormat="Showing {0} of {1} devices">
                                 <Binding Path="FilteredDevices.Count"/>
@@ -320,6 +246,6 @@
                     </TextBlock>
                 </Grid>
             </Border>
-        </Grid>
+        </StackPanel>
     </Grid>
 </UserControl>

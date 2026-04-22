@@ -7,6 +7,10 @@ using MomenMedmSys.Data;
 
 namespace MomenMedmSys.Services
 {
+    /// <summary>
+    /// Service for electrical safety test management — test CRUD, overdue/due-soon detection,
+    /// pass/fail tracking, and compliance verification for medical devices.
+    /// </summary>
     public interface IElectricalSafetyService
     {
         Task<IEnumerable<ElectricalSafetyTest>> GetAllTestsAsync();

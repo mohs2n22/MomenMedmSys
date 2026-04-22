@@ -7,6 +7,10 @@ using MomenMedmSys.Data;
 
 namespace MomenMedmSys.Services
 {
+    /// <summary>
+    /// Service for calibration record management — as-found/as-left measurements, overdue/upcoming tracking,
+    /// pass/fail result queries, and NIST-traceable standards compliance.
+    /// </summary>
     public interface ICalibrationService
     {
         Task<IEnumerable<CalibrationRecord>> GetAllRecordsAsync();

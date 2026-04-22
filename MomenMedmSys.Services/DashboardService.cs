@@ -7,6 +7,10 @@ using MomenMedmSys.Data;
 
 namespace MomenMedmSys.Services
 {
+    /// <summary>
+    /// Service for dashboard statistics and alert aggregation — provides real-time KPIs, pending task counts,
+    /// and notification summaries for the main dashboard view.
+    /// </summary>
     public interface IDashboardService
     {
         Task<DashboardStats> GetDashboardStatsAsync();

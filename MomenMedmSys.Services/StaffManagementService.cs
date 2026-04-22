@@ -7,6 +7,10 @@ using MomenMedmSys.Data;
 
 namespace MomenMedmSys.Services
 {
+    /// <summary>
+    /// Service for extended staff administration — role-based queries, account locking, password resets,
+    /// last-login tracking, and admin panel staff management operations.
+    /// </summary>
     public interface IStaffManagementService
     {
         Task<IEnumerable<StaffMember>> GetAllStaffAsync();

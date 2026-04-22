@@ -19,11 +19,11 @@
             <Border Background="#F59E0B" CornerRadius="6" Padding="16,8" Margin="0,0,12,0">
                 <StackPanel Orientation="Horizontal"><TextBlock Text="⏰ Overdue: " Foreground="White" FontSize="12"/><TextBlock Text="{Binding OverdueCount}" Foreground="White" FontSize="14" FontWeight="Bold"/></StackPanel>
             </Border>
-            <Button Content="🔄 Refresh" Command="{Binding LoadTestsCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="100" Margin="16,0,8,0"/>
-            <Button Content="🗑️ Delete" Command="{Binding DeleteTestCommand}" Style="{StaticResource SecondaryButtonStyle}" Width="90"/>
+            <Button Content="🔄 Refresh" Command="{Binding LoadTestsCommand}" Style="{StaticResource PrimaryBtn}" Width="100" Margin="16,0,8,0"/>
+            <Button Content="🗑️ Delete" Command="{Binding DeleteTestCommand}" Style="{StaticResource SecondaryBtn}" Width="90"/>
         </StackPanel>
         <DataGrid Grid.Row="2" ItemsSource="{Binding Tests}" SelectedItem="{Binding SelectedTest}"
-                  Style="{StaticResource DataGridStyle}" IsReadOnly="True" AutoGenerateColumns="False"
+                  Style="{StaticResource ModernDataGrid}" IsReadOnly="True" AutoGenerateColumns="False"
                   SelectionMode="Single" CanUserSortColumns="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Device" Binding="{Binding Device.DeviceName}" Width="160"/>
@@ -43,3 +43,4 @@
         <TextBlock Grid.Row="3" Text="{Binding StatusMessage}" Foreground="#64748B" FontSize="12" Margin="0,8,0,0"/>
     </Grid>
 </UserControl>
+

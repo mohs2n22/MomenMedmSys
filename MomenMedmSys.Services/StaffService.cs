@@ -7,6 +7,10 @@ using MomenMedmSys.Data;
 
 namespace MomenMedmSys.Services
 {
+    /// <summary>
+    /// Service for basic staff member management — CRUD, department-based queries, and active staff retrieval.
+    /// Used by the Staff & Training module for general staff operations.
+    /// </summary>
     public interface IStaffService
     {
         Task<IEnumerable<StaffMember>> GetAllStaffAsync();
@@ -73,6 +77,10 @@ namespace MomenMedmSys.Services
         }
     }
 
+    /// <summary>
+    /// Service for staff training record management — CRUD, per-staff/per-device queries,
+    /// expired/expiring-soon training alerts, and certification tracking.
+    /// </summary>
     public interface ITrainingService
     {
         Task<IEnumerable<TrainingRecord>> GetAllTrainingRecordsAsync();

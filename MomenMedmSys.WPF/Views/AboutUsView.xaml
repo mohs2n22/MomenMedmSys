@@ -1,0 +1,476 @@
+<UserControl x:Class="MomenMedmSys.WPF.Views.AboutUsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:data="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             mc:Ignorable="d"
+             d:DesignHeight="1200" d:DesignWidth="1000">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Themes/ModernStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        <!-- CollectionViewSource for Services Catalog grouping -->
+        <CollectionViewSource x:Key="GroupedServices" Source="{Binding ServicesCatalog}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Category"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+
+        <!-- AboutUsView uses global styles (GlassCard, SectionTitle) from ModernStyles.xaml -->
+        <!-- Plus these view-specific styles: -->
+
+        <!-- Body Text -->
+        <Style x:Key="BodyText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#475569"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="LineHeight" Value="20"/>
+        </Style>
+
+        <!-- Link Button -->
+        <Style x:Key="LinkButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#3B82F6"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0,4"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <TextBlock x:Name="text" Text="{TemplateBinding Content}" Foreground="#3B82F6"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="text" Property="TextDecorations" Value="Underline"/>
+                                <Setter TargetName="text" Property="Foreground" Value="#2563EB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Service Card -->
+        <Style x:Key="ServiceCard" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="BorderBrush" Value="#E2E8F0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+
+        <!-- Tech Badge -->
+        <Style x:Key="TechBadge" TargetType="Border">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#EFF6FF" Offset="0"/>
+                        <GradientStop Color="#DBEAFE" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Margin" Value="0,0,8,8"/>
+        </Style>
+
+        <!-- Team Card -->
+        <Style x:Key="TeamCard" TargetType="Border">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#F0F9FF" Offset="0"/>
+                        <GradientStop Color="#E0F2FE" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="BorderBrush" Value="#BAE6FD"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="0,0,16,16"/>
+        </Style>
+
+        <!-- Stat Badge -->
+        <Style x:Key="StatBadge" TargetType="Border">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="14,10"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="MinWidth" Value="120"/>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#F1F5F9">
+        <StackPanel Margin="32,24,32,40" MaxWidth="960">
+
+            <!-- ===== HEADER: Logo + App Info ===== -->
+            <Border Style="{StaticResource GlassCard}" Padding="36">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#1E3A5F" Offset="0"/>
+                        <GradientStop Color="#0F172A" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#3B82F6" Offset="0"/>
+                        <GradientStop Color="#8B5CF6" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Logo -->
+                    <Border Grid.Column="0" Background="#3B82F6" Width="72" Height="72" CornerRadius="16" Margin="0,0,24,0">
+                        <TextBlock Text="🏥" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+
+                    <!-- Title & Description -->
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding AppName}" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,0,0,4"/>
+                        <TextBlock Text="Medical Equipment Management System" FontSize="14" Foreground="#93C5FD" Margin="0,0,0,12"/>
+                        <WrapPanel>
+                            <Border Background="#1E40AF" Padding="8,4" CornerRadius="6" Margin="0,0,8,4">
+                                <TextBlock Text="{Binding Version, StringFormat='v{0}'}" FontSize="11" FontWeight="SemiBold" Foreground="White"/>
+                            </Border>
+                            <Border Background="#1E40AF" Padding="8,4" CornerRadius="6" Margin="0,0,8,4">
+                                <TextBlock Text="{Binding BuildDate}" FontSize="11" FontWeight="SemiBold" Foreground="White"/>
+                            </Border>
+                            <Border Background="#1E40AF" Padding="8,4" CornerRadius="6">
+                                <TextBlock Text="Desktop Application" FontSize="11" FontWeight="SemiBold" Foreground="White"/>
+                            </Border>
+                        </WrapPanel>
+                    </StackPanel>
+
+                    <!-- Runtime Stats -->
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                        <WrapPanel>
+                            <Border Background="#1E40AF" Padding="12,8" CornerRadius="8" Margin="0,0,8,6">
+                                <StackPanel>
+                                    <TextBlock Text="Memory" FontSize="9" Foreground="#93C5FD" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="{Binding MemoryUsage}" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Background="#1E40AF" Padding="12,8" CornerRadius="8" Margin="0,0,0,6">
+                                <StackPanel>
+                                    <TextBlock Text="Uptime" FontSize="9" Foreground="#93C5FD" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="{Binding SystemUptime}" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </WrapPanel>
+                        <WrapPanel Margin="0,6,0,0">
+                            <Border Background="#1E40AF" Padding="12,8" CornerRadius="8" Margin="0,0,8,0">
+                                <StackPanel>
+                                    <TextBlock Text="Devices" FontSize="9" Foreground="#93C5FD" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="{Binding TotalDevices}" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Background="#1E40AF" Padding="12,8" CornerRadius="8" Margin="0,0,8,0">
+                                <StackPanel>
+                                    <TextBlock Text="Staff" FontSize="9" Foreground="#93C5FD" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="{Binding TotalStaff}" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Background="#1E40AF" Padding="12,8" CornerRadius="8">
+                                <StackPanel>
+                                    <TextBlock Text="Audit Logs" FontSize="9" Foreground="#93C5FD" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="{Binding TotalAuditLogs}" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </WrapPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ===== DESCRIPTION ===== -->
+            <Border Style="{StaticResource GlassCard}">
+                <StackPanel>
+                    <TextBlock Text="About This Application" Style="{StaticResource SectionTitle}"/>
+                    <TextBlock Text="{Binding FullDescription}" Style="{StaticResource BodyText}" FontSize="14" Foreground="#334155"/>
+                </StackPanel>
+            </Border>
+
+            <!-- ===== MISSION ===== -->
+            <Border Style="{StaticResource GlassCard}">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#EFF6FF" Offset="0"/>
+                        <GradientStop Color="#F0FDF4" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock Style="{StaticResource SectionTitle}">
+                        <Run Text="🎯 "/><Run Text="{Binding MissionTitle}"/>
+                    </TextBlock>
+                    <TextBlock Text="{Binding MissionText}" Style="{StaticResource BodyText}" FontSize="14" Foreground="#1E40AF" FontWeight="Medium"/>
+                </StackPanel>
+            </Border>
+
+            <!-- ===== COMPLIANCE STANDARDS ===== -->
+            <Border Style="{StaticResource GlassCard}">
+                <StackPanel>
+                    <TextBlock Text="🛡️ Compliance &amp; Standards" Style="{StaticResource SectionTitle}"/>
+                    <WrapPanel>
+                        <ItemsControl ItemsSource="{Binding ComplianceStandards}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#F0FDF4" BorderBrush="#BBF7D0" BorderThickness="1" Padding="12,8" CornerRadius="8" Margin="0,0,8,8">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="✅" FontSize="12" Margin="0,0,6,0"/>
+                                            <TextBlock Text="{Binding}" FontSize="12" FontWeight="SemiBold" Foreground="#166534"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ===== TEAM ===== -->
+            <Border Style="{StaticResource GlassCard}">
+                <StackPanel>
+                    <TextBlock Text="👥 Our Team" Style="{StaticResource SectionTitle}"/>
+                    <ItemsControl ItemsSource="{Binding TeamMembers}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource TeamCard}" Width="280">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Avatar}" FontSize="36" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                        <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Role}" FontSize="12" FontWeight="SemiBold" Foreground="#3B82F6" HorizontalAlignment="Center" Margin="0,2,0,8"/>
+                                        <TextBlock Text="{Binding Bio}" FontSize="11" Foreground="#475569" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- ===== TECHNOLOGY STACK ===== -->
+            <Border Style="{StaticResource GlassCard}">
+                <StackPanel>
+                    <TextBlock Text="🧰 Technology Stack" Style="{StaticResource SectionTitle}"/>
+                    <ItemsControl ItemsSource="{Binding TechnologyStack}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource TechBadge}" ToolTip="{Binding Category}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Icon}" FontSize="16" Margin="0,0,8,0"/>
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="SemiBold" Foreground="#1E40AF"/>
+                                            <TextBlock Text="{Binding Category}" FontSize="10" Foreground="#64748B"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- ===== SERVICES CATALOG ===== -->
+            <Border Style="{StaticResource GlassCard}">
+                <StackPanel>
+                    <TextBlock Text="🛠️ Services Catalog — All 26 Business Services" Style="{StaticResource SectionTitle}"/>
+                    <TextBlock Text="MomenMedmSys provides 26 in-process business services organized by functional area. Each service encapsulates domain logic and is registered via dependency injection."
+                               Style="{StaticResource BodyText}" Margin="0,0,0,16"/>
+
+                    <!-- Grouped by category -->
+                    <ItemsControl ItemsSource="{Binding Source={StaticResource GroupedServices}}">
+                        <ItemsControl.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#F8FAFC" Padding="12,8" Margin="0,12,0,8" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8">
+                                            <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Bold" Foreground="#1E40AF"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ItemsControl.GroupStyle>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource ServiceCard}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Background="#EFF6FF" Width="40" Height="40" CornerRadius="10" Margin="0,0,14,0" VerticalAlignment="Top">
+                                            <TextBlock Text="{Binding Icon}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold" Foreground="#0F172A"/>
+                                            <TextBlock Text="{Binding Description}" FontSize="12" Foreground="#64748B" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <!-- Link to full documentation -->
+                    <Border Background="#EFF6FF" Padding="16" CornerRadius="10" Margin="0,16,0,0" BorderBrush="#BFDBFE" BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <TextBlock Text="📖 Full Services Documentation" FontSize="14" FontWeight="SemiBold" Foreground="#1E40AF"/>
+                                <TextBlock Text="View detailed method signatures, dependencies, compliance notes, and architecture diagrams for all 26 services." FontSize="12" Foreground="#64748B" Margin="0,4,0,0" TextWrapping="Wrap"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Content="Open Documentation →" Command="{Binding NavigateToServicesDocCommand}"
+                                    Background="#3B82F6" Foreground="White" BorderThickness="0" Padding="16,10" FontSize="13" FontWeight="SemiBold" Cursor="Hand" Margin="16,0,0,0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#2563EB"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- ===== SYSTEM INFORMATION ===== -->
+            <Border Style="{StaticResource GlassCard}">
+                <StackPanel>
+                    <TextBlock Text="💻 Current System Information" Style="{StaticResource SectionTitle}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="24"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="Database:" Width="100" FontSize="12" Foreground="#94A3B8" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding DatabaseInfo}" FontSize="12" FontWeight="SemiBold" Foreground="#0F172A"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="DB Size:" Width="100" FontSize="12" Foreground="#94A3B8" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding DatabaseSize}" FontSize="12" FontWeight="SemiBold" Foreground="#0F172A"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="Total Backups:" Width="100" FontSize="12" Foreground="#94A3B8" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding TotalBackups}" FontSize="12" FontWeight="SemiBold" Foreground="#0F172A"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="Audit Logs:" Width="100" FontSize="12" Foreground="#94A3B8" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding TotalAuditLogs}" FontSize="12" FontWeight="SemiBold" Foreground="#0F172A"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="Memory:" Width="100" FontSize="12" Foreground="#94A3B8" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding MemoryUsage}" FontSize="12" FontWeight="SemiBold" Foreground="#0F172A"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="Uptime:" Width="100" FontSize="12" Foreground="#94A3B8" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding SystemUptime}" FontSize="12" FontWeight="SemiBold" Foreground="#0F172A"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ===== CONTACT & LINKS ===== -->
+            <Border Style="{StaticResource GlassCard}">
+                <StackPanel>
+                    <TextBlock Text="📬 Contact &amp; Support" Style="{StaticResource SectionTitle}"/>
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="24"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="📧 Email:" Width="80" FontSize="12" Foreground="#94A3B8"/>
+                                <Button Content="{Binding ContactEmail}" Command="{Binding OpenEmailClientCommand}" Style="{StaticResource LinkButton}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="📞 Phone:" Width="80" FontSize="12" Foreground="#94A3B8"/>
+                                <TextBlock Text="{Binding ContactPhone}" FontSize="12" Foreground="#0F172A" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="🌐 Website:" Width="80" FontSize="12" Foreground="#94A3B8"/>
+                                <Button Content="{Binding ContactWebsite}" Command="{Binding OpenUrlCommand}" CommandParameter="{Binding ContactWebsite}" Style="{StaticResource LinkButton}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="📍 Address:" Width="80" FontSize="12" Foreground="#94A3B8" VerticalAlignment="Top"/>
+                                <TextBlock Text="{Binding ContactAddress}" FontSize="12" Foreground="#0F172A" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <Separator Background="#E2E8F0" Margin="0,8"/>
+
+                    <StackPanel Margin="0,12,0,0">
+                        <TextBlock Text="Quick Links" FontSize="14" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,10"/>
+                        <WrapPanel>
+                            <Button Content="📄 License Agreement" Command="{Binding OpenUrlCommand}" CommandParameter="{Binding LicenseAgreementUrl}" Style="{StaticResource LinkButton}" Margin="0,0,20,6"/>
+                            <Button Content="🔒 Privacy Policy" Command="{Binding OpenUrlCommand}" CommandParameter="{Binding PrivacyPolicyUrl}" Style="{StaticResource LinkButton}" Margin="0,0,20,6"/>
+                            <Button Content="📖 Documentation" Command="{Binding OpenUrlCommand}" CommandParameter="{Binding DocumentationUrl}" Style="{StaticResource LinkButton}" Margin="0,0,20,6"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ===== FOOTER ===== -->
+            <Border Background="#0F172A" Padding="24" CornerRadius="12" TextElement.Foreground="White">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding Copyright}" FontSize="13" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Momen Systems Company — Tel: +249 124 349 024" FontSize="11" Foreground="#94A3B8" Margin="0,4,0,0" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Email: MOHS2N@YAHOO.COM" FontSize="10" Foreground="#64748B" Margin="0,2,0,0" HorizontalAlignment="Center"/>
+                    <TextBlock FontSize="10" Foreground="#64748B" Margin="0,2,0,0" HorizontalAlignment="Center">
+                        <Run Text="{Binding AppName}"/><Run Text=" — Medical Equipment Management System"/>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

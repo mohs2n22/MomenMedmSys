@@ -1,0 +1,14 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  MomenMedmSys.Core -> C:\Users\mom2n\Desktop\MEMDSys\MomenMedmSys.Core\bin\Debug\net8.0\MomenMedmSys.Core.dll
+  MomenMedmSys.Data -> C:\Users\mom2n\Desktop\MEMDSys\MomenMedmSys.Data\bin\Debug\net8.0\MomenMedmSys.Data.dll
+  MomenMedmSys.Services -> C:\Users\mom2n\Desktop\MEMDSys\MomenMedmSys.Services\bin\Debug\net8.0\MomenMedmSys.Services.dll
+C:\Users\mom2n\Desktop\MEMDSys\MomenMedmSys.WPF\Views\AdminControlPanelView.xaml(212,141): error MC3011: Cannot find the static member 'DropShadowEffectKey' on the type 'SystemParameters'. [C:\Users\mom2n\Desktop\MEMDSys\MomenMedmSys.WPF\MomenMedmSys.WPF.csproj]
+
+Build FAILED.
+
+C:\Users\mom2n\Desktop\MEMDSys\MomenMedmSys.WPF\Views\AdminControlPanelView.xaml(212,141): error MC3011: Cannot find the static member 'DropShadowEffectKey' on the type 'SystemParameters'. [C:\Users\mom2n\Desktop\MEMDSys\MomenMedmSys.WPF\MomenMedmSys.WPF.csproj]
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:02.64
