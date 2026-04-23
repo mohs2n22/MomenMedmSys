@@ -1167,6 +1167,12 @@ Phone: +249 124 349 024
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(InputLicenseNumber))
+            {
+                HospitalInfoStatus = "⚠️ License number is required.";
+                return;
+            }
+
             HospitalInfoStatus = "💾 Saving hospital information...";
             var result = await _licenseService.UpdateHospitalInfoAsync(HospitalName, AdministratorName, InputLicenseNumber);
 

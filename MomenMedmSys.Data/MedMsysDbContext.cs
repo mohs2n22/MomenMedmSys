@@ -1,4 +1,4 @@
-﻿using MomenMedmSys.Core.Entities;
+using MomenMedmSys.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MomenMedmSys.Data
@@ -331,8 +331,11 @@ namespace MomenMedmSys.Data
             {
                 entity.HasIndex(l => l.LicenseKey).IsUnique();
                 entity.Property(l => l.LicenseKey).IsRequired().HasMaxLength(50);
-                entity.Property(l => l.PrimaryMacAddress).HasMaxLength(17);
-                entity.Property(l => l.HardwareFingerprint).HasMaxLength(64);
+                entity.Property(l => l.PrimaryMacAddress).IsRequired().HasMaxLength(17);
+                entity.Property(l => l.HardwareFingerprint).IsRequired().HasMaxLength(64);
+                entity.Property(l => l.HospitalName).IsRequired().HasMaxLength(500);
+                entity.Property(l => l.AdministratorName).IsRequired().HasMaxLength(200);
+                entity.Property(l => l.LicenseNumber).IsRequired().HasMaxLength(100);
                 entity.HasMany(l => l.LicensedDevices).WithOne(d => d.License).HasForeignKey(d => d.LicenseInfoId).OnDelete(DeleteBehavior.Cascade);
             });
 

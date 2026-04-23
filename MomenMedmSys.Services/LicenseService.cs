@@ -178,29 +178,53 @@ namespace MomenMedmSys.Services
 
         public async Task<LicenseResult> UpdateHospitalInfoAsync(string hospitalName, string administratorName, string licenseNumber)
         {
-            var license = await GetCurrentLicenseAsync();
-            if (license == null)
+            try
             {
-                // Create a new license record with just the hospital info
-                license = new LicenseInfo
+                // Validate inputs
+                var trimmedHospital = hospitalName.Trim();
+                var trimmedAdmin = administratorName.Trim();
+                var trimmedLicenseNum = licenseNumber.Trim();
+
+                if (string.IsNullOrWhiteSpace(trimmedHospital))
+                    return new LicenseResult { Success = false, Message = "Hospital name is required." };
+                if (string.IsNullOrWhiteSpace(trimmedAdmin))
+                    return new LicenseResult { Success = false, Message = "Administrator name is required." };
+                if (string.IsNullOrWhiteSpace(trimmedLicenseNum))
+                    return new LicenseResult { Success = false, Message = "License number is required." };
+
+                var license = await GetCurrentLicenseAsync();
+                if (license == null)
                 {
-                    HospitalName = hospitalName.Trim(),
-                    AdministratorName = administratorName.Trim(),
-                    LicenseNumber = licenseNumber.Trim(),
-                    CreatedAt = DateTime.Now,
-                    IsActive = true
-                };
-                await _context.Licenses.AddAsync(license);
-            }
-            else
-            {
-                license.HospitalName = hospitalName.Trim();
-                license.AdministratorName = administratorName.Trim();
-                license.LicenseNumber = licenseNumber.Trim();
+                    return new LicenseResult
+                    {
+                        Success = false,
+                        Message = "No active license found. Please activate the system first before setting hospital information."
+                    };
+                }
+
+                // Update existing license
+                license.HospitalName = trimmedHospital;
+                license.AdministratorName = trimmedAdmin;
+                license.LicenseNumber = trimmedLicenseNum;
                 license.UpdatedAt = DateTime.Now;
+
+                await _context.SaveChangesAsync();
+
+                return new LicenseResult
+                {
+                    Success = true,
+                    Message = "Hospital information saved successfully.",
+                    License = license
+                };
             }
-            await _context.SaveChangesAsync();
-            return new LicenseResult { Success = true, Message = "Hospital information saved successfully.", License = license };
+            catch (Exception ex)
+            {
+                return new LicenseResult
+                {
+                    Success = false,
+                    Message = $"Failed to save hospital info: {ex.Message}"
+                };
+            }
         }
 
         public async Task<LicenseResult> GenerateLicenseFileAsync(string outputPath, LicenseType licenseType, string hospitalName, string administratorName, string licenseNumber)
