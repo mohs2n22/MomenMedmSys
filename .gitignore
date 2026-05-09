@@ -62,8 +62,9 @@ Thumbs.db
 !CHANGES_SUMMARY.md
 !README.md
 
-# Embedded git repo
+# Embedded git repos
 MEMsys/
+MomenMedmSys/
 
 # Build outputs
 *.exe
