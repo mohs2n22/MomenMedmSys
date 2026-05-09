@@ -11,9 +11,8 @@ using MomenMedmSys.Data;
 namespace MomenMedmSys.Services
 {
     /// <summary>
-    /// Database backup service for MySQL.
+    /// Database backup service for SQLite.
     /// Handles backup simulation, validation, and cleanup.
-    /// For production MySQL, use mysqldump externally.
     /// </summary>
     public class DatabaseBackupService : IDatabaseBackupService
     {
@@ -36,9 +35,8 @@ namespace MomenMedmSys.Services
             if (!string.IsNullOrEmpty(backupDir) && !Directory.Exists(backupDir))
                 Directory.CreateDirectory(backupDir);
 
-            // For MySQL, create a metadata backup file.
-            // In production, invoke mysqldump externally:
-            //   mysqldump -u [user] -p[password] [database] > backup.sql
+            // For SQLite, create a metadata backup file.
+            // In production, copy the .db file directly for full backup.
             var backupInfo = new BackupInfo
             {
                 FilePath = backupPath,
@@ -46,7 +44,7 @@ namespace MomenMedmSys.Services
                 CreatedAt = DateTime.Now,
                 IsCompressed = false,
                 IsValid = true,
-                ValidationMessage = "Backup metadata created. For MySQL, use mysqldump externally."
+                ValidationMessage = "Backup metadata created. For full backup, copy the .db file."
             };
 
             // Write backup info to file
@@ -137,10 +135,20 @@ namespace MomenMedmSys.Services
 
         public Task<DatabaseFileInfo> GetDatabaseInfoAsync()
         {
-            // For MySQL, we can't get file size easily without file system access
+            var dbPath = _config.Database.ConnectionString?.Replace("Data Source=", "");
+            if (!string.IsNullOrEmpty(dbPath) && File.Exists(dbPath))
+            {
+                var fileInfo = new FileInfo(dbPath);
+                return Task.FromResult(new DatabaseFileInfo
+                {
+                    FilePath = dbPath,
+                    FileSizeBytes = fileInfo.Length,
+                    LastModified = fileInfo.LastWriteTime
+                });
+            }
             return Task.FromResult(new DatabaseFileInfo
             {
-                FilePath = _config.Database.ConnectionString ?? "MySQL",
+                FilePath = dbPath ?? "SQLite",
                 FileSizeBytes = 0,
                 LastModified = DateTime.Now
             });
@@ -158,10 +166,11 @@ namespace MomenMedmSys.Services
 
         public Task RestoreBackupAsync(string backupPath, string targetPath)
         {
-            // MySQL restore requires mysqldump - this is informational
-            var message = "MySQL restore requires external mysqldump tool.\n" +
-                         $"Command: mysql -u [username] -p[password] [database] < {backupPath}";
-            throw new NotImplementedException(message);
+            if (!File.Exists(backupPath))
+                throw new FileNotFoundException("Backup file not found.", backupPath);
+
+            File.Copy(backupPath, targetPath, overwrite: true);
+            return Task.CompletedTask;
         }
 
         public Task<BackupInfo> ValidateBackupAsync(string backupPath)
@@ -177,7 +186,7 @@ namespace MomenMedmSys.Services
                 CreatedAt = File.GetCreationTime(backupPath),
                 IsCompressed = false,
                 IsValid = true,
-                ValidationMessage = "Valid backup file (MySQL - external tools needed for full restore)"
+                ValidationMessage = "Valid backup file"
             };
 
             return Task.FromResult(info);

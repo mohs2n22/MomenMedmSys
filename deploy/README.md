@@ -5,7 +5,7 @@
 | File | Purpose |
 |------|---------|
 | `Dockerfile` | Container image build for the ASP.NET Core app |
-| `docker-compose.yml` | Run app + MySQL together in containers (local/VPS) |
+| `docker-compose.yml` | Run app locally with containers |
 | `render.yaml` | Render.com infrastructure-as-code config |
 | `.dockerignore` | Excludes unnecessary files from Docker builds |
 | `web.config` | IIS deployment configuration (Windows servers) |
@@ -13,65 +13,30 @@
 
 ---
 
-## Hosting Information Needed
+## Database
 
-### 1. Database Server (MySQL)
-| Field | Where to change |
-|-------|-----------------|
-| Host/Server address | `appsettings.json` → `Database.Server` / `ConnectionStrings.DefaultConnection` |
-| Port (default 3306) | `appsettings.json` → `Database.Port` |
-| Database name | `appsettings.json` → `Database.Database` |
-| Username | `appsettings.json` → `Database.User` |
-| Password | `appsettings.json` → `Database.Password` |
-| SSL mode | `appsettings.json` → `Database.SslMode` |
+This project uses **SQLite** (file-based database). No external database server needed.
 
-### 2. Application URL
-- For Docker/VPS: set via `ASPNETCORE_URLS` env variable
-- For Render: uses the `PORT` env variable automatically
-- For IIS: configure binding in IIS Manager
-- For Nginx: set `proxy_pass` to the app's internal URL
-
-### 3. Domain & SSL
-- Domain name → update `server_name` in `nginx.conf`
-- SSL certificate files → update paths in `nginx.conf`
-- For IIS: bind SSL certificate in IIS Manager
-
-### 4. Environment
-- Set `ASPNETCORE_ENVIRONMENT` to `Production`
+The database file `medmsys.db` is created automatically in the app's directory on first run.
+All seed data (admin user + sample devices) is also created automatically.
 
 ---
 
 ## Deployment Methods
 
-### Option 1: Render.com (Recommended for free hosting)
+### Option 1: Render.com (Recommended — Free)
 
-Render supports Docker-based deployments and gives you a free `*.onrender.com` URL.
-
-**Steps:**
 1. Push your project to a GitHub repository
 2. Go to [Render Dashboard](https://dashboard.render.com) → New Web Service
 3. Connect your GitHub repo
-4. Set **Runtime** to `Docker`
-5. Set **Dockerfile Path** to `deploy/Dockerfile`
-6. Choose **Free** instance type
-7. Add these **Environment Variables** (set via Render dashboard or `deploy/render.yaml`):
-   ```
-   ASPNETCORE_ENVIRONMENT=Production
-   Database__Server=your-mysql-host.com
-   Database__Port=3306
-   Database__Database=medmsys
-   Database__User=your_db_user
-   Database__Password=your_db_password
-   Database__SslMode=true
-   Database__AllowPublicKeyRetrieval=true
-   ConnectionStrings__DefaultConnection=Server=your-mysql-host.com;Database=medmsys;User=your_db_user;Password=your_db_password;SslMode=Required;AllowPublicKeyRetrieval=True;
-   ```
-8. Deploy!
+4. **Runtime:** `Docker`
+5. **Dockerfile Path:** `deploy/Dockerfile`
+6. **Branch:** `master`
+7. **Instance:** `Free`
+8. **No environment variables needed** (SQLite is file-based)
+9. Click **Create Web Service**
 
-**Free MySQL database options for Render:**
-- [Aiven.io](https://aiven.io) — free MySQL 5GB (no credit card)
-- [Supabase](https://supabase.com) — free PostgreSQL (would need code changes)
-- [PlanetScale](https://planetscale.com) — free MySQL-compatible (5GB)
+Render builds and deploys automatically. The app will be available at `https://your-app.onrender.com`
 
 ### Option 2: Docker (Any VPS or Cloud)
 ```bash

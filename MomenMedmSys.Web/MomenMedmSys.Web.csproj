@@ -14,7 +14,7 @@
     <ProjectReference Include="..\MomenMedmSys.Services\MomenMedmSys.Services.csproj" />
     <ProjectReference Include="..\MomenMedmSys.Core\MomenMedmSys.Core.csproj" />
     <ProjectReference Include="..\MomenMedmSys.Data\MomenMedmSys.Data.csproj" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
+
   </ItemGroup>
 
 </Project>

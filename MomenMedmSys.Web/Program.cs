@@ -6,14 +6,11 @@ using MomenMedmSys.Services;
 using MomenMedmSys.Core.Entities;
 using MomenMedmSys.Core.Enums;
 using BCrypt.Net;
-using Pomelo.EntityFrameworkCore.MySql;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorPages();
 
-// Configure authentication (Cookie-based)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -26,7 +23,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAuthorization();
 
-// Register services from MomenMedmSys.Services
 builder.Services.AddScoped<ILicenseService, LicenseService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IDatabaseBackupService, DatabaseBackupService>();
@@ -51,30 +47,23 @@ builder.Services.AddScoped<IMaintenanceService, MaintenanceService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IHospitalSettingsService, HospitalSettingsService>();
 
-// Register repository and unit of work
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// Register AppConfig (bound from appsettings.json Database section)
-builder.Services.Configure<DatabaseConfig>(builder.Configuration.GetSection("Database"));
 var appConfig = new AppConfig();
 builder.Configuration.GetSection("Database").Bind(appConfig.Database);
+appConfig.Database.ContentRootPath = builder.Environment.ContentRootPath;
 builder.Services.AddSingleton(appConfig);
 
-// Add DbContext with MySQL
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-Console.WriteLine($"Database Connection String: {connectionString}");
+var connectionString = appConfig.Database.ConnectionString;
+Console.WriteLine($"Database: {connectionString}");
 
 builder.Services.AddDbContext<MedMsysDbContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
-    )
+    options.UseSqlite(connectionString)
 );
 
 var app = builder.Build();
 
-// Seed initial data
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -84,7 +73,8 @@ using (var scope = app.Services.CreateScope())
         var authService = services.GetRequiredService<IAuthService>();
         var deviceRepo = services.GetRequiredService<IRepository<MedicalDevice>>();
 
-        // Seed admin user if none exists
+        await context.Database.EnsureCreatedAsync();
+
         if (!await context.Users.AnyAsync(u => u.Username == "admin"))
         {
             var adminUser = new User
@@ -99,7 +89,6 @@ using (var scope = app.Services.CreateScope())
             Console.WriteLine("Seeded admin user (username: admin, password: Admin@123)");
         }
 
-        // Seed sample devices if none exist
         if (!await context.MedicalDevices.AnyAsync())
         {
             var sampleDevices = new[]
@@ -207,15 +196,11 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// Configure the HTTP request pipeline.
-// Use exception handler in all environments - for non-Development, show generic error page
-// For Development, still use exception handler but detailed errors middleware will show detailed info
 app.UseExceptionHandler("/Error");
 app.UseStatusCodePagesWithReExecute("/Error");
 
 if (!app.Environment.IsDevelopment())
 {
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
