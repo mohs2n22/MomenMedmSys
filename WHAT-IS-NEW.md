@@ -239,13 +239,13 @@ We've transformed MomenMedmSys into an **enterprise-grade Medical Equipment Mana
 │  [Backup] [Restore] [Settings]               │
 │                                              │
 │  Current Database:                           │
-│  📁 medmsys.db  |  📊 125 MB  | 📅 Modified │
+│  📁 MySQL: medmsys  |  📊 Connected  | 📅 Active │
 │                                              │
 │  Recent Backups:                             │
 │  ┌────────────────────────────────────────┐ │
-│  │ backup_2026-04-10_14-30.db  │ 120 MB  │ │
-│  │ backup_2026-04-09_14-30.db  │ 118 MB  │ │
-│  │ backup_2026-04-08_14-30.db  │ 115 MB  │ │
+│  │ medmsys_backup_2026-04-10.sql  │ 85 MB │ │
+│  │ medmsys_backup_2026-04-09.sql  │ 83 MB │ │
+│  │ medmsys_backup_2026-04-08.sql  │ 81 MB │ │
 │  └────────────────────────────────────────┘ │
 │                                              │
 │  [Create Backup]  [Cleanup Old]  [Test]     │
@@ -324,10 +324,10 @@ We've transformed MomenMedmSys into an **enterprise-grade Medical Equipment Mana
 ## 💻 Technical Specifications
 
 ### System Requirements:
-- **OS**: Windows 10/11 (64-bit)
+- **OS**: Windows 10/11, Linux, or macOS
 - **RAM**: 4GB minimum, 8GB recommended
-- **Disk**: 500MB for application + database
-- **Database**: SQLite (embedded, no server needed)
+- **Disk**: 500MB for application
+- **Database**: MySQL 8.0 (server required)
 
 ### Technologies Used:
 - .NET 8.0
@@ -359,7 +359,7 @@ We've transformed MomenMedmSys into an **enterprise-grade Medical Equipment Mana
 
 ### Database Migration Needed?
 ```powershell
-dotnet ef database update --project MomenMedmSys.Data --startup-project MomenMedmSys.WPF
+dotnet ef database update --project MomenMedmSys.Data --startup-project MomenMedmSys.Web
 ```
 
 ### Build Errors?

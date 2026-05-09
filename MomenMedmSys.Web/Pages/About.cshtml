@@ -1,0 +1,87 @@
+@page
+@model AboutModel
+@{
+    ViewData["Title"] = "About Us";
+}
+
+@await Html.PartialAsync("_PrintButton")
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <h1 class="text-center mb-4">About Momen Systems</h1>
+
+                    <section class="mb-5">
+                        <h2 class="h4 mb-3">About MEMsystem</h2>
+                        <p class="lead">
+                            About Us: MEMsystem it is Medical device management system by Momen Systems Co.
+                        </p>
+                        <p>
+                            MEMsystem (Medical Equipment Management System) is a comprehensive Computerized Maintenance Management System (CMMS)
+                            developed by Momen Systems Co. specifically designed for hospitals and medical facilities.
+                        </p>
+                        <p>
+                            The system manages the complete lifecycle of medical equipment, covering all critical phases:
+                            procurement, installation, preventive maintenance, calibration, safety inspections, and decommissioning.
+                            Built on .NET with a modular architecture, MEMsystem provides a robust and scalable solution for healthcare
+                            asset management.
+                        </p>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2 class="h4 mb-3">About Momen Systems Co.</h2>
+                        <p>
+                            Momen Systems Co. is a technology solutions provider specializing in healthcare management systems.
+                            With years of experience in developing hospital management software, we focus on creating innovative
+                            solutions that streamline operations and improve patient care.
+                        </p>
+                        <p>
+                            Our expertise lies in medical equipment lifecycle management software, helping healthcare facilities
+                            maintain regulatory compliance with standards including ISO 13485 (medical devices quality management),
+                            ISO 14971 (risk management for medical devices), and Joint Commission International (JCI) requirements.
+                        </p>
+                        <p>
+                            We are committed to driving digital transformation in healthcare, enabling hospitals to operate more
+                            efficiently while maintaining the highest standards of patient safety and equipment reliability.
+                            Founded with a vision to revolutionize healthcare technology, Momen Systems Co. has grown to become
+                            a trusted partner for medical facilities worldwide, delivering cutting-edge solutions that combine
+                            technical excellence with deep industry knowledge. Our team of dedicated professionals combines
+                            expertise in healthcare processes with advanced software engineering to create solutions that
+                            address the unique challenges of medical equipment management in modern healthcare facilities.
+                        </p>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2 class="h4 mb-3">Our Mission</h2>
+                        <p>
+                            Our mission is to make medical equipment management efficient, safe, and fully compliant with
+                            international standards. We strive to provide healthcare facilities with the tools they need to
+                            deliver exceptional patient care through reliable, well-maintained equipment.
+                        </p>
+                    </section>
+
+                    <section class="mb-4">
+                        <h2 class="h4 mb-3">Contact Information</h2>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <strong>Email:</strong>
+                                    <a href="mailto:MOHS2N@YAHOO.COM">MOHS2N@YAHOO.COM</a>
+                                </div>
+                                <div class="mb-3">
+                                    <strong>Mobile:</strong>
+                                    <a href="tel:00249124349024">00249124349024</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+}

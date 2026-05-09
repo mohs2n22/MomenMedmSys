@@ -42,6 +42,7 @@ namespace MomenMedmSys.Data
         // Licensing
         IRepository<LicenseInfo> Licenses { get; }
         IRepository<LicenseDevice> LicensedDevices { get; }
+        IRepository<HospitalSettings> HospitalSettings { get; }
 
         Task<int> SaveChangesAsync();
         Task BeginTransactionAsync();
@@ -84,6 +85,7 @@ namespace MomenMedmSys.Data
         public IRepository<Notification> Notifications { get; private set; }
         public IRepository<LicenseInfo> Licenses { get; private set; }
         public IRepository<LicenseDevice> LicensedDevices { get; private set; }
+        public IRepository<HospitalSettings> HospitalSettings { get; private set; }
 
         public UnitOfWork(MedMsysDbContext context)
         {
@@ -113,6 +115,7 @@ namespace MomenMedmSys.Data
             Notifications = new Repository<Notification>(_context);
             Licenses = new Repository<LicenseInfo>(_context);
             LicensedDevices = new Repository<LicenseDevice>(_context);
+            HospitalSettings = new Repository<HospitalSettings>(_context);
         }
 
         public async Task<int> SaveChangesAsync()

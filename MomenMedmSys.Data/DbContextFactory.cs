@@ -9,7 +9,7 @@ namespace MomenMedmSys.Data
         {
             services.AddDbContext<MedMsysDbContext>(options =>
             {
-                options.UseSqlite(config.Database.ConnectionString);
+                options.UseMySql(config.Database.ConnectionString, ServerVersion.AutoDetect(config.Database.ConnectionString));
             });
             return services;
         }

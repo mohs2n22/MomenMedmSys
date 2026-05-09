@@ -46,6 +46,30 @@ Thumbs.db
 
 # IDE
 .idea/
+.vscode/
 *.swp
 *.swo
 *~
+
+# Log files
+*.log
+*.err
+*.out
+*.txt
+!LICENSE.txt
+!WHAT-IS-NEW.md
+!UPGRADE-*.md
+!CHANGES_SUMMARY.md
+!README.md
+
+# Build outputs
+*.exe
+*.dll
+*.pdb
+*.zip
+
+# Distribution
+Distribution/
+
+# Test project
+TestApp/

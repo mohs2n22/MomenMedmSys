@@ -1,0 +1,192 @@
+@page
+@model ReportsModel
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@await Html.PartialAsync("_PrintButton")
+
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-bar-chart-line"></i> Asset Overview</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <div class="p-3">
+                            <h2 class="text-primary">@Model.TotalDevices</h2>
+                            <p class="text-muted mb-0">Total Devices</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3">
+                            <h2 class="text-success">@Model.ActiveDevices</h2>
+                            <p class="text-muted mb-0">Active Devices</p>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-12">
+                        <h6 class="text-muted">Total Asset Value</h6>
+                        <h3 class="text-dark">$@Model.TotalAssetValue.ToString("N0")</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Pending Tasks</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <div class="p-3">
+                            <h2 class="text-warning">@Model.OpenWorkOrders</h2>
+                            <p class="text-muted mb-0">Open Work Orders</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3">
+                            @if (Model.OverdueWorkOrders > 0)
+                            {
+                                <h2 class="text-danger">@Model.OverdueWorkOrders</h2>
+                            }
+                            else
+                            {
+                                <h2 class="text-success">0</h2>
+                            }
+                            <p class="text-muted mb-0">Overdue Work Orders</p>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-6">
+                        <h6 class="text-muted">Scheduled Maintenance</h6>
+                        <h4>@Model.ScheduledMaintenance</h4>
+                    </div>
+                    <div class="col-6">
+                        @if (Model.OverdueMaintenance > 0)
+                        {
+                            <h6 class="text-danger">Overdue Maintenance</h6>
+                            <h4 class="text-danger">@Model.OverdueMaintenance</h4>
+                        }
+                        else
+                        {
+                            <h6 class="text-success">Overdue Maintenance</h6>
+                            <h4 class="text-success">0</h4>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-graph-up"></i> Financial Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h6 class="text-muted">Total Maintenance Cost</h6>
+                        <h3 class="text-dark">$@Model.TotalMaintenanceCost.ToString("N0")</h3>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="progress" style="height: 25px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: @((Model.TotalMaintenanceCost / (Model.TotalAssetValue > 0 ? Model.TotalAssetValue : 1)) * 100)%">
+                                @((Model.TotalMaintenanceCost / (Model.TotalAssetValue > 0 ? Model.TotalAssetValue : 1) * 100).ToString("F1"))%
+                            </div>
+                        </div>
+                        <small class="text-muted">Maintenance cost as % of asset value</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="bi bi-alert-circle"></i> Active Alerts</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Alerts.Any())
+                {
+                    <ul class="list-group list-group-flush">
+                        @foreach (var alert in Model.Alerts)
+                        {
+                            <li class="list-group-item">
+                                <i class="bi bi-exclamation-circle text-danger"></i>
+                                @alert
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="text-center py-4 text-success">
+                        <i class="bi bi-check-circle display-6"></i>
+                        <p class="lead mt-2">No active alerts</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="bi bi-file-earmark-text"></i> Report Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <a href="#" class="btn btn-outline-primary w-100">
+                            <i class="bi bi-file-pdf"></i> Export Full Report (PDF)
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="#" class="btn btn-outline-success w-100">
+                            <i class="bi bi-file-excel"></i> Export to Excel
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="#" class="btn btn-outline-info w-100">
+                            <i class="bi bi-printer"></i> Print Report
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a asp-page="/Admin/ScheduledReports" class="btn btn-outline-secondary w-100">
+                            <i class="bi bi-calendar-check"></i> Schedule Reports
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script>
+      function beforePrint() {
+        console.log('Preparing Reports page for printing...');
+      }
+    </script>
+}

@@ -1,0 +1,113 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+/* Print styles */
+@media print {
+  /* Hide non-essential elements */
+  nav.navbar, footer, .btn, form, .no-print {
+    display: none !important;
+  }
+
+  /* Ensure full width for tables */
+  .table-responsive {
+    overflow: visible !important;
+  }
+
+  /* Ensure tables break properly */
+  table {
+    width: 100% !important;
+    page-break-inside: auto !important;
+  }
+
+  tr {
+    page-break-inside: avoid !important;
+    page-break-after: auto !important;
+  }
+
+  /* Show row borders */
+  td, th {
+    background-color: white !important;
+    color: black !important;
+    border: 1px solid #ddd !important;
+  }
+
+  /* Ensure proper page margins */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Ensure cards take full width */
+  .card {
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+  }
+
+  .card-header {
+    background-color: #f8f9fa !important;
+    border-bottom: 1px solid #ddd !important;
+  }
+
+  /* Hide print button during printing */
+  #printBtn, .print-button-container {
+    display: none !important;
+  }
+
+  /* Ensure text is black for readability */
+  * {
+    color: #000 !important;
+    text-shadow: none !important;
+  }
+
+  /* Show links with URLs */
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666 !important;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666 !important;
+  }
+
+  a:after, a:link:after, a:visited:after {
+    content: " (" attr(href) ")";
+  }
+
+  /* Avoid breaking inside cards */
+  .card, .table-responsive {
+    page-break-inside: avoid !important;
+  }
+}

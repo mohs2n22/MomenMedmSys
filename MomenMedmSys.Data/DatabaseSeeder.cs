@@ -33,12 +33,17 @@ namespace MomenMedmSys.Data
                     var conn = ctx.Database.GetDbConnection();
                     await conn.OpenAsync();
                     using var cmd = conn.CreateCommand();
-                    cmd.CommandText = "PRAGMA table_info(Licenses);";
+                    // Use MySQL information_schema for column verification
+                    cmd.CommandText = @"
+                        SELECT COLUMN_NAME 
+                        FROM INFORMATION_SCHEMA.COLUMNS 
+                        WHERE TABLE_SCHEMA = DATABASE() 
+                        AND TABLE_NAME = 'Licenses'";
                     using var reader = await cmd.ExecuteReaderAsync();
                     var cols = new System.Collections.Generic.HashSet<string>(StringComparer.OrdinalIgnoreCase);
                     while (await reader.ReadAsync())
                     {
-                        cols.Add(reader.GetString(reader.GetOrdinal("name")));
+                        cols.Add(reader.GetString(0));
                     }
                     var required = new[] { "HospitalName", "AdministratorName", "LicenseNumber" };
                     var missing = required.Where(c => !cols.Contains(c)).ToArray();
@@ -128,9 +133,8 @@ namespace MomenMedmSys.Data
             // ═══════════════════════════════════════════
             if (!skipAdmin)
             {
-                var adminPasswordHash = Convert.ToBase64String(
-                    System.Security.Cryptography.SHA256.HashData(
-                        System.Text.Encoding.UTF8.GetBytes("Admin@123")));
+                // Use BCrypt for secure password hashing
+                var adminPasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123");
 
                 ctx.StaffMembers.Add(new StaffMember
                 {
@@ -371,3 +375,4 @@ namespace MomenMedmSys.Data
         }
     }
 }
+

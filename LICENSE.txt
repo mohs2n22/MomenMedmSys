@@ -22,7 +22,7 @@ you agree to be bound by the terms of this License Agreement.
    d) Remove any proprietary notices or labels
 
 3. DATA AND PRIVACY
-   a) The Software stores data locally using SQLite database
+    a) The Software stores data in a MySQL database server
    b) No data is transmitted to external servers
    c) You are responsible for backing up your data
    d) Patient data should be handled per applicable privacy laws

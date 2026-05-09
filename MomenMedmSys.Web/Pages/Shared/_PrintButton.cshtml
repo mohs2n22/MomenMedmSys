@@ -1,0 +1,61 @@
+@* Reusable Print Button Partial *@
+<div class="print-button-container d-flex justify-content-end mb-3">
+  <button type="button" id="printBtn" class="btn btn-outline-secondary btn-sm" onclick="printPage()" title="Print this page">
+    <i class="bi bi-printer"></i> Print
+  </button>
+</div>
+
+<div class="print-header d-none">
+    <div class="d-flex align-items-center justify-content-between">
+        <h4 class="mb-0 flex-grow-1 text-center">MomenMedmSys</h4>
+        <small class="text-muted">@DateTime.Now.ToString("yyyy-MM-dd HH:mm")</small>
+    </div>
+    <hr>
+</div>
+
+<script>
+  function printPage() {
+    // Show print header before printing
+    var printHeader = document.querySelector('.print-header');
+    if (printHeader) {
+        printHeader.classList.remove('d-none');
+    }
+    // Apply any page-specific print options before printing
+    if (typeof beforePrint === 'function') {
+      beforePrint();
+    }
+    window.print();
+  }
+
+  // Optional: Add print event listeners for page-specific customization
+  window.addEventListener('beforeprint', function() {
+    var printHeader = document.querySelector('.print-header');
+    if (printHeader) {
+        printHeader.classList.remove('d-none');
+    }
+    if (typeof beforePrint === 'function') {
+      beforePrint();
+    }
+  });
+
+  window.addEventListener('afterprint', function() {
+    var printHeader = document.querySelector('.print-header');
+    if (printHeader) {
+        printHeader.classList.add('d-none');
+    }
+    if (typeof afterPrint === 'function') {
+      afterPrint();
+    }
+  });
+</script>
+
+<style>
+@@media print {
+    .print-header {
+        display: block !important;
+    }
+    .print-header.d-none {
+        display: none !important;
+    }
+}
+</style>

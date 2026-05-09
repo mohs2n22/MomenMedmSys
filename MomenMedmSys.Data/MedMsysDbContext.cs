@@ -64,6 +64,9 @@ namespace MomenMedmSys.Data
         public DbSet<LicenseInfo> Licenses { get; set; }
         public DbSet<LicenseDevice> LicensedDevices { get; set; }
 
+        // Hospital Settings
+        public DbSet<HospitalSettings> HospitalSettings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

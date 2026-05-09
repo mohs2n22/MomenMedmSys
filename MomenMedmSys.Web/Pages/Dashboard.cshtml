@@ -1,0 +1,137 @@
+@page
+@model DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@await Html.PartialAsync("_PrintButton")
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Devices</h5>
+                <p class="card-text display-4">@Model?.ViewModel?.TotalDevices</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Active Devices</h5>
+                <p class="card-text display-4">@Model?.ViewModel?.ActiveDevices</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Open Work Orders</h5>
+                <p class="card-text display-4">@Model?.ViewModel?.OpenWorkOrdersCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Open Incidents</h5>
+                <p class="card-text display-4">@Model?.ViewModel?.OpenIncidentsCount</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card border-warning">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">Maintenance</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Scheduled: <strong>@Model?.ViewModel?.ScheduledMaintenanceCount</strong></p>
+                <p class="card-text text-danger">Overdue: <strong>@Model?.ViewModel?.OverdueMaintenanceCount</strong></p>
+                <p class="card-text">Calibration Overdue: <strong>@Model?.ViewModel?.OverdueCalibrationCount</strong></p>
+                <p class="card-text">Calibration Upcoming: <strong>@Model?.ViewModel?.UpcomingCalibrationCount</strong></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">Risk & Incidents</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Open Incidents: <strong>@Model?.ViewModel?.OpenIncidentsCount</strong></p>
+                <p class="card-text text-danger">Critical: <strong>@Model?.ViewModel?.CriticalIncidentsCount</strong></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-success">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Spare Parts</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Low Stock Items: <strong>@Model?.ViewModel?.LowStockPartsCount</strong></p>
+                <p class="card-text">Inventory Value: <strong>$@(Model?.ViewModel?.TotalInventoryValue.ToString("N0"))</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model?.ViewModel?.Alerts?.Any() == true)
+{
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+                <h5>Alerts</h5>
+                <ul class="mb-0">
+                    @foreach (var alert in Model.ViewModel.Alerts)
+                    {
+                        <li>@alert</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Recent Activity</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item">User "John Doe" logged in - 2 minutes ago</li>
+                    <li class="list-group-item">Report generated: Monthly Sales - 5 minutes ago</li>
+                    <li class="list-group-item">Backup completed successfully - 10 minutes ago</li>
+                    <li class="list-group-item">New user registered: "Jane Smith" - 15 minutes ago</li>
+                    <li class="list-group-item">System update applied - 30 minutes ago</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Financial Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="text-muted mb-1">Total Asset Value</p>
+                        <h4 class="text-primary">$@(Model?.ViewModel?.TotalAssetValue.ToString("N0"))</h4>
+                    </div>
+                    <div class="col-6">
+                        <p class="text-muted mb-1">Total Maintenance Cost</p>
+                        <h4 class="text-secondary">$@(Model?.ViewModel?.TotalMaintenanceCost.ToString("N0"))</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

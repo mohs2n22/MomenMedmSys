@@ -84,6 +84,7 @@ namespace MomenMedmSys.Services
 
         public async Task<IEnumerable<RiskIncident>> GetIncidentsByRiskLevelAsync(RiskLevel riskLevel)
         {
+            // OverallRisk is computed, filter in-memory
             var all = await _unitOfWork.RiskIncidents.GetAllAsync();
             return all.Where(i => i.OverallRisk == riskLevel);
         }
@@ -96,6 +97,7 @@ namespace MomenMedmSys.Services
 
         public async Task<int> GetCriticalIncidentCountAsync()
         {
+            // OverallRisk is computed, filter in-memory
             var all = await _unitOfWork.RiskIncidents.GetAllAsync();
             return all.Count(i => i.OverallRisk == RiskLevel.Critical);
         }

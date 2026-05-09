@@ -115,6 +115,7 @@ namespace MomenMedmSys.Services
 
             // Financial
             stats.TotalAssetValue = await _deviceService.GetTotalAssetValueAsync();
+            stats.TotalMaintenanceCost = 0; // No maintenance records yet
 
             // Generate alerts
             if (stats.OverdueMaintenanceCount > 0)

@@ -108,10 +108,9 @@ Modern hospitals manage medical equipment through several technical and administ
 | Layer | Technology |
 |-------|------------|
 | **Framework** | .NET 8.0 |
-| **UI** | WPF (Windows Presentation Foundation) |
-| **Pattern** | MVVM (CommunityToolkit.Mvvm 8.4.2) |
-| **Database** | SQLite (embedded, no server required) |
-| **ORM** | Entity Framework Core 8.0.2 |
+| **UI** | ASP.NET Core Razor Pages |
+| **Database** | MySQL 8.0 |
+| **ORM** | Entity Framework Core 8.0 (Pomelo MySQL) |
 | **DI** | Microsoft.Extensions.DependencyInjection |
 
 ---
@@ -122,38 +121,26 @@ Modern hospitals manage medical equipment through several technical and administ
 MomenMedmSys.slnx
 │
 ├── MomenMedmSys.Core        ← Domain layer (entities, enums — no dependencies)
-├── MomenMedmSys.Data        ← Data access layer (EF Core, SQLite, DbContext)
+├── MomenMedmSys.Data        ← Data access layer (EF Core, MySQL, DbContext, migrations)
 ├── MomenMedmSys.Services    ← Business logic / service layer
-└── MomenMedmSys.WPF         ← Presentation layer (WPF UI, MVVM, Views, ViewModels)
+└── MomenMedmSys.Web         ← Presentation layer (ASP.NET Core Razor Pages)
 ```
 
-**Dependency flow:** `WPF → Services → Data → Core`
+**Dependency flow:** `Web → Services → Data → Core`
 
 ---
 
 ## 🚀 Quick Start
 
 ### Requirements
-- **OS:** Windows 10/11 (64-bit)
-- **Runtime:** None required — self-contained .NET 8 deployment
-- **Database:** None — SQLite is embedded
+- **OS:** Windows 10/11, Linux, or macOS
+- **SDK:** .NET 8.0 SDK
+- **Database:** MySQL 8.0 (server required)
 
 ### Run from Source
 ```powershell
-dotnet run --project MomenMedmSys.WPF
+dotnet run --project MomenMedmSys.Web
 ```
-
-### Run Published App
-```powershell
-cd Distribution
-.\MomenMedmSys.WPF.exe
-```
-
-### Install via Installer
-```powershell
-.\Install-MomenMedmSys.bat
-```
-Right-click → **Run as Administrator**
 
 ---
 
@@ -162,26 +149,18 @@ Right-click → **Run as Administrator**
 ```
 MomenMedmSys/
 ├── MomenMedmSys.Core/          Domain entities and enums
-│   ├── Entities/
 │   └── MomenMedmSys.Core.csproj
-├── MomenMedmSys.Data/          EF Core DbContext and migrations
+├── MomenMedmSys.Data/          EF Core DbContext, migrations, and seeders
+│   ├── Migrations/
 │   └── MomenMedmSys.Data.csproj
 ├── MomenMedmSys.Services/      Business logic services
 │   └── MomenMedmSys.Services.csproj
-├── MomenMedmSys.WPF/           WPF desktop application
-│   ├── Views/                  UI screens
-│   ├── ViewModels/             MVVM view models
-│   ├── Converters/             Value converters
-│   ├── Services/               Navigation, dialog, view factory
-│   └── MomenMedmSys.WPF.csproj
-├── Distribution/               Published self-contained app
-├── Installer-Package/          Installer package files
-├── MomenMedmSys.Installer/     Installer project
-├── Output/                     Build output
+├── MomenMedmSys.Web/           ASP.NET Core web application
+│   ├── Pages/                  Razor Pages
+│   ├── wwwroot/                Static files (CSS, JS)
+│   └── MomenMedmSys.Web.csproj
 ├── MomenMedmSys.slnx           Solution file
-├── seed-data-sqlite.sql        Demo data
-├── Build-Release.bat / .ps1    Build scripts
-├── Install-MomenMedmSys.bat    Installer script
+├── appsettings.json            Application configuration (MySQL connection)
 └── README.md                   This file
 ```
 
@@ -189,17 +168,14 @@ MomenMedmSys/
 
 ## 📋 Demo Data
 
-The included `medmsys.db` SQLite database comes pre-loaded with:
+The `DatabaseSeeder.cs` automatically seeds initial data on first run including:
 
 | Item | Count |
 |------|-------|
-| Medical Devices | 10 |
-| Maintenance Records | 7 |
-| Calibration Records | 6 |
-| Risk Incidents | 3 |
-| Service Contracts | 3 |
-| Spare Parts | 10 |
-| Spare Part Usages | 3 |
+| Departments | 12 |
+| Suppliers | 8 |
+| Medical Devices | 74 |
+| Admin User | 1 (username: admin, password: Admin@123) |
 
 ---
 

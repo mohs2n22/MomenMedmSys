@@ -54,7 +54,7 @@ namespace MomenMedmSys.Services
 
         /// <summary>
         /// Creates a timestamped backup in the specified directory.
-        /// Filename format: MomenMedmSys_YYYYMMDD_HHMMSS.db
+        /// Filename format: MomenMedmSys_YYYYMMDD_HHMMSS.sql
         /// </summary>
         Task<BackupInfo> CreateTimestampedBackupAsync(string backupDirectory);
 

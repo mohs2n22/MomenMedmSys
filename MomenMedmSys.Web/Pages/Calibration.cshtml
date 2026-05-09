@@ -1,0 +1,110 @@
+@page
+@model CalibrationModel
+@using MomenMedmSys.Core.Entities
+@{
+    ViewData["Title"] = "Calibration Records";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@await Html.PartialAsync("_PrintButton")
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-3">
+                <select name="result" class="form-select">
+                    <option value="">All Results</option>
+                    <option value="Pass" selected="@(Model.ResultFilter == "Pass")">Pass</option>
+                    <option value="Fail" selected="@(Model.ResultFilter == "Fail")">Fail</option>
+                    <option value="PassWithAdjustment" selected="@(Model.ResultFilter == "PassWithAdjustment")">Pass With Adjustment</option>
+                    <option value="OutOfTolerance" selected="@(Model.ResultFilter == "OutOfTolerance")">Out of Tolerance</option>
+                    <option value="NotCalibrated" selected="@(Model.ResultFilter == "NotCalibrated")">Not Calibrated</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-funnel"></i> Filter</button>
+            </div>
+            <div class="col-md-6">
+                <a asp-page="/Admin/CalibrationCreate" class="btn btn-success w-100"><i class="bi bi-plus-circle"></i> Schedule Calibration</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Calibration Records (@Model.CalibrationList.Count)</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Record ID</th>
+                    <th>Device</th>
+                    <th>Calibration Date</th>
+                    <th>Due Date</th>
+                    <th>Result</th>
+                    <th>Certificate</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.CalibrationList.Any())
+                {
+                    foreach (var record in Model.CalibrationList)
+                    {
+                        var deviceName = Model.DeviceNames.ContainsKey(record.DeviceId) ? Model.DeviceNames[record.DeviceId] : "N/A";
+                        <tr>
+                            <td><strong>@record.Id</strong></td>
+                            <td>@deviceName</td>
+                            <td>@record.CalibrationDate.ToString("yyyy-MM-dd")</td>
+                            <td>@record.NextDueDate.ToString("yyyy-MM-dd")</td>
+                            <td>
+                                <span class="badge bg-@(record.Result.ToString() == "Pass" || record.Result.ToString() == "PassWithAdjustment" ? "success" : "danger")">
+                                    @record.Result
+                                </span>
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(record.CertificateNumber))
+                                {
+                                    <span>Cert #@record.CertificateNumber</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">N/A</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-page="/Admin/CalibrationEdit" asp-route-id="@record.Id" class="btn btn-sm btn-outline-primary" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a asp-page="/Admin/CalibrationDetails" asp-route-id="@record.Id" class="btn btn-sm btn-outline-info" title="Details">
+                                    <i class="bi bi-info-circle"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-muted">
+                            <i class="bi bi-clipboard-check display-6"></i>
+                            <p class="lead mt-2">No calibration records found</p>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script>
+      function beforePrint() {
+        console.log('Preparing Calibration page for printing...');
+      }
+    </script>
+}

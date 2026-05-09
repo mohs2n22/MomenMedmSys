@@ -580,10 +580,10 @@ dotnet ef database update --project MomenMedmSys.Data --startup-project MomenMed
 - **Password**: `Admin@123`
 - **⚠️ IMPORTANT**: Change this password immediately in production!
 
-### **Database File**
-- **Location**: `medmsys.db` (in application directory)
-- **Type**: SQLite (no server required)
-- **Backup**: Use Backup & Restore feature
+### **Database**
+- **Connection**: `appsettings.json` → `ConnectionStrings.DefaultConnection`
+- **Type**: MySQL 8.0 (server required)
+- **Backup**: Use Backup & Restore feature or `mysqldump`
 
 ### **Log Files**
 - Currently using Debug.WriteLine

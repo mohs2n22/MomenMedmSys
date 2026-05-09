@@ -1,23 +1,25 @@
-﻿using System;
-using System.IO;
-
-namespace MomenMedmSys.Data
+﻿namespace MomenMedmSys.Data
 {
+    /// <summary>
+    /// MySQL database configuration.
+    /// Connection string should be sourced from appsettings.json or environment variables.
+    /// </summary>
     public class DatabaseConfig
     {
-        public string DatabasePath { get; set; } = "MomenMedmSys.db";
-        
+        public string Server { get; set; } = "localhost";
+        public string Database { get; set; } = "medmsys";
+        public string User { get; set; } = "root";
+        public string Password { get; set; } = "";
+        public bool SslMode { get; set; } = false;
+        public bool AllowPublicKeyRetrieval { get; set; } = true;
+        public uint Port { get; set; } = 3306;
+
         public string ConnectionString
         {
             get
             {
-                // Use absolute path if relative
-                if (!Path.IsPathRooted(DatabasePath))
-                {
-                    var basePath = AppDomain.CurrentDomain.BaseDirectory;
-                    return $"Data Source={Path.Combine(basePath, DatabasePath)}";
-                }
-                return $"Data Source={DatabasePath}";
+                var ssl = SslMode ? "Required" : "None";
+                return $"Server={Server};Port={Port};Database={Database};User={User};Password={Password};SslMode={ssl};AllowPublicKeyRetrieval={AllowPublicKeyRetrieval};";
             }
         }
     }

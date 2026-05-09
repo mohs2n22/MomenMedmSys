@@ -244,7 +244,7 @@ public class Notification : BaseEntity
 ---
 
 #### 4.3 Database Backup & Restore
-**Current State**: Single SQLite file with no backup
+**Current State**: MySQL database with basic backup metadata
 
 **Planned Implementation**:
 - One-click backup creation

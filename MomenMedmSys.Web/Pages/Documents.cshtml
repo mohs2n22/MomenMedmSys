@@ -1,0 +1,100 @@
+@page
+@model DocumentsModel
+@using MomenMedmSys.Core.Entities
+@{
+    ViewData["Title"] = "Documents";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@await Html.PartialAsync("_PrintButton")
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <select name="type" class="form-select">
+                    <option value="">All Document Types</option>
+                    <option value="1" selected="@(Model.TypeFilter == DocumentType.OperationManual)">Operation Manual</option>
+                    <option value="2" selected="@(Model.TypeFilter == DocumentType.MaintenanceManual)">Maintenance Manual</option>
+                    <option value="3" selected="@(Model.TypeFilter == DocumentType.WarrantyCertificate)">Warranty Certificate</option>
+                    <option value="5" selected="@(Model.TypeFilter == DocumentType.RegulatoryCertificate)">Regulatory Certificate</option>
+                    <option value="6" selected="@(Model.TypeFilter == DocumentType.CalibrationCertificate)">Calibration Certificate</option>
+                    <option value="7" selected="@(Model.TypeFilter == DocumentType.SafetyTestReport)">Safety Test Report</option>
+                    <option value="9" selected="@(Model.TypeFilter == DocumentType.SoftwareManual)">Software Manual</option>
+                    <option value="99" selected="@(Model.TypeFilter == DocumentType.Other)">Other</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-funnel"></i> Filter</button>
+            </div>
+            <div class="col-md-5">
+                <a asp-page="/Admin/DocumentUpload" class="btn btn-success w-100"><i class="bi bi-upload"></i> Upload Document</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Documents (@Model.DocumentList.Count)</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Document ID</th>
+                    <th>Device</th>
+                    <th>Type</th>
+                    <th>Title</th>
+                    <th>Upload Date</th>
+                    <th>File Size</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.DocumentList.Any())
+                {
+                    foreach (var doc in Model.DocumentList)
+                    {
+                        var deviceName = Model.DeviceNames.ContainsKey(doc.DeviceId) ? Model.DeviceNames[doc.DeviceId] : "N/A";
+                        <tr>
+                            <td><strong>@doc.Id</strong></td>
+                            <td>@deviceName</td>
+                            <td>@doc.DocumentType</td>
+                            <td>@doc.Description</td>
+                            <td>@doc.UploadDate.ToString("yyyy-MM-dd")</td>
+                            <td>@doc.FileSizeDisplay</td>
+                            <td>
+                                <a href="@doc.FilePath" target="_blank" class="btn btn-sm btn-outline-primary" title="View">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a asp-page="/Admin/DocumentEdit" asp-route-id="@doc.Id" class="btn btn-sm btn-outline-info" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-muted">
+                            <i class="bi bi-file-earmark-text display-6"></i>
+                            <p class="lead mt-2">No documents found</p>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script>
+      function beforePrint() {
+        console.log('Preparing Documents page for printing...');
+      }
+    </script>
+}

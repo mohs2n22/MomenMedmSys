@@ -1,0 +1,111 @@
+@page
+@model WorkOrdersModel
+@using MomenMedmSys.Core.Entities
+@{
+    ViewData["Title"] = "Work Orders";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@await Html.PartialAsync("_PrintButton")
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-3">
+                <select name="status" class="form-select" asp-items="Html.GetEnumSelectList<WorkOrderStatus>()">
+                    <option value="">All Status</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="priority" class="form-select" asp-items="Html.GetEnumSelectList<WorkOrderPriority>()">
+                    <option value="">All Priority</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-funnel"></i> Filter</button>
+            </div>
+            <div class="col-md-3">
+                <a asp-page="/Admin/WorkOrderCreate" class="btn btn-success w-100"><i class="bi bi-plus-circle"></i> New Work Order</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Work Orders (@Model.WorkOrderList.Count)</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Work Order #</th>
+                    <th>Device</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Reported Date</th>
+                    <th>Due Date</th>
+                    <th>Assigned To</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.WorkOrderList.Any())
+                {
+                    foreach (var order in Model.WorkOrderList)
+                    {
+                        var deviceName = Model.DeviceNames.ContainsKey(order.DeviceId) ? Model.DeviceNames[order.DeviceId] : "N/A";
+                        var isOverdue = order.SLADeadline.HasValue && order.SLADeadline.Value < DateTime.Now &&
+                            (order.Status == WorkOrderStatus.Open || order.Status == WorkOrderStatus.Assigned || order.Status == WorkOrderStatus.InProgress);
+                        <tr class="@(isOverdue ? "table-danger" : "")">
+                            <td><strong>@order.WorkOrderNumber</strong></td>
+                            <td>@deviceName</td>
+                            <td>@order.FaultDescription</td>
+                            <td>
+                                <span class="badge bg-@(order.Status.ToString() == "Completed" ? "success" : order.Status.ToString() == "In Progress" ? "primary" : order.Status.ToString() == "Assigned" ? "info" : "warning")">
+                                    @order.Status
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-@(order.Priority.ToString() == "Critical" ? "danger" : order.Priority.ToString() == "High" ? "warning" : order.Priority.ToString() == "Medium" ? "info" : "secondary")">
+                                    @order.Priority
+                                </span>
+                            </td>
+                            <td>@order.ReportDate.ToString("yyyy-MM-dd")</td>
+                            <td>@(order.SLADeadline?.ToString("yyyy-MM-dd") ?? "N/A")</td>
+                            <td>@(order.AssignedTo ?? "Unassigned")</td>
+                            <td>
+                                <a asp-page="/Admin/WorkOrderEdit" asp-route-id="@order.Id" class="btn btn-sm btn-outline-primary" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a asp-page="/Admin/WorkOrderDetails" asp-route-id="@order.Id" class="btn btn-sm btn-outline-info" title="Details">
+                                    <i class="bi bi-info-circle"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="text-center py-4 text-muted">
+                            <i class="bi bi-clipboard-check display-6"></i>
+                            <p class="lead mt-2">No work orders found</p>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script>
+      function beforePrint() {
+        console.log('Preparing Work Orders page for printing...');
+      }
+    </script>
+}

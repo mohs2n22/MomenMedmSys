@@ -1,0 +1,117 @@
+@page
+@model RisksModel
+@using MomenMedmSys.Core.Entities
+@{
+    ViewData["Title"] = "Risk Incidents";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@await Html.PartialAsync("_PrintButton")
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-3">
+                <select name="status" class="form-select">
+                    <option value="">All Status</option>
+                    <option value="Open" selected="@(Model.StatusFilter == "Open")">Open</option>
+                    <option value="UnderInvestigation" selected="@(Model.StatusFilter == "UnderInvestigation")">Under Investigation</option>
+                    <option value="PendingAction" selected="@(Model.StatusFilter == "PendingAction")">Pending Action</option>
+                    <option value="Resolved" selected="@(Model.StatusFilter == "Resolved")">Resolved</option>
+                    <option value="Closed" selected="@(Model.StatusFilter == "Closed")">Closed</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="severity" class="form-select">
+                    <option value="">All Severity</option>
+                    <option value="Negligible" selected="@(Model.SeverityFilter == "Negligible")">Negligible</option>
+                    <option value="Minor" selected="@(Model.SeverityFilter == "Minor")">Minor</option>
+                    <option value="Medium" selected="@(Model.SeverityFilter == "Medium")">Medium</option>
+                    <option value="Major" selected="@(Model.SeverityFilter == "Major")">Major</option>
+                    <option value="Critical" selected="@(Model.SeverityFilter == "Critical")">Critical</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-funnel"></i> Filter</button>
+            </div>
+            <div class="col-md-3">
+                <a asp-page="/Admin/RiskCreate" class="btn btn-danger w-100"><i class="bi bi-plus-circle"></i> New Incident</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Risk Incidents (@Model.IncidentList.Count)</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Incident ID</th>
+                    <th>Device</th>
+                    <th>Title</th>
+                    <th>Severity</th>
+                    <th>Status</th>
+                    <th>Incident Date</th>
+                    <th>Reported By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.IncidentList.Any())
+                {
+                    foreach (var incident in Model.IncidentList)
+                    {
+                        var deviceName = Model.DeviceNames.ContainsKey(incident.DeviceId) ? Model.DeviceNames[incident.DeviceId] : "N/A";
+                        <tr class="@(incident.Severity.ToString() == "Critical" ? "table-danger" : incident.Severity.ToString() == "Major" ? "table-warning" : "")">
+                            <td><strong>@incident.IncidentCode</strong></td>
+                            <td>@deviceName</td>
+                            <td>@incident.Title</td>
+                            <td>
+                                <span class="badge bg-@(incident.Severity.ToString() == "Critical" ? "danger" : incident.Severity.ToString() == "Major" ? "warning" : incident.Severity.ToString() == "Minor" ? "info" : "success")">
+                                    @incident.Severity
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-@(incident.Status.ToString() == "Resolved" ? "success" : incident.Status.ToString() == "Closed" ? "secondary" : "warning")">
+                                    @incident.Status
+                                </span>
+                            </td>
+                            <td>@incident.IncidentDate.ToString("yyyy-MM-dd")</td>
+                            <td>@incident.ReportedBy</td>
+                            <td>
+                                <a asp-page="/Admin/RiskEdit" asp-route-id="@incident.Id" class="btn btn-sm btn-outline-primary" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a asp-page="/Admin/RiskDetails" asp-route-id="@incident.Id" class="btn btn-sm btn-outline-info" title="Details">
+                                    <i class="bi bi-info-circle"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center py-4 text-muted">
+                            <i class="bi bi-exclamation-triangle display-6"></i>
+                            <p class="lead mt-2">No risk incidents found</p>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script>
+      function beforePrint() {
+        console.log('Preparing Risks page for printing...');
+      }
+    </script>
+}
