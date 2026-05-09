@@ -4,7 +4,7 @@
 
 | File | Purpose |
 |------|---------|
-| `Dockerfile` | Container image build for the ASP.NET Core app |
+| `Dockerfile` (root) | Container image build for the ASP.NET Core app |
 | `docker-compose.yml` | Run app locally with containers |
 | `render.yaml` | Render.com infrastructure-as-code config |
 | `.dockerignore` | Excludes unnecessary files from Docker builds |
@@ -30,7 +30,7 @@ All seed data (admin user + sample devices) is also created automatically.
 2. Go to [Render Dashboard](https://dashboard.render.com) → New Web Service
 3. Connect your GitHub repo
 4. **Runtime:** `Docker`
-5. **Dockerfile Path:** `deploy/Dockerfile`
+5. **Dockerfile Path:** `Dockerfile` (leave default, it's in the root now)
 6. **Branch:** `master`
 7. **Instance:** `Free`
 8. **No environment variables needed** (SQLite is file-based)

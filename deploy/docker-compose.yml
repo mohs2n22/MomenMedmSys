@@ -4,7 +4,7 @@ services:
   app:
     build:
       context: ..
-      dockerfile: deploy/Dockerfile
+      dockerfile: Dockerfile
     container_name: mems-app
     restart: unless-stopped
     ports:

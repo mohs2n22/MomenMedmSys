@@ -10,6 +10,7 @@ COPY MomenMedmSys.Web/MomenMedmSys.Web.csproj MomenMedmSys.Web/
 RUN dotnet restore MomenMedmSys.Web/MomenMedmSys.Web.csproj
 
 COPY . .
+
 RUN dotnet publish MomenMedmSys.Web/MomenMedmSys.Web.csproj -c Release -o /app/publish --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime

@@ -2,7 +2,7 @@ services:
   web:
     type: web
     runtime: docker
-    dockerfilePath: deploy/Dockerfile
+    dockerfilePath: Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
